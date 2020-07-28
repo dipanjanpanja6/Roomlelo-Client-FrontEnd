@@ -34,7 +34,9 @@ const App = (props) => {
 
 
 	return (
-		<div>
+		<div style={{
+
+			overflow: 'hidden'}}>
 			<Router>
 				<Appbar auth={props.auth} out={out} />
 				<Switch>

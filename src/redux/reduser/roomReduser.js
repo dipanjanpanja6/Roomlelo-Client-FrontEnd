@@ -1,4 +1,4 @@
-import {SET_ROOMS_DATA, SET_ROOMS_DATA_NULL, SET_ALL_ROOMS_LOADED_COUNT} from '../type'
+import {SET_ROOMS_DATA, SET_ROOMS_DATA_NULL, SET_ALL_ROOMS_LOADED_COUNT, SET_ROOMS_PAGINATION_LIST_DATA} from '../type'
 
 const initialState = {
     rooms:null,
@@ -12,6 +12,11 @@ export default function (state = initialState, actions) {
                 ...state,
                 roomsCount: actions.payload
             };
+        case SET_ROOMS_PAGINATION_LIST_DATA:
+            return {
+                ...state,
+                rooms:[...state.rooms, ...actions.payload]
+            }
         case SET_ROOMS_DATA:
             return {
                 ...state,

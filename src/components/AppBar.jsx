@@ -15,9 +15,11 @@ import {
 } from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search"; 
+import SearchIcon from "@material-ui/icons/Search";
+import FilterListIcon from '@material-ui/icons/FilterList';
 import { Link as RouterLink, useHistory } from "react-router-dom"; 
 import Logo from "../static/roomlelologo.webp";
+import SearchFilterDialog from '../components/SearchFilterDialog'
 
 const useStyles = makeStyles((theme) => ({
   Appbar: {
@@ -39,19 +41,33 @@ const useStyles = makeStyles((theme) => ({
     fontFamily:
       "Wallman, -apple-system, BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans- serif,Apple Color Emoji,Segoe UI Emoji, Segoe UI Symbol",
   },
+  // search: {
+  //   position: "relative",
+  //   borderRadius: theme.shape.borderRadius,
+  //   backgroundColor: fade(theme.palette.common.white, 0.55),
+  //   "&:hover": {
+  //     backgroundColor: theme.palette.common.white,
+  //   },
+  //   marginRight: theme.spacing(2),
+  //   marginLeft: 0,
+  //   width: "100%",
+  //   [theme.breakpoints.up("sm")]: {
+  //     marginLeft: theme.spacing(3),
+  //     width: "auto",
+  //   },
+  // },
   search: {
-    position: "relative",
+    position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.55),
-    "&:hover": {
-      backgroundColor: theme.palette.common.white,
+    backgroundColor: fade(theme.palette.common.black, 0.10),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.black, 0.20),
     },
-    marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
     },
   },
   searchIcon: {
@@ -70,12 +86,25 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '15ch',
+      '&:focus': {
+        width: '20ch',
+      },
     },
   },
+  // inputInput: {
+  //   padding: theme.spacing(1, 1, 1, 0),
+  //   // vertical padding + font size from searchIcon
+  //   paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+  //   transition: theme.transitions.create("width"),
+  //   width: "100%",
+  //   [theme.breakpoints.up("md")]: {
+  //     width: "20ch",
+  //   },
+  // },
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -102,6 +131,7 @@ const useStyles = makeStyles((theme) => ({
     right: 16,
     left: "auto !important",
   },
+
 }));
 
 export default function PrimarySearchAppBar(props) {
@@ -109,6 +139,7 @@ export default function PrimarySearchAppBar(props) {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
+  const [show, setShow] = React.useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
  
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -142,6 +173,9 @@ export default function PrimarySearchAppBar(props) {
     handleMenuClose();
   };
 
+  const handleFocus = (event) =>{
+    console.log(event)
+  }
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -180,10 +214,14 @@ export default function PrimarySearchAppBar(props) {
     </Menu>
   );
 
+  const handleFilterClose = () =>{
+    setShow(!show)
+  }
   return (
-    <div className={classes.grow}> 
+    <div className={classes.grow}>
+      <SearchFilterDialog show={show} handleClose={handleFilterClose}/>
         <AppBar color='' className={classes.Appbar} position="static">
-          <Toolbar>
+          <Toolbar variant="regular">
             <IconButton
               onClick={() => {
                 history.push("/");
@@ -194,24 +232,41 @@ export default function PrimarySearchAppBar(props) {
               disableRipple
               style={{ backgroundColor: "transparent" }}
             >
+
               <img src={Logo} height="45px" alt="Roomlelo" />
             </IconButton>
             <div className={classes.grow} />
 
             <div className={classes.sectionDesktop}>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase onFocus={handleFocus}
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                />
+                <IconButton onClick={() => setShow(!show)} size="small" style={{outlineWidth:'0px'}} color="secondary">
+                  <FilterListIcon/>
+                </IconButton>
               </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
+            {/*<div className={classes.search}>*/}
+            {/*  <div className={classes.searchIcon}>*/}
+            {/*    <SearchIcon />*/}
+            {/*  </div>*/}
+            {/*  <InputBase*/}
+            {/*    placeholder="Search…"*/}
+            {/*    classes={{*/}
+            {/*      root: classes.inputRoot,*/}
+            {/*      input: classes.inputInput,*/}
+            {/*    }}*/}
+            {/*    inputProps={{ "aria-label": "search" }}*/}
+            {/*  />*/}
+            {/*</div>*/}
               <Button onClick={() => history.push("/whyus")} color="inherit">
                 <Typography variant="button">Why Prefer us</Typography>
               </Button>

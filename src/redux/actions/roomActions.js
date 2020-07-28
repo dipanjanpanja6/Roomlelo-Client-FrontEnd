@@ -1,6 +1,7 @@
-import {SET_ROOMS_DATA, SET_ALL_ROOMS_LOADED_COUNT, SET_ROOMS_DATA_NULL} from '../type'
+import {SET_ROOMS_DATA, SET_ALL_ROOMS_LOADED_COUNT, SET_ROOMS_PAGINATION_LIST_DATA} from '../type'
 
 import {url} from '../../config/config'
+
 export const getRooms = () => (dispatch) => {
     fetch(`${url}/room/list`, {
         method:'GET',
@@ -22,7 +23,7 @@ export const getRooms = () => (dispatch) => {
 }
 
 export const getRoomsWithPagination = (count) => (dispatch) =>{
-    fetch(`${url}/list/pagination/${count}`, {
+    fetch(`${url}/room/list/pagination/${count}`, {
         method:'GET',
         headers:{
 
@@ -31,6 +32,10 @@ export const getRoomsWithPagination = (count) => (dispatch) =>{
         .then((response) =>{
             response.json()
                 .then((data) =>{
+                    if(data.success){
+                        dispatch({type:SET_ROOMS_PAGINATION_LIST_DATA, payload:data.data})
+                        dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload:count + data.data.length})
+                    }
                     console.log(data)
                 })
         })

@@ -43,8 +43,8 @@ class RoomsPage extends Component{
         return (
             <div >
                 <Grid sm={12} container item >
-                    <Grid sm={6} item>
-                        <RoomsComponents rooms={this.props.room.rooms} history={this.props.history}/>
+                    <Grid sm={6} item >
+                        <RoomsComponents count={this.props.room.roomsCount} rooms={this.props.room.rooms} history={this.props.history}/>
                     </Grid>
                     <Grid sm={6} item>
                         <div className={classes.side_map_class} style={{   }}>
