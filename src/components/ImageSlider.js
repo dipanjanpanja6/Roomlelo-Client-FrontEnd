@@ -24,7 +24,13 @@ const ImageSlider = (props) =>{
                     />
                     <Carousel.Caption>
                         <Grid container alignItems="flex-end" justify="center" >
-                            <p>Boy/Girl</p>
+                            <div style={{backgroundColor:'rgba(255, 255, 255, 0.8)', borderRadius:'20px', color:'#000',
+                                paddingLeft:'14px', paddingRight:'14px',  marginBottom:'5px', fontFamily:'Poppins', letterSpacing:'0.3px',
+                            textTransform:'capitalize',fontWeight:'normal',maxWidth:'180px', overflow:'hidden' }}>
+                                {props.text ? props.text : "Loading..."}
+
+                            </div>
+
                         </Grid>
                         {/*<h3>First slide label</h3>*/}
                         {/*<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>*/}

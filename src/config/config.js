@@ -13,4 +13,6 @@ var firebaseConfig = {
     
  
     export default firebase
-  export const url = "http://localhost:7000" 
+  export const url = "http://localhost:7000"
+
+export const MAP_API_KEY = 'AIzaSyDUk3E_S_QT39SfJtCDmhfZiEsK4Bl8UkA'
