@@ -4,7 +4,8 @@ import Appbar from './components/AppBar';
 
 import Home from './views/home'; 
 import Login from './views/login'; 
-import SignUp from './views/signup'; 
+import SignUp from './views/signup';
+import RoomsPage from "./views/Rooms_Page";
 
 import E4 from './views/E4'; 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
@@ -56,7 +57,9 @@ const App = (props) => {
 					<Route exact path="/login" component={Login} />
 
 					<Route exact path="/signup" component={SignUp} />
+					<Route exact path='/rooms' component={RoomsPage}/>
 				{/*	<Route exact path="/signupOld" component={SignUpOld} />
+
 
 					<Route exact component={E4} /> */}
 

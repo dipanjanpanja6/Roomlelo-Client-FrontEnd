@@ -182,7 +182,7 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div className={classes.grow}> 
-        <AppBar color='' className={classes.Appbar}>
+        <AppBar color='' className={classes.Appbar} position="static">
           <Toolbar>
             <IconButton
               onClick={() => {
