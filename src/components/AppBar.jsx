@@ -13,7 +13,6 @@ import {
   Badge,
   Typography,
 } from "@material-ui/core";
-
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -220,7 +219,7 @@ export default function PrimarySearchAppBar(props) {
   return (
     <div className={classes.grow}>
       <SearchFilterDialog show={show} handleClose={handleFilterClose}/>
-        <AppBar color='' className={classes.Appbar} position="static">
+        <AppBar color='' className={classes.Appbar}>
           <Toolbar variant="regular">
             <IconButton
               onClick={() => {
@@ -236,9 +235,7 @@ export default function PrimarySearchAppBar(props) {
               <img src={Logo} height="45px" alt="Roomlelo" />
             </IconButton>
             <div className={classes.grow} />
-
-            <div className={classes.sectionDesktop}>
-              <div className={classes.search}>
+            {/* <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
@@ -253,20 +250,10 @@ export default function PrimarySearchAppBar(props) {
                 <IconButton onClick={() => setShow(!show)} size="small" style={{outlineWidth:'0px'}} color="secondary">
                   <FilterListIcon/>
                 </IconButton>
-              </div>
-            {/*<div className={classes.search}>*/}
-            {/*  <div className={classes.searchIcon}>*/}
-            {/*    <SearchIcon />*/}
-            {/*  </div>*/}
-            {/*  <InputBase*/}
-            {/*    placeholder="Search…"*/}
-            {/*    classes={{*/}
-            {/*      root: classes.inputRoot,*/}
-            {/*      input: classes.inputInput,*/}
-            {/*    }}*/}
-            {/*    inputProps={{ "aria-label": "search" }}*/}
-            {/*  />*/}
-            {/*</div>*/}
+              </div> */}
+          
+            <div className={classes.sectionDesktop}>
+           
               <Button onClick={() => history.push("/whyus")} color="inherit">
                 <Typography variant="button">Why Prefer us</Typography>
               </Button>
