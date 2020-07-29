@@ -54,9 +54,9 @@ function Login(props) {
     };
     return (<>
         <Toolbar />
-        <Grid container justify='center'  className={sty.root}>
+        <Grid container justify='center' className={sty.root}>
             <Grid container justify='center' alignItems='center' className={sty.side1} sm={6}>
-                <Typography  variant='h4'>Welcome to Roomlelo </Typography>
+                <Typography variant='h4'>Welcome to Roomlelo </Typography>
 
                 <Grid container justify='center' alignItems='center' >
                     <FormControl component="fieldset">
@@ -66,36 +66,37 @@ function Login(props) {
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-
-                <form onSubmit={submit} style={{ maxWidth: 300, }}>
-                    <TextField label='Phone number'
-                        id='id'
-                        margin='dense'
-                        required
-                        type="number"
-                        onChange={handelChange}
-                        fullWidth />
-                    <TextField label='Password'
-                        id='pass'
-                        required
-                        margin='dense'
-                        type='password'
-                        onChange={handelChange}
-                        fullWidth />
+                <Grid container justify='center' alignItems='center' >
+                    <form onSubmit={submit} style={{ maxWidth: 300, }}>
+                        <TextField label='Phone number'
+                            id='id'
+                            margin='dense'
+                            required
+                            type="number"
+                            onChange={handelChange}
+                            fullWidth />
+                        <TextField label='Password'
+                            id='pass'
+                            required
+                            margin='dense'
+                            type='password'
+                            onChange={handelChange}
+                            fullWidth />
                         <Grid container justify='space-between' alignItems='center'>
-                    <Link>Forgot Password</Link>
-                    <Button type='submit' variant='contained' color='primary' style={{ margin: '20px 0' }}>Login</Button>
+                            <Link>Forgot Password</Link>
+                            <Button type='submit' variant='contained' color='primary' style={{ margin: '20px 0' }}>Login</Button>
                         </Grid>
-                </form>
-<Grid style={{display:'flex'}}>
+                    </form>
+                </Grid>
+                <Grid style={{ display: 'flex' }}>
 
-                <Typography >
-                    Please Note :
+                    <Typography >
+                        Please Note :
                 </Typography>
-                <Typography variant='body2' color='textSecondary'>
-                To Change Password please contact support Department
+                    <Typography variant='body2' color='textSecondary'>
+                        To Change Password please contact support Department
                 </Typography>
-</Grid>
+                </Grid>
 
 
             </Grid>

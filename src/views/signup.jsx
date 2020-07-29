@@ -27,16 +27,16 @@ function Login(props) {
     const history = useHistory()
     const signUp = useRef(null);
     const [state, setState] = useState({});
- useEffect(()=>{
- 
-    window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(signUp.current, {
-        'size': 'invisible',
-        'callback': function(response) {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          submit();
-        }
-      });
- },[])
+    useEffect(() => {
+
+        window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(signUp.current, {
+            'size': 'invisible',
+            'callback': function (response) {
+                // reCAPTCHA solved, allow signInWithPhoneNumber.
+                submit();
+            }
+        });
+    }, [])
 
     // useEffect(() => {
     //     if (props.auth) {
@@ -56,22 +56,22 @@ function Login(props) {
     const handelChange = (e) => {
         setState({ ...state, [e.target.id]: e.target.value })
     }
- 
+
     const submit = (e) => {
         e.preventDefault()
         console.log(signUp);
-       
+
         var appVerifier = window.recaptchaVerifier;
 
-        Firebase.auth().signInWithPhoneNumber(state.phone,appVerifier)
+        Firebase.auth().signInWithPhoneNumber(state.phone, appVerifier)
             .then((confirmationResult) => {
                 // SMS sent. Prompt user to type the code from the message, then sign the
                 // user in with confirmationResult.confirm(code).
                 // this.otpSent = true;
                 console.log(confirmationResult)
 
-            }).catch(function (error) { 
-                console.log(error); 
+            }).catch(function (error) {
+                console.log(error);
             });
 
     }
@@ -95,57 +95,57 @@ function Login(props) {
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-<Grid container justify='center' alignItems='center' >
-                <form onSubmit={submit} style={{ maxWidth: 300, }}>
-                    <TextField label='Enter Your Full Name'
-                        id='name'
-                        required
-                        type="text"
-                        onChange={handelChange}
-                        margin='dense'
-                        fullWidth />
-                    <TextField label='Enter Your Email '
-                        margin='dense'
-                        id='email'
-                        required
-                        type='email'
-                        onChange={handelChange}
-                        fullWidth />
-                    <TextField label='Enter Your Phone Number'
-                        id='phone'
-                        required
-                        margin='dense'
-                        type='number'
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    +91
-                                </InputAdornment>)
-                        }}
-                        onChange={handelChange}
-                        fullWidth />
-                    <Grid container justify='center' alignItems='center'>
+                <Grid container justify='center' alignItems='center' >
+                    <form onSubmit={submit} style={{ maxWidth: 300, }}>
+                        <TextField label='Enter Your Full Name'
+                            id='name'
+                            required
+                            type="text"
+                            onChange={handelChange}
+                            margin='dense'
+                            fullWidth />
+                        <TextField label='Enter Your Email '
+                            margin='dense'
+                            id='email'
+                            required
+                            type='email'
+                            onChange={handelChange}
+                            fullWidth />
+                        <TextField label='Enter Your Phone Number'
+                            id='phone'
+                            required
+                            margin='dense'
+                            type='number'
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        +91
+                                    </InputAdornment>)
+                            }}
+                            onChange={handelChange}
+                            fullWidth />
+                        <Grid container justify='center' alignItems='center'>
 
-                        <Grid style={{ textAlign: 'center' }}>
-                            <p>or</p>
-                            <p>login using</p>
+                            <Grid style={{ textAlign: 'center' }}>
+                                <p>or</p>
+                                <p>login using</p>
+                            </Grid>
+                            <Grid container justify='center' alignItems='center'>
+                                <IconButton>
+                                    <SvgIcon style={{ height: 35, width: 35, color: '#000' }}>
+                                        <Q />
+                                    </SvgIcon>
+                                </IconButton>
+                                <IconButton>
+                                    <FacebookIcon style={{ height: 40, width: 40, color: '#000' }} />
+                                </IconButton>
+                            </Grid>
                         </Grid>
                         <Grid container justify='center' alignItems='center'>
-                            <IconButton>
-                                <SvgIcon style={{ height: 35, width: 35, color: '#000' }}>
-                                    <Q />
-                                </SvgIcon>
-                            </IconButton>
-                            <IconButton>
-                                <FacebookIcon style={{ height: 40, width: 40, color: '#000' }} />
-                            </IconButton>
+                            <Button ref={signUp} type='submit' variant='contained' color='primary' style={{ margin: '20px 0' }}>Next</Button>
                         </Grid>
-                    </Grid>
-                    <Grid container justify='center' alignItems='center'>
-                        <Button ref={signUp} type='submit' variant='contained' color='primary' style={{ margin: '20px 0' }}>Next</Button>
-                    </Grid>
-                </form>
-                    </Grid>
+                    </form>
+                </Grid>
                 <Grid style={{ display: 'flex', }}>
 
                     <Typography >

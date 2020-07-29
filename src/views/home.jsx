@@ -3,8 +3,11 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Footer from '../components/footer'
 import clsx from 'clsx'
+import SearchIcon from "@material-ui/icons/Search";
+
 import {
   makeStyles,
+  fade,
   Toolbar,
   ButtonBase,
   SvgIcon,
@@ -12,9 +15,13 @@ import {
   Avatar,
   Card,
   CardMedia,
+  InputBase,
+  IconButton,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as Temple } from "../static/temple.svg";
+import Filter from '../components/filter/filter'
+
 
 const styles = makeStyles((theme) => ({
 
@@ -26,10 +33,10 @@ const styles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    minHeight: 600,
+    // minHeight: 600,
     flexDirection: "column",
     // [theme.breakpoints.down('xs')]:{
-    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`
+    // height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`
     // }
   },
   offer: {
@@ -118,38 +125,27 @@ const styles = makeStyles((theme) => ({
     flexDirection: 'column'
   },
   growth2: {
-    height: 300, 
+    height: 300,
     // padding:'0 20px',
     flexDirection: 'column'
   },
-  scroll:{
+  scroll: {
     '&::-webkit-scrollbar': {
       height: 0,
-      backgroundColor:' #F5F5F5'
+      backgroundColor: ' #F5F5F5'
     },
-    // '&::-webkit-scrollbar-track': {
-    //   borderRadius: 10,
-    //   background: 'rgba(0,0,0,0.1)',
-    //   border: `1px solid #ccc`,
-    // },
-    
-    // '&::-webkit-scrollbar-thumb': {
-    //   borderRadius: 10,
-    //   background: 'linear-gradient(left, #fff, #e4e4e4)',
-    //   border: '1px solid #aaa'
-    // },
-    
-    // '&::-webkit-scrollbar-thumb:hover': {
-    //   background: '#fff'
-    // },
-    
-    // '&::-webkit-scrollbar-thumb:active': {
-    //   background:' linear-gradient(left, #22ADD4, #1E98BA)',
-    // }
   },
-  benefit:{
-    flexDirection:'row'
+  benefit: {
+    flexDirection: 'row'
+  },
+  filter: {
+    padding: '0 12px',
+    [theme.breakpoints.up('sm')]: {
+      height: 100,
+      // backgroundColor: '#d54'
+    }
   }
+
 }));
 
 const images = [
@@ -173,34 +169,209 @@ const images = [
 export default function E4() {
   const history = useHistory();
   const sty = styles();
-  var six = Array.apply(null, { length: 6 }).map((e, i) => (
-    <Grid
-      container
-      item
-      sm={4}
-      alignItems="center"
-      style={{ margin: "24px 0" }}
-    >
-      <Grid alignItems="center" style={{ display: "flex" }}>
-        <Avatar sizes="5">A</Avatar>
-        <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
-          <b>Easy booking -</b> sign up, fill your details, choose your desired home and pack up to relocate.
-        </Typography>
+
+  var different = Array.apply(null, { length: 1 }).map((e, i) => (
+    <>
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Tenant app </b>- detailed review and clarity of payments , services requests, etc on your personal dashboard.        </Typography>
+        </Grid>
       </Grid>
-    </Grid>
+
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Quick maintenance</b> - No embarrassing maintenance delays and inconvenience.        </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>No brokerage</b> - Save yourself from high brokerage and hidden charges.        </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Low security deposits</b> - Worried about rocket high deposits? We offer you home with min. Security deposit.        </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Safety and security</b> - we filter properties which are in safe zone & healthy neighborhood for your well- being and protection.        </Typography>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>24*7 helpline</b> - Always available to shoot your trouble.
+        </Typography>
+        </Grid>
+      </Grid>
+
+    </>
+  ));
+  var six = Array.apply(null, { length: 1 }).map((e, i) => (
+    <>
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Assisted visits</b> - Let us assist you to your exclusive home.
+        </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Easy booking -</b> sign up, fill your details, choose your desired home and pack up to relocate.
+        </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Legal assistance</b> - Ensure all agreements have been properly executed.
+        </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Quality check</b> - We carefully review the quality of all the factors involved with your happy stay.
+        </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>Quick maintenance</b> - No embarrassing maintenance delays and inconvenience.
+        </Typography>
+        </Grid>
+      </Grid>
+      <Grid
+        container
+        item
+        sm={4}
+        alignItems="center"
+        style={{ margin: "24px 0" }}
+      >
+        <Grid alignItems="center" style={{ display: "flex" }}>
+          <Avatar sizes="5">A</Avatar>
+          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
+            <b>24*7 helpline</b> - Always available to shoot your trouble.
+        </Typography>
+        </Grid>
+      </Grid>
+
+    </>
   ));
 
   return (
     <>
       <Grid className={sty.root} >
         <Toolbar />
+
+
+        <Grid container className={sty.filter}  >
+          <Filter />
+        </Grid>
+
+
+
+
         <Grid
           container
           justify="center"
           alignItems="center"
           className={sty.temple}
         >
-          <div className={sty.blur}></div>
+          {/* <div className={sty.blur}></div> */}
           <Temple style={{ zIndex: 2 }} />
           <Typography variant="h3" style={{ paddingTop: 15, color: '#fff', fontWeight: 'bold', zIndex: 2, textAlign: 'center' }}>
             Live with the World
@@ -302,7 +473,7 @@ export default function E4() {
           </Typography>
 
           <Grid container alignItems="center">
-            {six}
+            {different}
           </Grid>
         </Grid>
 
@@ -358,14 +529,14 @@ export default function E4() {
 
           <Grid container alignItems="center">
             <Grid item sm={6} style={{ padding: '20px 40px' }}>
-              <Grid container item alignItems="center" justify='center' style={{ background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={clsx(sty.growth2,sty.benefit)}>
+              <Grid container item alignItems="center" justify='center' style={{ background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={clsx(sty.growth2, sty.benefit)}>
                 <Typography variant='h4' style={{ paddingBottom: 12 }}>Rent on time</Typography>
                 <Typography variant='body1'>No more monthly reminders, no more late payments</Typography>
               </Grid>
             </Grid>
 
             <Grid item sm={6} style={{ padding: '20px 40px' }}>
-              <Grid container item alignItems="center" justify='center' style={{ background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className={clsx(sty.growth2,sty.benefit)}>
+              <Grid container item alignItems="center" justify='center' style={{ background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className={clsx(sty.growth2, sty.benefit)}>
                 <Typography variant='h4' style={{ paddingBottom: 12 }}>Maintenance</Typography>
                 <Typography variant='body1'>Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
               </Grid>
@@ -393,21 +564,21 @@ export default function E4() {
           </Typography>
 
           <Grid container alignItems="center" style={{ overflow: 'hidden' }}>
-            <Grid container style={{ overflowX: 'scroll',flexWrap:'nowrap' }} className={sty.scroll}>
-              <Grid item  style={{ padding: '20px 40px' }}>
-                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat',width:300 }} className={sty.growth2}>
+            <Grid container style={{ overflowX: 'scroll', flexWrap: 'nowrap' }} className={sty.scroll}>
+              <Grid item style={{ padding: '20px 40px' }}>
+                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
                   <Typography variant='h4' style={{ paddingBottom: 12 }}>Free Stay offer</Typography>
                 </Grid>
               </Grid>
 
-              <Grid item  style={{ padding: '20px 40px' }}>
-                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat',width:300 }} className={sty.growth2}>
+              <Grid item style={{ padding: '20px 40px' }}>
+                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
                   <Typography variant='h4' style={{ paddingBottom: 12 }}>Free Stay offer</Typography>
                 </Grid>
               </Grid>
 
-              <Grid item  style={{ padding: '20px 40px' }}>
-                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat',width:300 }} className={sty.growth2}>
+              <Grid item style={{ padding: '20px 40px' }}>
+                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
                   <Typography variant='h4' style={{ paddingBottom: 12 }}>Know More</Typography>
                 </Grid>
               </Grid>

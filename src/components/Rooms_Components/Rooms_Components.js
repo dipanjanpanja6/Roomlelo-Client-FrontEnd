@@ -1,12 +1,30 @@
 import React from "react";
 import PropType from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import RoomsListItemComponents from "./Rooms_List_Item_Components";
-import {getRoomsWithPagination} from '../../redux/actions/roomActions'
+import { getRoomsWithPagination } from '../../redux/actions/roomActions'
+import { makeStyles } from "@material-ui/core";
 
-const RoomsComponents = (props) =>{
-    const {rooms} = props
 
+const styles = makeStyles((theme) => ({
+    scroll: {
+        '&::-webkit-scrollbar': {
+            width: 0,
+
+            // backgroundColor: ' #F5F5F5'
+        },
+        overflow: 'auto',
+        maxHeight: 'calc(100vh - 130px)',
+        [theme.breakpoints.down('xs')]:{
+            maxHeight: 'calc(100vh - 160px)',
+
+        }
+    }
+}))
+
+const RoomsComponents = (props) => {
+    const { rooms } = props
+    const sty = styles()
 
 
     const scrollCheck = event => {
@@ -18,21 +36,26 @@ const RoomsComponents = (props) =>{
         }
     };
 
-    let roomMarkUp = rooms != null ? rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room}/>):"loading";
+    let roomMarkUp = rooms != null ? rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : "loading";
 
-    return(
-        <div onScroll={scrollCheck} style={{ marginLeft:'2rem', marginRight:'2rem', marginTop:'5px', overflow:'auto', maxHeight:'89vh'}}>
+    return (
+        <div onScroll={scrollCheck} className={sty.scroll}
+            style={{
+                // marginLeft:'2rem', marginRight:'2rem', marginTop:'5px',
+
+            }}
+        >
             {roomMarkUp}
 
         </div>
     )
 };
 RoomsComponents.propType = {
-    getRoomsWithPagination:PropType.func.isRequired,
+    getRoomsWithPagination: PropType.func.isRequired,
 
 };
 
-const mapState = (state) =>({
+const mapState = (state) => ({
 
 });
 const mapActionToProps = {
