@@ -12,8 +12,7 @@ import { getRooms, getRoomsWithPagination } from '../redux/actions/roomActions'
 import Grid from '@material-ui/core/Grid'
 
 import { MAP_API_KEY } from '../config/config'
-//Components
-import RoomsComponents from "../components/Rooms_Components/Rooms_Components";
+//Components 
  
 import { Toolbar } from '@material-ui/core';
 
