@@ -16,7 +16,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { Link as RouterLink, useHistory } from "react-router-dom"; 
+import { Link as RouterLink, useHistory, useLocation } from "react-router-dom"; 
 import Logo from "../static/roomlelologo.png";
 import SearchFilterDialog from '../components/SearchFilterDialog'
 
@@ -138,6 +138,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const history = useHistory();
+  let location=useLocation()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [show, setShow] = React.useState(false);
@@ -281,9 +282,10 @@ export default function PrimarySearchAppBar(props) {
               </IconButton>
             </div>
           </Toolbar>
-          <Toolbar>
+          { location.pathname!=='/' && 
+    <Toolbar>
           <Filter/>
-          </Toolbar>
+          </Toolbar>}
         </AppBar> 
       {renderMobileMenu} 
     </div>

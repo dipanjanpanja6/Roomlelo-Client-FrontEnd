@@ -12,7 +12,7 @@ code {
     monospace;
 }
 :focus {
-  outline: none;
+  outline: none !important;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

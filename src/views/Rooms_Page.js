@@ -5,7 +5,7 @@ import PropType from 'prop-types'
 import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_Item_Components";
 import GoogleMapReact from 'google-map-react';
 import AppBarSpace from '../components/appBarSpace';
-
+import Loading from '../components/loading'
 import { getRooms, getRoomsWithPagination } from '../redux/actions/roomActions'
 
 //M-Ui
@@ -36,6 +36,7 @@ const style = (theme) => ({
             width: 0,
         },
         overflow: 'auto',
+        width:'100%',
         maxHeight: 'calc(100vh - 130px)',
         [theme.breakpoints.down('xs')]: {
             maxHeight: 'calc(100vh - 160px)',
@@ -71,7 +72,7 @@ class RoomsPage extends Component {
             }
         };
 
-        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : "loading";
+        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading/>;
 
 
         return (
