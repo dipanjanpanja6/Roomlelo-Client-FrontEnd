@@ -31,8 +31,10 @@ const RoomsComponents = (props) => {
         //TODO
         const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
         if (bottom) {
-
-            props.getRoomsWithPagination(props.count)
+            if(props.room.searched === false){
+                props.getRoomsWithPagination(props.room.roomsCount)
+            }
+            
         }
     };
 

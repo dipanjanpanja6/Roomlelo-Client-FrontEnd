@@ -20,6 +20,8 @@ import { Link as RouterLink, useHistory } from "react-router-dom";
 import Logo from "../static/roomlelologo.webp";
 import SearchFilterDialog from '../components/SearchFilterDialog'
 
+import Filter from '../components/filter/filter'
+
 const useStyles = makeStyles((theme) => ({
   Appbar: {
     background:'#fff',
@@ -234,6 +236,7 @@ export default function PrimarySearchAppBar(props) {
 
               <img src={Logo} height="45px" alt="Roomlelo" />
             </IconButton>
+            <Filter/>
             <div className={classes.grow} />
             {/* <div className={classes.search}>
                 <div className={classes.searchIcon}>

@@ -1,9 +1,11 @@
-import React from "react";
+import React,{useState} from "react";
 import PropType from 'prop-types'
 import { connect } from 'react-redux' 
 import { getRoomsWithPagination } from '../../redux/actions/roomActions'
 import { makeStyles, Grid, TextField, InputBase,fade } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+
+import {searchLocation} from '../../redux/actions/roomActions'
 
 
 const styles = makeStyles((theme) => ({
@@ -65,10 +67,14 @@ const styles = makeStyles((theme) => ({
       },
 }))
 
-const RoomsComponents = (props) => { 
+const Filter = (props) => { 
 const sty= styles()
+const [search, setSearch] = useState("")
 
-
+const handleChange = (event) =>{
+  setSearch(event.target.value)
+  props.searchLocation(event.target.value)
+}
   
     return (
       <Grid container justify='space-around' alignItems='center' style={{padding:'10px 0'}}>
@@ -79,11 +85,13 @@ const sty= styles()
             </div>
             <InputBase
               //  onFocus={handleFocus}
+              onChange={handleChange}
               placeholder="Search…"
               classes={{
                 root: sty.inputRoot,
                 input: sty.inputInput,
               }}
+              value={search}
               inputProps={{ 'aria-label': 'search' }}
               />
 
@@ -109,8 +117,9 @@ const sty= styles()
       </Grid>
     )
 };
-RoomsComponents.propType = {
+Filter.propType = {
     getRoomsWithPagination: PropType.func.isRequired,
+    searchLocation:PropType.func.isRequired
 
 };
 
@@ -118,6 +127,7 @@ const mapState = (state) => ({
 
 });
 const mapActionToProps = {
-    getRoomsWithPagination
+    getRoomsWithPagination,
+    searchLocation
 };
-export default connect(mapState, mapActionToProps)(RoomsComponents)
+export default connect(mapState, mapActionToProps)(Filter)

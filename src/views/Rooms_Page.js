@@ -51,7 +51,7 @@ class RoomsPage extends Component {
 
                     <Grid sm={7} item className={classes.side_room_class}>
                         <Filter />
-                        <RoomsComponents count={this.props.room.roomsCount} rooms={this.props.room.rooms} history={this.props.history} />
+                        <RoomsComponents room={this.props.room} rooms={this.props.room.rooms} history={this.props.history} />
                     </Grid>
 
                     <Grid sm={5} item className={classes.side_map_class}>
