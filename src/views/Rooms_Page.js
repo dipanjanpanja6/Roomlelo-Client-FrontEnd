@@ -43,6 +43,7 @@ const style = (theme) => ({
         }
     },
 })
+
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 class RoomsPage extends Component {
     static defaultProps = {
