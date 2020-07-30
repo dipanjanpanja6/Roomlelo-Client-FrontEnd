@@ -41,8 +41,8 @@ const sty =styles()
 
             <Carousel slide={true} defaultActiveIndex={0} indicators={false} controls={true} interval={5000}  onSelect={handleSelect}>
 
-                {images.map((image, index) => <Carousel.Item >
-                    <img
+                {images.map((image, index) => <Carousel.Item key={index} >
+                    <img 
                         className={`d-block w-100 ${sty.image}`}
                         src={image}
                         alt="First slide"  

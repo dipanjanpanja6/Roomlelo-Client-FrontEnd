@@ -11,6 +11,7 @@ import Firebase from '../config/config'
 
 import FacebookIcon from '@material-ui/icons/Facebook'
 import { ReactComponent as Q } from '../static/Google.svg'
+import AppBarSpace from '../components/appBarSpace';
 
 const styles = makeStyles(t => ({
     side1: {
@@ -19,6 +20,12 @@ const styles = makeStyles(t => ({
     root: {
         // minHeight:`calc(100vh - ${t.mixins.toolbar.minHeight}px)`
         minHeight: `calc(100vh - 64px)`
+    },
+    side2:{
+        background: 'rgb(183 183 183)', flexDirection: 'column',
+        [t.breakpoints.down('xs')]:{
+            display:'none'
+        }
     }
 }))
 
@@ -83,6 +90,7 @@ function Login(props) {
 
     return (<>
         <Toolbar />
+        <AppBarSpace />
         <Grid container justify='center' className={sty.root}>
             <Grid container justify='center' alignItems='center' className={sty.side1} sm={6}>
                 <Typography variant='h4'>Welcome to Roomlelo </Typography>
@@ -158,7 +166,7 @@ function Login(props) {
 
 
             </Grid>
-            <Grid container sm={6} justify='center' alignItems='center' style={{ background: 'rgb(183 183 183)', flexDirection: 'column' }} >
+            <Grid container sm={6} justify='center' alignItems='center' className={sty.side2} style={{  }} >
                 {/* <Grid > */}
                 <Typography variant='h4'>“Know why our Customer love us”</Typography>
                 <Typography variant='subtitle1'>CEO, Housing.com</Typography>

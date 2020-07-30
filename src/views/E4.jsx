@@ -23,6 +23,7 @@ export default function E4(){
     return (<>
         <Grid  className={classes.root}>
             <Toolbar/>
+            <Toolbar/>
             <Grid container justify='center' alignItems='center'>
 <p>Error 404</p>
         {/* <img style={{height:'80vh', maxWidth:'100vw', width:'auto'}} src={BadRequest}/> */}

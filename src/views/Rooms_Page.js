@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropType from 'prop-types'
-import Filter from '../components/filter/filter'
+import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_Item_Components";
 import GoogleMapReact from 'google-map-react';
+import AppBarSpace from '../components/appBarSpace';
 
 import { getRooms, getRoomsWithPagination } from '../redux/actions/roomActions'
 
@@ -16,15 +17,29 @@ import RoomsComponents from "../components/Rooms_Components/Rooms_Components";
 import { Toolbar } from '@material-ui/core';
 const style = (theme) => ({
     root: {
-        height: `calc(100vh - 64px)`,
+        height: `calc(100vh - 128px)`,
+        [theme.breakpoints.down('xs')]:{
+        height: `calc(100vh - 156px)`,}
     },
     side_map_class: {
         padding: 12,
-        width: '100%'
+        width: '100%',
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        }
     },
     side_room_class: {
         paddingLeft: 5,
         paddingRight: 5,
+        '&::-webkit-scrollbar': {
+            width: 0,
+        },
+        overflow: 'auto',
+        maxHeight: 'calc(100vh - 130px)',
+        [theme.breakpoints.down('xs')]: {
+            maxHeight: 'calc(100vh - 160px)',
+
+        }
     },
 })
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
@@ -44,14 +59,32 @@ class RoomsPage extends Component {
     };
     render() {
         const { classes } = this.props
+
+        const scrollCheck = event => {
+            //TODO
+            const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
+            if (bottom) {
+                if (this.props.room.searched === false) {
+                    this.props.getRoomsWithPagination(this.props.room.roomsCount)
+                }
+
+            }
+        };
+
+        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : "loading";
+
+
         return (
             <div >
                 <Toolbar />
-                <Grid container className={classes.root} >
+                <AppBarSpace />
+                <Grid container className={classes.root}  >
 
-                    <Grid sm={7} item className={classes.side_room_class}>
-                        <Filter />
-                        <RoomsComponents room={this.props.room} rooms={this.props.room.rooms} history={this.props.history} />
+                    <Grid sm={7} item className={classes.side_room_class} onScroll={scrollCheck}>
+
+                        {/* <RoomsComponents room={this.props.room} rooms={this.props.room.rooms} history={this.props.history} /> */}
+
+                        {roomMarkUp}
                     </Grid>
 
                     <Grid sm={5} item className={classes.side_map_class}>

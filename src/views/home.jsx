@@ -21,6 +21,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { ReactComponent as Temple } from "../static/temple.svg";
 import Filter from '../components/filter/filter'
+import AppBarSpace from "../components/appBarSpace";
 
 
 const styles = makeStyles((theme) => ({
@@ -110,16 +111,7 @@ const styles = makeStyles((theme) => ({
     justifyContent: "center",
     color: theme.palette.common.white,
   },
-  blur: {
-    position: 'absolute',
-    top: theme.mixins.toolbar.minHeight,
-    backdropFilter: `blur(2px)`,
-    left: 0,
-    width: '100%',
-    height: `93%`,
-    minHeight: 600,
-    zIndex: 1,
-  },
+ 
   growth: {
     height: 250,
     flexDirection: 'column'
@@ -351,16 +343,17 @@ export default function E4() {
 
     </>
   ));
-
+const bookNow=()=>{
+  history.push('/rooms')
+}
   return (
     <>
       <Grid className={sty.root} >
-        <Toolbar />
+        <Toolbar /> 
+        <AppBarSpace/>
 
 
-        <Grid container className={sty.filter}  >
-          <Filter />
-        </Grid>
+
 
 
 
@@ -370,13 +363,12 @@ export default function E4() {
           justify="center"
           alignItems="center"
           className={sty.temple}
-        >
-          {/* <div className={sty.blur}></div> */}
+        > 
           <Temple style={{ zIndex: 2 }} />
           <Typography variant="h3" style={{ paddingTop: 15, color: '#fff', fontWeight: 'bold', zIndex: 2, textAlign: 'center' }}>
             Live with the World
           </Typography>
-          <Button variant='outlined' color='inherit' size="large" style={{ marginTop: 43, color: '#fff', zIndex: 2 }}>
+          <Button onClick={bookNow} variant='outlined' color='inherit' size="large" style={{ marginTop: 43, color: '#fff', zIndex: 2 }}>
             Book Now
           </Button>
         </Grid>

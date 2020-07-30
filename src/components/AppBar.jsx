@@ -17,7 +17,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { Link as RouterLink, useHistory } from "react-router-dom"; 
-import Logo from "../static/roomlelologo.webp";
+import Logo from "../static/roomlelologo.png";
 import SearchFilterDialog from '../components/SearchFilterDialog'
 
 import Filter from '../components/filter/filter'
@@ -236,24 +236,9 @@ export default function PrimarySearchAppBar(props) {
 
               <img src={Logo} height="45px" alt="Roomlelo" />
             </IconButton>
-            <Filter/>
+           
             <div className={classes.grow} />
-            {/* <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase onFocus={handleFocus}
-                    placeholder="Search…"
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
-                    inputProps={{ 'aria-label': 'search' }}
-                />
-                <IconButton onClick={() => setShow(!show)} size="small" style={{outlineWidth:'0px'}} color="secondary">
-                  <FilterListIcon/>
-                </IconButton>
-              </div> */}
+           
           
             <div className={classes.sectionDesktop}>
            
@@ -295,6 +280,9 @@ export default function PrimarySearchAppBar(props) {
                 <MenuIcon />
               </IconButton>
             </div>
+          </Toolbar>
+          <Toolbar>
+          <Filter/>
           </Toolbar>
         </AppBar> 
       {renderMobileMenu} 

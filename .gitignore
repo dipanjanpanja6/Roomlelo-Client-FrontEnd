@@ -11,6 +11,9 @@
 # production
 /build
 package-lock.json
+
+firebase-debug.log
+/.firebase
 # misc
 .DS_Store
 .env.local

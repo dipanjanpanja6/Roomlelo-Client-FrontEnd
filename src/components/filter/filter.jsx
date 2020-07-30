@@ -77,7 +77,7 @@ const handleChange = (event) =>{
 }
   
     return (
-      <Grid container justify='space-around' alignItems='center' style={{padding:'10px 0'}}>
+      <Grid container justify='space-around' alignItems='center' >
 
           <div className={sty.search}>
             <div className={sty.searchIcon}>
@@ -99,17 +99,17 @@ const handleChange = (event) =>{
 
           <div style={{flexGrow:1}}></div>
           
-          <TextField select variant='outlined' margin='dense'
+          <TextField select   margin='dense'
           label="For Whom" className={sty.select}
           >
               
           </TextField>
-          <TextField select className={sty.select} variant='outlined' margin='dense'
+          <TextField select className={sty.select}   margin='dense'
           label="Near by"
           >
 
           </TextField>
-          <TextField select className={sty.select} variant='outlined' margin='dense'
+          <TextField select className={sty.select}   margin='dense'
           label="Type"
           >
 
