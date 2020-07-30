@@ -14,7 +14,9 @@ import Grid from '@material-ui/core/Grid'
 import { MAP_API_KEY } from '../config/config'
 //Components
 import RoomsComponents from "../components/Rooms_Components/Rooms_Components";
+ 
 import { Toolbar } from '@material-ui/core';
+
 const style = (theme) => ({
     root: {
         height: `calc(100vh - 128px)`,
@@ -60,18 +62,12 @@ class RoomsPage extends Component {
     render() {
         const { classes } = this.props
 
-        const scrollCheck = event => {
-            //TODO
-            console.log(event.target.scrollHeight);
-            console.log(event.target.scrollTop);
-            console.log(event.target.clientHeight);
-            
-            const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
+        const scrollCheck = event => { 
+            const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) === event.target.clientHeight-1;
             if (bottom) {
                 if (this.props.room.searched === false) {
                     this.props.getRoomsWithPagination(this.props.room.roomsCount)
-                }
-
+                } 
             }
         };
 
@@ -123,6 +119,7 @@ const mapState = (state) => ({
     room: state.room
 });
 const mapActionsToProps = {
-    getRooms
+    getRooms,
+    getRoomsWithPagination
 };
 export default connect(mapState, mapActionsToProps)(withStyles(style)(RoomsPage))
