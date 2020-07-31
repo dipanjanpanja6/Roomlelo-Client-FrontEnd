@@ -64,7 +64,9 @@ class RoomsPage extends Component {
         const { classes } = this.props
 
         const scrollCheck = event => { 
-            const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) === event.target.clientHeight-1;
+            console.log( parseInt(event.target.scrollHeight - event.target.scrollTop));
+            console.log(event.target.clientHeight);
+            const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight;
             if (bottom) {
                 if (this.props.room.searched === false) {
                     this.props.getRoomsWithPagination(this.props.room.roomsCount)
