@@ -136,7 +136,56 @@ const styles = makeStyles((theme) => ({
       height: 100,
       // backgroundColor: '#d54'
     }
-  }
+  },
+
+  search: {
+    position: 'relative', 
+    marginTop:20,
+    borderRadius:30,
+    backgroundColor: fade(theme.palette.common.white, 0.50),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.80),
+    }, 
+    marginLeft: 0,
+    width: '100%',
+
+    [theme.breakpoints.up('sm')]: { 
+      width: 'auto',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '80%'
+    }
+  },
+
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "inherit",
+    
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    height:30,
+    [theme.breakpoints.up('sm')]: {
+      
+      height:30,
+      width: '56vw',
+      '&:focus': {
+        width: '35ch',
+      },
+    },
+  },
 
 }));
 
@@ -346,11 +395,12 @@ export default function E4() {
 const bookNow=()=>{
   history.push('/rooms')
 }
+ 
   return (
     <>
       <Grid className={sty.root} >
         <Toolbar /> 
-        <AppBarSpace/>
+        {/* <AppBarSpace/> */}
 
 
 
@@ -368,6 +418,26 @@ const bookNow=()=>{
           <Typography variant="h3" style={{ paddingTop: 15, color: '#fff', fontWeight: 'bold', zIndex: 2, textAlign: 'center' }}>
             Live with the World
           </Typography>
+
+          <div className={sty.search}>
+        <div className={sty.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+           onFocus={bookNow}
+          // onChange={handleChange}
+          placeholder="Search…"
+          classes={{
+            root: sty.inputRoot,
+            input: sty.inputInput,
+          }}
+          // value={search}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+
+      </div>
+
+
           <Button onClick={bookNow} variant='outlined' color='inherit' size="large" style={{ marginTop: 43, color: '#fff', zIndex: 2 }}>
             Book Now
           </Button>
@@ -521,16 +591,16 @@ const bookNow=()=>{
 
           <Grid container alignItems="center">
             <Grid item sm={6} style={{ padding: '20px 40px' }}>
-              <Grid container item alignItems="center" justify='center' style={{ background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={clsx(sty.growth2, sty.benefit)}>
+              <Grid container item alignItems="center" justify='center' style={{textAlign:'center',color:'#fff', background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={clsx(sty.growth2, sty.benefit)}>
                 <Typography variant='h4' style={{ paddingBottom: 12 }}>Rent on time</Typography>
                 <Typography variant='body1'>No more monthly reminders, no more late payments</Typography>
               </Grid>
             </Grid>
 
             <Grid item sm={6} style={{ padding: '20px 40px' }}>
-              <Grid container item alignItems="center" justify='center' style={{ background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className={clsx(sty.growth2, sty.benefit)}>
+              <Grid container item alignItems="center" justify='center' style={{textAlign:'center', color:'#fff',background: `url(${require('../static/maintanence.png')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className={clsx(sty.growth2, sty.benefit)}>
                 <Typography variant='h4' style={{ paddingBottom: 12 }}>Maintenance</Typography>
-                <Typography variant='body1'>Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
+                <Typography variant='body1' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
               </Grid>
             </Grid>
 

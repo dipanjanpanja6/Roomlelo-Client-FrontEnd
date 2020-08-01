@@ -18,8 +18,9 @@ const styles = makeStyles(t => ({
         // flexDirection: 'column'
     },
     root: {
-        // minHeight:`calc(100vh - ${t.mixins.toolbar.minHeight}px)`
-        minHeight: `calc(100vh - 64px)`
+        height: `calc(100vh - 128px)`,
+        [t.breakpoints.down('xs')]:{
+        height: `calc(100vh - 156px)`,}
     },
     side2:{
         background: 'rgb(183 183 183)', flexDirection: 'column',
@@ -169,7 +170,7 @@ function Login(props) {
             <Grid container sm={6} justify='center' alignItems='center' className={sty.side2} style={{  }} >
                 {/* <Grid > */}
                 <Typography variant='h4'>“Know why our Customer love us”</Typography>
-                <Typography variant='subtitle1'>CEO, Housing.com</Typography>
+                <Typography variant='subtitle1'>CEO, Roomlelo.in</Typography>
                 {/* </Grid> */}
             </Grid>
         </Grid>

@@ -5,7 +5,8 @@ import { getRoomsWithPagination } from '../../redux/actions/roomActions'
 import { makeStyles, Grid, TextField, InputBase, fade, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { searchLocation, getRoomWithType, getRoomWithHighPrice, getRoomWithLowPrice, getRoomWithForWhom } from '../../redux/actions/roomActions'
+import { searchLocation } from '../../redux/actions/roomActions'
+import { useLocation, useHistory } from "react-router-dom";
 
 
 const styles = makeStyles((theme) => ({
@@ -16,16 +17,15 @@ const styles = makeStyles((theme) => ({
     },
   },
   select: {
-    width: 120,
+    width: 130,
+    marginLeft:12,
     [theme.breakpoints.down('xs')]: {
+      marginLeft:0,
+       
       width: '33%'
     }
   },
-  search: {
-    [theme.breakpoints.down('xs')]: {
-      width: '100%'
-    }
-  },
+
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -35,11 +35,16 @@ const styles = makeStyles((theme) => ({
     },
     marginLeft: 0,
     width: '100%',
+
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       width: 'auto',
     },
+    [theme.breakpoints.down('xs')]: {
+      width: '100%'
+    }
   },
+
   searchIcon: {
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -59,9 +64,9 @@ const styles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '15ch',
+      width: '30ch',
       '&:focus': {
-        width: '20ch',
+        width: '35ch',
       },
     },
   },
@@ -69,6 +74,8 @@ const styles = makeStyles((theme) => ({
 
 const Filter = (props) => {
   const sty = styles()
+  let location = useLocation()
+  let history = useHistory()
   const [search, setSearch] = useState("")
   const [state, setstate] = useState("")
   const [type, setType] = useState("")
@@ -78,6 +85,12 @@ const Filter = (props) => {
   const handleChange = (event) => {
     setSearch(event.target.value)
     props.searchLocation(event.target.value)
+     
+  }
+  const handleFocus =()=>{
+    if(location.pathname!=='/rooms'){
+      history.push('/rooms')
+    }
   }
 
   const handleForWhomClick = (event) =>{
@@ -135,7 +148,8 @@ const Filter = (props) => {
           <SearchIcon />
         </div>
         <InputBase
-          //  onFocus={handleFocus}
+           onFocus={handleFocus}
+           autoFocus
           onChange={handleChange}
           placeholder="Search…"
           classes={{

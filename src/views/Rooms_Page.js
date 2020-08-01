@@ -5,8 +5,8 @@ import PropType from 'prop-types'
 import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_Item_Components";
 import GoogleMapReact from 'google-map-react';
 import AppBarSpace from '../components/appBarSpace';
-
-import { getRooms, getRoomsWithPagination, getRoomWithTypePagination, clearFilter } from '../redux/actions/roomActions'
+import Loading from '../components/loading'
+import { getRooms, getRoomsWithPagination } from '../redux/actions/roomActions'
 
 //M-Ui
 import Grid from '@material-ui/core/Grid'
@@ -36,6 +36,7 @@ const style = (theme) => ({
             width: 0,
         },
         overflow: 'auto',
+        width:'100%',
         maxHeight: 'calc(100vh - 130px)',
         [theme.breakpoints.down('xs')]: {
             maxHeight: 'calc(100vh - 160px)',
@@ -63,7 +64,9 @@ class RoomsPage extends Component {
         const { classes } = this.props
 
         const scrollCheck = event => { 
-            const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) === event.target.clientHeight-1;
+            console.log( parseInt(event.target.scrollHeight - event.target.scrollTop));
+            console.log(event.target.clientHeight);
+            const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight;
             if (bottom) {
                 console.log('bottmmmm')
                 if (this.props.room.searched === false || this.props.room.withType === "") {
@@ -75,7 +78,7 @@ class RoomsPage extends Component {
             }
         };
 
-        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : "loading";
+        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading/>;
 
 
         return (
