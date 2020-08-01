@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import PropType from 'prop-types'
 import { connect } from 'react-redux'
 import { getRoomsWithPagination } from '../../redux/actions/roomActions'
-import { makeStyles, Grid, TextField, InputBase, fade, MenuItem } from "@material-ui/core";
+import { makeStyles, Grid, TextField, InputBase, fade, MenuItem, IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 import { searchLocation } from '../../redux/actions/roomActions'
 import { useLocation, useHistory } from "react-router-dom";
@@ -18,16 +20,17 @@ const styles = makeStyles((theme) => ({
   },
   select: {
     width: 130,
-    marginLeft:12,
+    marginLeft: 12,
     [theme.breakpoints.down('xs')]: {
-      marginLeft:0,
-       
+      marginLeft: 0,
+
       width: '33%'
     }
   },
 
   search: {
     position: 'relative',
+    display:'flex',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.black, 0.10),
     '&:hover': {
@@ -82,10 +85,10 @@ const Filter = (props) => {
   const handleChange = (event) => {
     setSearch(event.target.value)
     props.searchLocation(event.target.value)
-     
+
   }
-  const handleFocus =()=>{
-    if(location.pathname==='/'){
+  const handleFocus = () => {
+    if (location.pathname === '/') {
       history.push('/rooms')
     }
   }
@@ -98,8 +101,8 @@ const Filter = (props) => {
           <SearchIcon />
         </div>
         <InputBase
-           onFocus={handleFocus}
-           autoFocus
+          onFocus={handleFocus}
+          autoFocus
           onChange={handleChange}
           placeholder="Search…"
           classes={{
@@ -109,7 +112,13 @@ const Filter = (props) => {
           value={search}
           inputProps={{ 'aria-label': 'search' }}
         />
+      <div style={{ flexGrow: 1 }}></div>
 
+
+      <IconButton style={{padding:5}}>
+        {/* <HighlightOffIcon /> */}
+        <ClearAllIcon />
+      </IconButton>
       </div>
 
       <div style={{ flexGrow: 1 }}></div>
@@ -141,6 +150,7 @@ const Filter = (props) => {
         <MenuItem value="Price Low to High">Price Low to High</MenuItem>
         <MenuItem value="Price High to Low">Price High to Low</MenuItem>
       </TextField>
+     
     </Grid>
   )
 };

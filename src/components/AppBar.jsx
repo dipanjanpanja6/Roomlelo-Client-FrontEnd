@@ -28,8 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   grow: {
-    flexGrow: 1,
-    // width:'100vw'
+    flexGrow: 1, 
   },
   menuButton: {
     padding: 0,
@@ -42,70 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily:
       "Wallman, -apple-system, BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans- serif,Apple Color Emoji,Segoe UI Emoji, Segoe UI Symbol",
   },
-  // search: {
-  //   position: "relative",
-  //   borderRadius: theme.shape.borderRadius,
-  //   backgroundColor: fade(theme.palette.common.white, 0.55),
-  //   "&:hover": {
-  //     backgroundColor: theme.palette.common.white,
-  //   },
-  //   marginRight: theme.spacing(2),
-  //   marginLeft: 0,
-  //   width: "100%",
-  //   [theme.breakpoints.up("sm")]: {
-  //     marginLeft: theme.spacing(3),
-  //     width: "auto",
-  //   },
-  // },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.10),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.black, 0.20),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '15ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-  // inputInput: {
-  //   padding: theme.spacing(1, 1, 1, 0),
-  //   // vertical padding + font size from searchIcon
-  //   paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-  //   transition: theme.transitions.create("width"),
-  //   width: "100%",
-  //   [theme.breakpoints.up("md")]: {
-  //     width: "20ch",
-  //   },
-  // },
+ 
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -129,8 +65,12 @@ const useStyles = makeStyles((theme) => ({
   },
   menu: {
     // background: Theme.boxColor,
-    right: 16,
-    left: "auto !important",
+    minHeight:'100vh !important',
+    right: '0 !important',
+    top: '0 !important',
+    left: '120px !important',
+    // width:120
+    // left: "auto !important",
   },
 
 }));
@@ -240,8 +180,7 @@ export default function PrimarySearchAppBar(props) {
     exact: true,
     strict: false
   });
-
-console.log(match);
+ 
   return (
     <div className={classes.grow}>
       <SearchFilterDialog show={show} handleClose={handleFilterClose} />
