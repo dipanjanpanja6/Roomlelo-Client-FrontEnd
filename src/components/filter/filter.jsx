@@ -5,7 +5,7 @@ import { getRoomsWithPagination } from '../../redux/actions/roomActions'
 import { makeStyles, Grid, TextField, InputBase, fade, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { searchLocation } from '../../redux/actions/roomActions'
+import { searchLocation, getRoomWithType, getRoomWithHighPrice, getRoomWithLowPrice, getRoomWithForWhom } from '../../redux/actions/roomActions'
 
 
 const styles = makeStyles((theme) => ({
@@ -71,10 +71,60 @@ const Filter = (props) => {
   const sty = styles()
   const [search, setSearch] = useState("")
   const [state, setstate] = useState("")
+  const [type, setType] = useState("")
+  const [sort, setSort] = useState("")
+  const [forWhom, setForWhom] = useState("")
 
   const handleChange = (event) => {
     setSearch(event.target.value)
     props.searchLocation(event.target.value)
+  }
+
+  const handleForWhomClick = (event) =>{
+
+    setSort("")
+    setType("")
+    if(event.target.id === "boys"){
+      setForWhom("Boys")
+      props.getRoomWithForWhom("Boys")
+    }
+    if(event.target.id === "girls"){
+      setForWhom("Girls")
+      props.getRoomWithForWhom("Grils")
+    }
+    if(event.target.id === "any"){
+      setForWhom("Any")
+      props.getRoomWithForWhom("Any")
+    }
+  }
+
+  const handlePriceChange = (event) =>{
+    setForWhom("")
+    setType("")
+    if(event.target.id === "low"){
+      setSort("Price Low to High")
+      props.getRoomWithLowPrice()
+    }
+    if(event.target.id === "high"){
+      setSort("Price High to Low")
+      props.getRoomWithHighPrice()
+    }
+  }
+  const handleTypeClick = (event) =>{
+    setSort("")
+    setForWhom("")
+    if(event.target.id === "Private_Rooms"){
+      setType("Private Rooms")
+      props.getRoomWithType("Private Rooms")
+    }
+    if(event.target.id === "Shared_Rooms"){
+      setType("Shared Rooms")
+      props.getRoomWithType("Shared Rooms")
+    }
+    if(event.target.id === "Entire_House"){
+      setType("Entire House")
+      props.getRoomWithType("Entire House")
+    }
   }
 
   return (
@@ -102,36 +152,40 @@ const Filter = (props) => {
 
       <TextField select margin='dense'
         label="For Whom" className={sty.select}
-        value={state.forWhome}
+        value={forWhom}
       >
-        <MenuItem value="Boys">Boys</MenuItem>
-        <MenuItem value="Girls">Girls</MenuItem>
-        <MenuItem value="Any">Any</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="boys" value="Boys">Boys</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="girls" value="Girls">Girls</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="any" value="Any">Any</MenuItem>
 
       </TextField>
 
       <TextField select className={sty.select} margin='dense'
-        value={state.type}
+        value={type}
         label="Type"
       >
-        <MenuItem value="Private Rooms">Private rooms</MenuItem>
-        <MenuItem value="Shared Rooms">Shared Rooms</MenuItem>
-        <MenuItem value="Entire House">Entire house</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>
       </TextField>
 
       <TextField select className={sty.select} margin='dense'
-        value={state.sort}
+        value={sort}
         label="Sort by"
       >
-        <MenuItem value="Price Low to High">Price Low to High</MenuItem>
-        <MenuItem value="Price High to Low">Price High to Low</MenuItem>
+        <MenuItem id="low" onClick={handlePriceChange} value="Price Low to High">Price Low to High</MenuItem>
+        <MenuItem id="high" onClick={handlePriceChange} value="Price High to Low">Price High to Low</MenuItem>
       </TextField>
     </Grid>
   )
 };
 Filter.propType = {
   getRoomsWithPagination: PropType.func.isRequired,
-  searchLocation: PropType.func.isRequired
+  searchLocation: PropType.func.isRequired,
+  getRoomWithType:PropType.func.isRequired,
+  getRoomWithHighPrice:PropType.func.isRequired,
+  getRoomWithLowPrice:PropType.func.isRequired,
+  getRoomWithForWhom:PropType.func.isRequired
 
 };
 
@@ -140,6 +194,10 @@ const mapState = (state) => ({
 });
 const mapActionToProps = {
   getRoomsWithPagination,
-  searchLocation
+  searchLocation,
+  getRoomWithType,
+  getRoomWithLowPrice,
+  getRoomWithHighPrice,
+  getRoomWithForWhom
 };
 export default connect(mapState, mapActionToProps)(Filter)
