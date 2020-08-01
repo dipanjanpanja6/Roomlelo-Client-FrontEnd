@@ -65,9 +65,9 @@ const style = makeStyles((theme) => ({
     side_map_class: {
         padding: 12,
         width: '100%',
-        height: 695,
+        height: '80vh',
         [theme.breakpoints.down('xs')]: {
-            height: '60vh',
+            height: '65vh',
             // display: 'none'
         }
     },
