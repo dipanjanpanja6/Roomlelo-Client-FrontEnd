@@ -85,7 +85,7 @@ const Filter = (props) => {
      
   }
   const handleFocus =()=>{
-    if(location.pathname!=='/rooms'){
+    if(location.pathname==='/'){
       history.push('/rooms')
     }
   }
@@ -120,6 +120,7 @@ const Filter = (props) => {
       >
         <MenuItem value="Boys">Boys</MenuItem>
         <MenuItem value="Girls">Girls</MenuItem>
+        <MenuItem value="Girls">Family</MenuItem>
         <MenuItem value="Any">Any</MenuItem>
 
       </TextField>

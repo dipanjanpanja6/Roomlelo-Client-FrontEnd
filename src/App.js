@@ -5,8 +5,8 @@ import Appbar from './components/AppBar';
 import Home from './views/home'; 
 import Login from './views/login'; 
 import SignUp from './views/signup';
-import RoomsPage from "./views/Rooms_Page";
-import RoomsPaget from "./components/Rooms_Components/Rooms_List_Item_Components";
+import RoomsPageList from "./views/Rooms_Page";
+import RoomPage from "./views/RoomPage";
 
 import E4 from './views/E4'; 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
@@ -60,12 +60,14 @@ const App = (props) => {
 					<Route exact path="/login" component={Login} />
 
 					<Route exact path="/signup" component={SignUp} />
-					<Route exact path='/rooms' component={RoomsPage}/>
-					<Route exact path='/test' component={RoomsPaget}/>
-				{/*	<Route exact path="/signupOld" component={SignUpOld} />
+					<Route exact path='/rooms/:id' component={RoomPage}/>
+					<Route exact path='/rooms' component={RoomsPageList}/>
+
+ 
+				{/*	<Route exact path="/signupOld" component={SignUpOld} />*/}
 
 
-					<Route exact component={E4} /> */}
+					<Route exact component={E4} />
 
 
 				</Switch>

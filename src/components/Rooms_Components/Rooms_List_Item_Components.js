@@ -6,6 +6,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import PropType from 'prop-types'
 import ImageSlider from "../ImageSlider";
+import { useHistory } from "react-router-dom";
 const style = makeStyles((theme) => ({
     root: {
         // backgroundColor: '#888',
@@ -13,7 +14,9 @@ const style = makeStyles((theme) => ({
         // borderRadius: '4px',
         // boxSizing: 'border-box',
         marginTop: theme.spacing(1.5),
-        marginBottom: theme.spacing(0.8)
+        marginBottom: theme.spacing(0.8),
+        display: 'flex', width: '100%',
+        
 
     },
     room_short_details: {
@@ -68,11 +71,15 @@ const RoomsComponents = (props) => {
     const { room } = props
 const classes=style()
 const theme = useTheme();
+const history = useHistory();
 const matches = useMediaQuery(theme.breakpoints.down('xs'));
-
+const roomPage=()=>{
+    var id='do it'
+    history.push(`/rooms/${id}`)
+}
 
     return (
-        <Paper className={classes.root} elevation={3} style={{ display: 'flex', width: '100%',  }}>
+        <Paper  className={classes.root} elevation={3} >
             <Grid container className={classes.room_box}>
 
                 <Grid container item xs={4}>
@@ -80,9 +87,10 @@ const matches = useMediaQuery(theme.breakpoints.down('xs'));
                 </Grid>
                 <Grid container item xs={8}  className={classes.title}>
 
-                    <Grid container
+                    <Grid onClick={roomPage} container
                         direction="column"
                         justify="space-around"
+                        style={{cursor:'pointer'}}
                         alignItems="center">
 
                         <Typography variant="subtitle1" className={classes.room_short_details}>{room.type} in Full Furnished {room.propertyType} <br />Starting at @Rs.{room.price}/-</Typography>

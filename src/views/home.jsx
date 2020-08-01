@@ -625,8 +625,9 @@ const bookNow=()=>{
             Associate and grow with us. Be a proud part of our venture and get all the bnefits:-
           </Typography>
 
-          <Grid container alignItems="center" style={{ overflow: 'hidden' }}>
+          <Grid container justify='center' alignItems="center" style={{ overflow: 'hidden',width:'auto' }}>
             <Grid container style={{ overflowX: 'scroll', flexWrap: 'nowrap' }} className={sty.scroll}>
+
               <Grid item style={{ padding: '20px 40px' }}>
                 <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
                   <Typography variant='h4' style={{ paddingBottom: 12 }}>Free Stay offer</Typography>
