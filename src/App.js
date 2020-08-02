@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { connect } from 'react-redux';
 import { checkUser, logout } from './redux/actions/student'
 import PropType from 'prop-types' 
+import aboutUs from './views/aboutUs';
 
 
 
@@ -64,7 +65,7 @@ const App = (props) => {
 					<Route exact path='/rooms' component={RoomsPageList}/>
 
  
-				{/*	<Route exact path="/signupOld" component={SignUpOld} />*/}
+					<Route exact path="/about" component={aboutUs} />
 
 
 					<Route exact component={E4} />

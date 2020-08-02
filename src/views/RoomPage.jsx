@@ -17,9 +17,8 @@ const style = makeStyles((theme) => ({
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: "center",
-        [theme.breakpoints.down('xs')]:{
+        [theme.breakpoints.down('xs')]: {
             height: 200,
-
         }
     },
     title: {
@@ -68,19 +67,16 @@ const style = makeStyles((theme) => ({
         height: '80vh',
         [theme.breakpoints.down('xs')]: {
             height: '65vh',
-            // display: 'none'
         }
     },
     book: {
         padding: 34,
-
     },
     bookPaper: {
         flexDirection: 'column',
         display: 'flex',
         padding: 12,
         background: 'rgba(196, 196, 196, 0.3)'
-
     },
     bookPadding: {
         padding: 12
@@ -90,8 +86,8 @@ const style = makeStyles((theme) => ({
 const RoomsComponents = (props) => {
 
     const sty = style()
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('xs'));
+    // const theme = useTheme();
+    // const matches = useMediaQuery(theme.breakpoints.down('xs'));
     const plan = [
         "Showing this house",
         "Booking confirmation",
@@ -201,9 +197,7 @@ const RoomsComponents = (props) => {
                         </Grid>
                         <Divider />
                         <Grid container>
-
                             <Typography variant='h4' className={sty.title}>Amenities</Typography>
-
                             <Grid container alignItems="center" >
                                 <div className={sty.box_grid}>
                                     <div className={sty.box_class}></div>
@@ -261,9 +255,7 @@ const RoomsComponents = (props) => {
                                 type="date"
                                 variant='outlined'
                                 placeholder="Choose your Prefered Date or Week-end"></TextField>
-
                             <div style={{ boxSizing: 'border-box', display: 'flex' }}>
-
                                 <TextField className={sty.bookPadding} style={{ paddingRight: 6 }}
                                     margin='dense'
                                     variant='outlined'
@@ -302,11 +294,8 @@ const RoomsComponents = (props) => {
 
                         <Grid container justify='center'>
                             <Typography variant='h4' className={sty.title}>What all in covered in our Plan?</Typography>
-
                             <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
-
                                 <Grid container alignItems="center" className={sty.planRoot}>
-
                                     {plan.map((p, i) => {
                                         return <Grid item >
                                             <Card key={i} className={sty.plan}>
@@ -316,31 +305,22 @@ const RoomsComponents = (props) => {
                                             </Card>
                                         </Grid>
                                     })}
-
                                 </Grid>
                             </Grid>
                         </Grid>
                         <Divider />
-
                         <Grid container justify='center' alignItems='center' className={sty.reviews}>
                             <Typography variant='h4' className={sty.title}>Cutomer Reviews</Typography>
                             <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
                         </Grid>
-
+                        
                         <Grid container justify='center' alignItems="center"  >
-
                             <Grid container item sm={6} justify='center' alignItems="center"  >
-
                                 {Rating}
-
-
-
                             </Grid>
                             <Grid container item sm={6} justify='center' alignItems="center"  >
-
                                 {Rating1}
                             </Grid>
-
                         </Grid>
 
 

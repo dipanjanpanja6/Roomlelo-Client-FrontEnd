@@ -19,7 +19,7 @@ const styles = makeStyles((theme) => ({
     },
   },
   select: {
-    width: 130,
+    width: 110,
     marginLeft: 12,
     [theme.breakpoints.down('xs')]: {
       marginLeft: 0,
