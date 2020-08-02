@@ -5,7 +5,7 @@ import { getRoomsWithPagination } from '../../redux/actions/roomActions'
 import { makeStyles, Grid, TextField, InputBase, fade, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { searchLocation } from '../../redux/actions/roomActions'
+import { searchLocation, getFilterSearchRooms, getRoomWithLowPrice, getRoomWithHighPrice, getRoomWithForWhom, getFilterRooms } from '../../redux/actions/roomActions'
 import { useLocation, useHistory } from "react-router-dom";
 
 
@@ -83,8 +83,18 @@ const Filter = (props) => {
   const [forWhom, setForWhom] = useState("")
 
   const handleChange = (event) => {
-    setSearch(event.target.value)
-    props.searchLocation(event.target.value)
+    if(sort !== "" || type !== "" || forWhom !== ""){
+      setSearch(event.target.value)
+      const filter = {
+        type:type,
+        sort:sort,
+        for:forWhom
+    }
+      props.getFilterSearchRooms(filter, event.target.value)
+    }else{
+      setSearch(event.target.value)
+      props.searchLocation(event.target.value)
+    }
      
   }
   const handleFocus =()=>{
@@ -95,49 +105,185 @@ const Filter = (props) => {
 
   const handleForWhomClick = (event) =>{
 
-    setSort("")
-    setType("")
     if(event.target.id === "boys"){
       setForWhom("Boys")
-      props.getRoomWithForWhom("Boys")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Boys"
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Boys"
+      }
+        props.getFilterSearchRooms(filter, search)
+        
+      }
+      
     }
     if(event.target.id === "girls"){
       setForWhom("Girls")
-      props.getRoomWithForWhom("Grils")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Girls"
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Girls"
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+      
     }
     if(event.target.id === "any"){
       setForWhom("Any")
-      props.getRoomWithForWhom("Any")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Any"
+      }
+      props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Any"
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+     
+      
+    }
+    if(event.target.id === "family"){
+      setForWhom("Family")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Family"
+      }
+      props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Family"
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+      
     }
   }
 
   const handlePriceChange = (event) =>{
-    setForWhom("")
-    setType("")
     if(event.target.id === "low"){
       setSort("Price Low to High")
-      props.getRoomWithLowPrice()
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:"low",
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:"low",
+          for:forWhom
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+      
     }
     if(event.target.id === "high"){
       setSort("Price High to Low")
-      props.getRoomWithHighPrice()
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:"high",
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:"high",
+          for:forWhom
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+      
     }
   }
   const handleTypeClick = (event) =>{
-    setSort("")
-    setForWhom("")
     if(event.target.id === "Private_Rooms"){
       setType("Private Rooms")
-      props.getRoomWithType("Private Rooms")
+      if(search === ""){
+        const filter = {
+          type:"Private Rooms",
+          sort:sort,
+          for:forWhom
+        }
+      props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:"Private Rooms",
+          sort:sort,
+          for:forWhom
+        }
+        props.getFilterSearchRooms(filter, search)
+      }
+      
+     
     }
     if(event.target.id === "Shared_Rooms"){
       setType("Shared Rooms")
-      props.getRoomWithType("Shared Rooms")
+      if(search === ""){
+        const filter = {
+          type:"Shared Rooms",
+          sort:sort,
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:"Shared Rooms",
+          sort:sort,
+          for:forWhom
+      }
+        props.getFilterSearchRooms(filter, search)
+      }
+      
     }
     if(event.target.id === "Entire_House"){
       setType("Entire House")
-      props.getRoomWithType("Entire House")
-    }
+      if(search === ""){
+        const filter = {
+          type:"Entire House",
+          sort:sort,
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }
+      }else{
+        const filter = {
+          type:"Entire House",
+          sort:sort,
+          for:forWhom
+      }
+        props.getFilterSearchRooms(filter, search)
+      }
+      
   }
 
   return (
@@ -168,10 +314,10 @@ const Filter = (props) => {
         label="For Whom" className={sty.select}
         value={forWhom}
       >
-        <MenuItem value="Boys">Boys</MenuItem>
-        <MenuItem value="Girls">Girls</MenuItem>
-        <MenuItem value="Girls">Family</MenuItem>
-        <MenuItem value="Any">Any</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="boys" value="Boys">Boys</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="girls" value="Girls">Girls</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="family" value="family">Family</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="any" value="Any">Any</MenuItem>
 
       </TextField>
 
@@ -200,7 +346,9 @@ Filter.propType = {
   getRoomWithType:PropType.func.isRequired,
   getRoomWithHighPrice:PropType.func.isRequired,
   getRoomWithLowPrice:PropType.func.isRequired,
-  getRoomWithForWhom:PropType.func.isRequired
+  getRoomWithForWhom:PropType.func.isRequired,
+  getFilterRooms:PropType.func.isRequired,
+  getFilterSearchRooms:PropType.func.isRequired
 
 };
 
@@ -210,9 +358,7 @@ const mapState = (state) => ({
 const mapActionToProps = {
   getRoomsWithPagination,
   searchLocation,
-  getRoomWithType,
-  getRoomWithLowPrice,
-  getRoomWithHighPrice,
-  getRoomWithForWhom
+  getFilterRooms,
+  getFilterSearchRooms
 };
 export default connect(mapState, mapActionToProps)(Filter)

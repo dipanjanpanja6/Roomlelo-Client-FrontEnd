@@ -6,7 +6,7 @@ import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_I
 import GoogleMapReact from 'google-map-react';
 import AppBarSpace from '../components/appBarSpace';
 import Loading from '../components/loading'
-import { getRooms, getRoomsWithPagination } from '../redux/actions/roomActions'
+import { getRooms, getRoomsWithPagination, getRoomWithTypePagination, clearFilter } from '../redux/actions/roomActions'
 
 //M-Ui
 import Grid from '@material-ui/core/Grid'
@@ -68,18 +68,15 @@ class RoomsPage extends Component {
             // console.log(event.target.clientHeight);
             const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight;
             if (bottom) {
-                console.log('bottmmmm')
-                if (this.props.room.searched === false || this.props.room.withType === "") {
+                
+                if (this.props.room.filtered === false && this.props.room.searched === false) {
                     this.props.getRoomsWithPagination(this.props.room.roomsCount)
                 }
-                if(this.props.room.withType !== ""){
-                    this.props.getRoomWithTypePagination(this.props.room.withType, this.props.room.roomsCount)
-                }
+                
             }
         };
 
         let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading/>;
-
 
         return (
             <div >

@@ -13,7 +13,7 @@ var firebaseConfig = {
     
  
     export default firebase
-  export const url = "https://server.roomlelo.in"
-  // export const url = "http://localhost:7000"
+ // export const url = "https://server.roomlelo.in"
+   export const url = "http://localhost:7000"
 
 export const MAP_API_KEY = 'AIzaSyAXQhn9MyUStmO3LUecQISCDgKQ6TaDJMc'
