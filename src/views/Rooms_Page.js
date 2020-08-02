@@ -6,7 +6,7 @@ import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_I
 import GoogleMapReact from 'google-map-react';
 import AppBarSpace from '../components/appBarSpace';
 import Loading from '../components/loading'
-import { getRooms, getRoomsWithPagination } from '../redux/actions/roomActions'
+import { getRooms, getRoomsWithPagination, getRoomWithTypePagination, clearFilter } from '../redux/actions/roomActions'
 
 //M-Ui
 import Grid from '@material-ui/core/Grid'
@@ -68,14 +68,15 @@ class RoomsPage extends Component {
             // console.log(event.target.clientHeight);
             const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight;
             if (bottom) {
-                if (this.props.room.searched === false) {
+                
+                if (this.props.room.filtered === false && this.props.room.searched === false) {
                     this.props.getRoomsWithPagination(this.props.room.roomsCount)
-                } 
+                }
+                
             }
         };
 
         let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading/>;
-
 
         return (
             <div >
@@ -116,13 +117,17 @@ class RoomsPage extends Component {
 RoomsPage.PropType = {
     room: PropType.object.isRequired,
     getRooms: PropType.func.isRequired,
-    classes: PropType.object.isRequired
+    classes: PropType.object.isRequired,
+    getRoomWithTypePagination:PropType.func.isRequired,
+    clearFilter:PropType.func.isRequired
 };
 const mapState = (state) => ({
     room: state.room
 });
 const mapActionsToProps = {
     getRooms,
-    getRoomsWithPagination
+    getRoomsWithPagination,
+    getRoomWithTypePagination,
+    clearFilter
 };
 export default connect(mapState, mapActionsToProps)(withStyles(style)(RoomsPage))

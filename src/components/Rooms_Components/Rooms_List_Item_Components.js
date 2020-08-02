@@ -74,8 +74,8 @@ const theme = useTheme();
 const history = useHistory();
 const matches = useMediaQuery(theme.breakpoints.down('xs'));
 const roomPage=()=>{
-    var id='do it'
-    history.push(`/rooms/${id}`)
+    
+    history.push(`/rooms/${room.id}`)
 }
 
     return (

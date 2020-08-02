@@ -1,4 +1,5 @@
-import React from "react";
+import React,{useEffect} from "react";
+import {connect} from 'react-redux'
 import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar } from '@material-ui/core'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
@@ -6,14 +7,16 @@ import PropType from 'prop-types'
 import GoogleMapReact from "google-map-react";
 import { MAP_API_KEY } from '../config/config'
 import Footer from "../components/footer";
+import ImageSlider from '../components/ImageSlider'
 
+import {getRoomDetails} from '../redux/actions/roomActions'
 const style = makeStyles((theme) => ({
     tab: {
         padding: '7px 8px'
     },
     rootImage: {
-        height: 600,
-        background: 'url(https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/modern-houses-7-1538582168.jpg)',
+         //height: 600,
+        // background: 'url(https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/modern-houses-7-1538582168.jpg)',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: "center",
@@ -106,6 +109,11 @@ const RoomsComponents = (props) => {
         { key: "Service", star: 4.5 },
     ]
 
+    useEffect(() =>{
+        const id = props.match.params.id
+        props.getRoomDetails(id)
+    },[props.match.params.id])
+
     const Rating = rate1.map((p, i) => {
         return (
             <Grid key={i} container justify='center' alignItems="center" style={{ padding: 12 }}>
@@ -150,6 +158,9 @@ const RoomsComponents = (props) => {
             <Toolbar />
             <Grid container>
                 <Grid container className={sty.rootImage} >
+                    {props.room.roomDetails != null && 
+                    <ImageSlider images={props.room.roomDetails ? props.room.roomDetails.photos : ""} text={props.room.roomDetails.forWhom} height={600}/>}
+                    
                     {/* <img src ='https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/modern-houses-7-1538582168.jpg?crop=1.00xw:0.752xh;0,0.106xh&resize=980:*'/> */}
                 </Grid>
 
@@ -167,6 +178,14 @@ const RoomsComponents = (props) => {
 
                             <Typography variant='h4' className={sty.title}>Over-View of the Property</Typography>
                             <Grid container alignItems="center" >
+                            {props.room.roomDetails ?  props.room.roomDetails.HouseFeatureArray ? 
+                             props.room.roomDetails.HouseFeatureArray.map((data, index) => <div className={sty.box_grid}>
+                                <div className={sty.box_class}></div>
+                                    <Typography variant="caption">
+                                        {data.key} - {data.value}
+                                    </Typography>
+                                </div>) : "" : "" }
+                                {/*
                                 <div className={sty.box_grid}>
                                     <div className={sty.box_class}></div>
                                     <Typography variant="caption">
@@ -191,6 +210,8 @@ const RoomsComponents = (props) => {
                                         Family House
                                 </Typography>
                                 </div>
+                                */}
+                                
 
 
                             </Grid>
@@ -199,6 +220,14 @@ const RoomsComponents = (props) => {
                         <Grid container>
                             <Typography variant='h4' className={sty.title}>Amenities</Typography>
                             <Grid container alignItems="center" >
+                                {props.room.roomDetails ? props.room.roomDetails.amenities ?
+                                 props.room.roomDetails.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
+                                 <div className={sty.box_class}></div>
+                                 <Typography variant="caption">
+                                     {data}
+                             </Typography>
+                             </div>) : "" : ""}
+                                {/*
                                 <div className={sty.box_grid}>
                                     <div className={sty.box_class}></div>
                                     <Typography variant="caption">
@@ -230,6 +259,8 @@ const RoomsComponents = (props) => {
                                 </Typography>
                                 </div>
 
+                                */}
+                                
 
                             </Grid>
 
@@ -239,10 +270,10 @@ const RoomsComponents = (props) => {
 
                         <Paper className={sty.bookPaper}>
                             <Typography variant='body2'>
-                                Private Rooms in Apartment
+                                {props.room.roomDetails ? props.room.roomDetails.type : "Private Rooms"} in Apartment
                              </Typography>
                             <Typography variant='body2'>
-                                Starting at <b>Rs. 17,500 /- </b>Per Month
+                                Starting at <b>Rs. {props.room.roomDetails ? props.room.roomDetails.price : "Loading..."} /- </b>Per Month
                             </Typography>
                             <Divider style={{ margin: '12px 0' }} />
                             <Typography variant='body1'>
@@ -356,6 +387,13 @@ const RoomsComponents = (props) => {
     )
 };
 RoomsComponents.PropType = {
-    sty: PropType.object.isRequired
+    sty: PropType.object.isRequired,
+    getRoomDetails:PropType.func.isRequired
 }
-export default (RoomsComponents)
+const mapState = (state) => ({
+    room: state.room
+});
+const mapActionsToProps = {
+    getRoomDetails
+};
+export default connect(mapState, mapActionsToProps)(RoomsComponents)

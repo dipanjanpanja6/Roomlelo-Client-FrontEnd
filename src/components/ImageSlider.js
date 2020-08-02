@@ -7,9 +7,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { makeStyles } from "@material-ui/core";
 
 
+
+
+const ImageSlider = (props) =>{
+    const {images, height, width} = props
 const styles = makeStyles((theme) => ({
+    
     root:{
-        height:250,
+        height:height ? height : 250,
         width:'100%',
         [theme.breakpoints.down('xs')]:{
             height:150,
@@ -18,7 +23,7 @@ const styles = makeStyles((theme) => ({
         }
     },
     image:{
-        height:250,
+        height:height ? height : 250,
         width:'100%',
         [theme.breakpoints.down('xs')]:{
             height:150,
@@ -27,11 +32,8 @@ const styles = makeStyles((theme) => ({
         }
     },
 }))
-
-
-const ImageSlider = (props) =>{
 const sty =styles()
-    const {images, height, width} = props
+    
     const handleSelect = () =>{
 
     }

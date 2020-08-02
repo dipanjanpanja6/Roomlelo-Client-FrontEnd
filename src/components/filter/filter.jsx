@@ -7,7 +7,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 
-import { searchLocation } from '../../redux/actions/roomActions'
+import { searchLocation, getFilterSearchRooms, getRoomWithLowPrice, getRoomWithHighPrice, getRoomWithForWhom, getFilterRooms } from '../../redux/actions/roomActions'
 import { useLocation, useHistory } from "react-router-dom";
 
 
@@ -81,16 +81,212 @@ const Filter = (props) => {
   let history = useHistory()
   const [search, setSearch] = useState("")
   const [state, setstate] = useState("")
+  const [type, setType] = useState("")
+  const [sort, setSort] = useState("")
+  const [forWhom, setForWhom] = useState("")
 
   const handleChange = (event) => {
-    setSearch(event.target.value)
-    props.searchLocation(event.target.value)
-
+    if(sort !== "" || type !== "" || forWhom !== ""){
+      setSearch(event.target.value)
+      const filter = {
+        type:type,
+        sort:sort,
+        for:forWhom
+    }
+      props.getFilterSearchRooms(filter, event.target.value)
+    }else{
+      setSearch(event.target.value)
+      props.searchLocation(event.target.value)
+    }
+     
   }
   const handleFocus = () => {
     if (location.pathname === '/') {
       history.push('/rooms')
     }
+  }
+
+  const handleForWhomClick = (event) =>{
+
+    if(event.target.id === "boys"){
+      setForWhom("Boys")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Boys"
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Boys"
+      }
+        props.getFilterSearchRooms(filter, search)
+        
+      }
+      
+    }
+    if(event.target.id === "girls"){
+      setForWhom("Girls")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Girls"
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Girls"
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+      
+    }
+    if(event.target.id === "any"){
+      setForWhom("Any")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Any"
+      }
+      props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Any"
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+     
+      
+    }
+    if(event.target.id === "family"){
+      setForWhom("Family")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Family"
+      }
+      props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:sort,
+          for:"Family"
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+      
+    }
+  }
+
+  const handlePriceChange = (event) =>{
+    if(event.target.id === "low"){
+      setSort("Price Low to High")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:"low",
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:"low",
+          for:forWhom
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+      
+    }
+    if(event.target.id === "high"){
+      setSort("Price High to Low")
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:"high",
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:"high",
+          for:forWhom
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+      
+    }
+  }
+  const handleTypeClick = (event) =>{
+    if(event.target.id === "Private_Rooms"){
+      setType("Private Rooms")
+      if(search === ""){
+        const filter = {
+          type:"Private Rooms",
+          sort:sort,
+          for:forWhom
+        }
+      props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:"Private Rooms",
+          sort:sort,
+          for:forWhom
+        }
+        props.getFilterSearchRooms(filter, search)
+      }
+      
+     
+    }
+    if(event.target.id === "Shared_Rooms"){
+      setType("Shared Rooms")
+      if(search === ""){
+        const filter = {
+          type:"Shared Rooms",
+          sort:sort,
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:"Shared Rooms",
+          sort:sort,
+          for:forWhom
+      }
+        props.getFilterSearchRooms(filter, search)
+      }
+      
+    }
+    if(event.target.id === "Entire_House"){
+      setType("Entire House")
+      if(search === ""){
+        const filter = {
+          type:"Entire House",
+          sort:sort,
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }
+      }else{
+        const filter = {
+          type:"Entire House",
+          sort:sort,
+          for:forWhom
+      }
+        props.getFilterSearchRooms(filter, search)
+      }
+      
   }
 
   return (
@@ -125,30 +321,30 @@ const Filter = (props) => {
 
       <TextField select margin='dense'
         label="For Whom" className={sty.select}
-        value={state.forWhome}
+        value={forWhom}
       >
-        <MenuItem value="Boys">Boys</MenuItem>
-        <MenuItem value="Girls">Girls</MenuItem>
-        <MenuItem value="Girls">Family</MenuItem>
-        <MenuItem value="Any">Any</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="boys" value="Boys">Boys</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="girls" value="Girls">Girls</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="family" value="family">Family</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="any" value="Any">Any</MenuItem>
 
       </TextField>
 
       <TextField select className={sty.select} margin='dense'
-        value={state.type}
+        value={type}
         label="Type"
       >
-        <MenuItem value="Private Rooms">Private rooms</MenuItem>
-        <MenuItem value="Shared Rooms">Shared Rooms</MenuItem>
-        <MenuItem value="Entire House">Entire house</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>
       </TextField>
 
       <TextField select className={sty.select} margin='dense'
-        value={state.sort}
+        value={sort}
         label="Sort by"
       >
-        <MenuItem value="Price Low to High">Price Low to High</MenuItem>
-        <MenuItem value="Price High to Low">Price High to Low</MenuItem>
+        <MenuItem id="low" onClick={handlePriceChange} value="Price Low to High">Price Low to High</MenuItem>
+        <MenuItem id="high" onClick={handlePriceChange} value="Price High to Low">Price High to Low</MenuItem>
       </TextField>
      
     </Grid>
@@ -156,7 +352,13 @@ const Filter = (props) => {
 };
 Filter.propType = {
   getRoomsWithPagination: PropType.func.isRequired,
-  searchLocation: PropType.func.isRequired
+  searchLocation: PropType.func.isRequired,
+  getRoomWithType:PropType.func.isRequired,
+  getRoomWithHighPrice:PropType.func.isRequired,
+  getRoomWithLowPrice:PropType.func.isRequired,
+  getRoomWithForWhom:PropType.func.isRequired,
+  getFilterRooms:PropType.func.isRequired,
+  getFilterSearchRooms:PropType.func.isRequired
 
 };
 
@@ -165,6 +367,8 @@ const mapState = (state) => ({
 });
 const mapActionToProps = {
   getRoomsWithPagination,
-  searchLocation
+  searchLocation,
+  getFilterRooms,
+  getFilterSearchRooms
 };
 export default connect(mapState, mapActionToProps)(Filter)
