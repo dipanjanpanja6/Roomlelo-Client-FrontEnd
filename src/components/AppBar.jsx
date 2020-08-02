@@ -16,7 +16,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { Link as RouterLink, useHistory, useLocation } from "react-router-dom"; 
+import { Link as RouterLink, useHistory, useLocation ,matchPath} from "react-router-dom"; 
 import Logo from "../static/roomlelologo.png";
 import SearchFilterDialog from '../components/SearchFilterDialog'
 
@@ -24,7 +24,7 @@ import Filter from '../components/filter/filter'
 
 const useStyles = makeStyles((theme) => ({
   Appbar: {
-    background:'#fff',
+    background: '#fff',
   },
 
   grow: {
@@ -138,46 +138,46 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const history = useHistory();
-  let location=useLocation()
+  let location = useLocation()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [show, setShow] = React.useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
- 
+
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
-    if (props.auth === true) {
-      setAnchorEl(event.currentTarget);
-    }
-    if (props.auth === false) {
-      history.push("/login");
-    }
-    if (props.auth === null) {
-      setLoading(true);
-    }
-  };
+  // const handleProfileMenuOpen = (event) => {
+  //   if (props.auth === true) {
+  //     setAnchorEl(event.currentTarget);
+  //   }
+  //   if (props.auth === false) {
+  //     history.push("/login");
+  //   }
+  //   if (props.auth === null) {
+  //     setLoading(true);
+  //   }
+  // };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  //   handleMobileMenuClose();
+  // };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const logout = () => {
-    props.out();
-    handleMenuClose();
-  };
+  // const logout = () => {
+  //   props.out();
+  //   handleMenuClose();
+  // };
 
-  const handleFocus = (event) =>{
-    console.log(event)
-  }
+  // const handleFocus = (event) =>{
+  //   console.log(event)
+  // }
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -189,105 +189,132 @@ export default function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={() => {history.push("/whyus")
-    handleMobileMenuClose()}}>
+      <MenuItem onClick={() => {
+        history.push("/whyus")
+        handleMobileMenuClose()
+      }}>
         <p>Why Prefer us</p>
       </MenuItem>
-      <MenuItem  onClick={() => {history.push("/properties")
-    handleMobileMenuClose()}}>
-      
+      <MenuItem onClick={() => {
+        history.push("/properties")
+        handleMobileMenuClose()
+      }}>
+
         <p>Our Properties</p>
       </MenuItem>
-      <MenuItem onClick={() => {history.push("/refer")
-    handleMobileMenuClose()}}>
-      
+      <MenuItem onClick={() => {
+        history.push("/refer")
+        handleMobileMenuClose()
+      }}>
+
         <p>Refer & Earn</p>
       </MenuItem>
-      <MenuItem onClick={() =>{ history.push("/login")
-      handleMobileMenuClose()}}>
-   
+      <MenuItem onClick={() => {
+        history.push("/login")
+        handleMobileMenuClose()
+      }}>
+
         <p>Login</p>
       </MenuItem>
-      <MenuItem onClick={()=>{history.push('/signup')
-       handleMobileMenuClose()}}>
-   
+      <MenuItem onClick={() => {
+        history.push('/signup')
+        handleMobileMenuClose()
+      }}>
+
         <p>List with us</p>
       </MenuItem>
     </Menu>
   );
 
-  const handleFilterClose = () =>{
+  const handleFilterClose = () => {
     setShow(!show)
   }
+
+  const match = matchPath(location.pathname, {
+    path: "/rooms/:id",
+    exact: true,
+    strict: false
+  });
+  const match1 = matchPath(location.pathname, {
+    path: "/",
+    exact: true,
+    strict: false
+  });
+
+console.log(match);
   return (
     <div className={classes.grow}>
-      <SearchFilterDialog show={show} handleClose={handleFilterClose}/>
-        <AppBar color='' className={classes.Appbar}>
-          <Toolbar variant="regular">
-            <IconButton
-              onClick={() => {
-                history.push("/");
-              }}
-              edge="start"
-              className={classes.menuButton}
-              disableFocusRipple
-              disableRipple
-              style={{ backgroundColor: "transparent" }}
+      <SearchFilterDialog show={show} handleClose={handleFilterClose} />
+      <AppBar color='' className={classes.Appbar}>
+        <Toolbar variant="regular">
+          <IconButton
+            onClick={() => {
+              history.push("/");
+            }}
+            edge="start"
+            className={classes.menuButton}
+            disableFocusRipple
+            disableRipple
+            style={{ backgroundColor: "transparent" }}
+          >
+
+            <img src={Logo} height="45px" alt="Roomlelo" />
+          </IconButton>
+
+          <div className={classes.grow} />
+
+
+          <div className={classes.sectionDesktop}>
+
+            <Button onClick={() => history.push("/whyus")} color="inherit">
+              <Typography variant="button">Why Prefer us</Typography>
+            </Button>
+
+            <Button color="inherit" onClick={() => history.push("/properties")}>
+              <Typography variant="button">Our Properties</Typography>
+
+            </Button>
+
+            <Button onClick={() => history.push("/refer")} color="inherit">
+              <Typography variant="button">Refer & Earn</Typography>
+
+            </Button>
+            {props.auth === true && ""}
+            <Button onClick={() => history.push("/login")} color="inherit">
+              <Typography variant="button">Login</Typography>
+            </Button>
+
+            <Button variant='outlined' onClick={() => history.push("/signup")}
+              // disabled={props.auth === null}
+              // onClick={handleProfileMenuOpen}
+              color="inherit"
             >
+              <Typography variant="button">List with us</Typography>
+            </Button>
+          </div>
 
-              <img src={Logo} height="45px" alt="Roomlelo" />
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MenuIcon />
             </IconButton>
-           
-            <div className={classes.grow} />
-           
-          
-            <div className={classes.sectionDesktop}>
-           
-              <Button onClick={() => history.push("/whyus")} color="inherit">
-                <Typography variant="button">Why Prefer us</Typography>
-              </Button>
+          </div>
+        </Toolbar>
 
-              <Button color="inherit"  onClick={() => history.push("/properties")}>
-                <Typography variant="button">Our Properties</Typography>
-               
-              </Button>
+        
 
-              <Button onClick={() => history.push("/refer")} color="inherit">
-                <Typography variant="button">Refer & Earn</Typography>
-               
-              </Button>
-              {props.auth === true && ""}
-              <Button onClick={() => history.push("/login")} color="inherit">
-                <Typography variant="button">Login</Typography>
-              </Button>
-
-              <Button variant='outlined' onClick={() => history.push("/signup")}
-                // disabled={props.auth === null}
-                // onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <Typography variant="button">List with us</Typography> 
-              </Button>
-            </div>
-
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-            </div>
-          </Toolbar>
-          { location.pathname!=='/' && 
-    <Toolbar>
-          <Filter/>
+        {match || match1 ?'':
+          <Toolbar>
+            <Filter />
           </Toolbar>}
-        </AppBar> 
-      {renderMobileMenu} 
+
+      </AppBar>
+      {renderMobileMenu}
     </div>
   );
 }

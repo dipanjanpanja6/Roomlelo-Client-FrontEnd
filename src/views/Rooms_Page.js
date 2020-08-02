@@ -64,8 +64,8 @@ class RoomsPage extends Component {
         const { classes } = this.props
 
         const scrollCheck = event => { 
-            console.log( parseInt(event.target.scrollHeight - event.target.scrollTop));
-            console.log(event.target.clientHeight);
+            // console.log( parseInt(event.target.scrollHeight - event.target.scrollTop));
+            // console.log(event.target.clientHeight);
             const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight;
             if (bottom) {
                 console.log('bottmmmm')

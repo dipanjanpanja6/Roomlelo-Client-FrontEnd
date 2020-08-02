@@ -88,7 +88,7 @@ const Filter = (props) => {
      
   }
   const handleFocus =()=>{
-    if(location.pathname!=='/rooms'){
+    if(location.pathname==='/'){
       history.push('/rooms')
     }
   }
@@ -168,9 +168,10 @@ const Filter = (props) => {
         label="For Whom" className={sty.select}
         value={forWhom}
       >
-        <MenuItem onClick={handleForWhomClick} id="boys" value="Boys">Boys</MenuItem>
-        <MenuItem onClick={handleForWhomClick} id="girls" value="Girls">Girls</MenuItem>
-        <MenuItem onClick={handleForWhomClick} id="any" value="Any">Any</MenuItem>
+        <MenuItem value="Boys">Boys</MenuItem>
+        <MenuItem value="Girls">Girls</MenuItem>
+        <MenuItem value="Girls">Family</MenuItem>
+        <MenuItem value="Any">Any</MenuItem>
 
       </TextField>
 
