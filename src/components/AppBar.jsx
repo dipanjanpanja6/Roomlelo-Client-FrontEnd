@@ -44,13 +44,13 @@ const useStyles = makeStyles((theme) => ({
  
   sectionDesktop: {
     display: "none",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("xm")]: {
       display: "flex",
     },
   },
   sectionMobile: {
     display: "flex",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("xm")]: {
       display: "none",
     },
   },
@@ -68,9 +68,11 @@ const useStyles = makeStyles((theme) => ({
     minHeight:'100vh !important',
     right: '0 !important',
     top: '0 !important',
-    left: '120px !important',
-    // width:120
-    // left: "auto !important",
+    width:200,
+    left: 'auto !important',
+    [theme.breakpoints.down('ls')]:{
+
+    }, 
   },
 
 }));
@@ -124,8 +126,8 @@ export default function PrimarySearchAppBar(props) {
       classes={{ paper: classes.menu }}
       anchorEl={mobileMoreAnchorEl}
       id={mobileMenuId}
-      keepMounted
-      anchorPosition={{ left: 100, top: 16 }}
+      // keepMounted
+      // anchorPosition={{ left: 100, top: 16 }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >

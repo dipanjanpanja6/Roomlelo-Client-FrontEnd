@@ -1,189 +1,104 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect, useRef } from 'react';
-import { RadioGroup, Grid, FormControl, FormControlLabel, FormLabel, TextField, Button, Typography, makeStyles, Select, Radio, Toolbar, Link, IconButton, SvgIcon, InputAdornment } from '@material-ui/core';
-import { useState } from 'react';
-import clsx from 'clsx'
-import { connect } from 'react-redux';
+import React from "react";
+import { Grid, makeStyles, Typography, Toolbar, TextField, Divider, Paper, Button } from '@material-ui/core'
+
 import PropType from 'prop-types'
-import { login } from '../redux/actions/student'
-import { useHistory } from 'react-router-dom';
-import Firebase from '../config/config'
+import Footer from "../components/footer";
+import AppBarSpace from "../components/appBarSpace";
 
-import FacebookIcon from '@material-ui/icons/Facebook'
-import { ReactComponent as Q } from '../static/Google.svg'
-import AppBarSpace from '../components/appBarSpace';
-
-const styles = makeStyles(t => ({
-    side1: {
-        // flexDirection: 'column'
-    },
-    root: {
-        height: `calc(100vh - 128px)`,
-        [t.breakpoints.down('xs')]:{
-        height: `calc(100vh - 156px)`,}
-    },
-    side2:{
-        background: 'rgb(183 183 183)', flexDirection: 'column',
-        [t.breakpoints.down('xs')]:{
-            display:'none'
+const style = makeStyles((theme) => ({
+    book: {
+        padding: 34,
+        // backgroundColor: 'rgba(196, 196, 196, 0.19)',
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
         }
+    },
+    topic: {
+        padding: 12,
+        textAlign: 'center'
+    },
+    subTitle: {
+        paddingTop: 20
+    },
+    bookPaper: {
+        flexDirection: 'column',
+        display: 'flex',
+        padding: 12,
+        background: 'rgba(196, 196, 196, 0.2)'
+    },
+    bookPadding: {
+        padding: 0,
+        background: '#fff'
     }
+
 }))
+const RoomsComponents = (props) => {
 
-function Login(props) {
-    const sty = styles()
-    const history = useHistory()
-    const signUp = useRef(null);
-    const [state, setState] = useState({});
-    useEffect(() => {
+    const sty = style()
 
-        window.recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(signUp.current, {
-            'size': 'invisible',
-            'callback': function (response) {
-                // reCAPTCHA solved, allow signInWithPhoneNumber.
-                submit();
-            }
-        });
-    }, [])
+    return (
+        <>
+            <Toolbar />
+            <AppBarSpace />
 
-    // useEffect(() => {
-    //     if (props.auth) {
-    //         // setLoading(false)
-    //         if (props.auth.login === true) {
-    //             history.push('/dashboard')
-    //         } else if (props.auth.error) {
-    //             alert(props.auth.message)
-    //             setState({})
-    //             // toast.error(props.auth.message)
-    //             console.log(props.auth.message);
+            <Grid container style={{ padding: 20 }}>
+                <Grid container sm={8} className={sty.book}>
 
-    //         }
-    //     }
-    // }, [history, props])
+                    <Grid container justify='center' alignItems='center' style={{ flexDirection: 'column', }}>
+                        {/* <video width="80%" height="300" controls>
+                            <source
+                                src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
+                                type="application/x-mpegURL"/>
+                        </video> */}
+                        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/IuX6k-Xf_Qk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </Grid>
+                    </Grid>
 
-    const handelChange = (e) => {
-        setState({ ...state, [e.target.id]: e.target.value })
-    }
+                    <Grid container item sm={4} style={{ flexDirection: 'column', padding: 40 }}>
+                        <Paper className={sty.bookPaper}>
 
-    const submit = (e) => {
-        e.preventDefault()
-        console.log(signUp);
+                            <Typography variant='body1'>
+                                <b>Partner with Roomlelo and Earn Money </b>
+                            </Typography>
+                            <Divider style={{ margin: '12px 0' }} />
 
-        var appVerifier = window.recaptchaVerifier;
 
-        Firebase.auth().signInWithPhoneNumber(state.phone, appVerifier)
-            .then((confirmationResult) => {
-                // SMS sent. Prompt user to type the code from the message, then sign the
-                // user in with confirmationResult.confirm(code).
-                // this.otpSent = true;
-                console.log(confirmationResult)
+                            <TextField className={sty.bookPadding}
+                                fullWidth
+                                margin='dense'
+                                type="text"
+                                variant='outlined'
+                                placeholder="Enter Your First and Last Name" />
 
-            }).catch(function (error) {
-                console.log(error);
-            });
 
-    }
-    const [value, setValue] = React.useState('Tenant');
+                            <TextField className={sty.bookPadding}
+                                margin='dense'
+                                variant='outlined'
+                                type="number"
+                                placeholder="Contact Number" />
+                            <TextField className={sty.bookPadding}
+                                margin='dense'
+                                variant='outlined'
+                                type="email"
+                                placeholder=" Email address" />
+                            <Divider style={{ margin: '12px 0' }} />
 
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
+                            <Button variant='contained' color='primary'>
+                                Request a Call back for Assistance
+                            </Button>
 
-    return (<>
-        <Toolbar />
-        <AppBarSpace />
-        <Grid container justify='center' className={sty.root}>
-            <Grid container justify='center' alignItems='center' className={sty.side1} sm={6}>
-                <Typography variant='h4'>Welcome to Roomlelo </Typography>
+                            {/* <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: 99999999999</Typography> */}
+                        </Paper>
 
-                <Grid container justify='center' alignItems='center' >
-                    <FormControl component="fieldset">
-                        <RadioGroup aria-label="User type" style={{ flexDirection: 'unset' }} name="gender1" value={value} onChange={handleChange}>
-                            <FormControlLabel value="Tenant" control={<Radio />} label="Tenant" />
-                            <FormControlLabel value="Landlord" control={<Radio />} label="Landlord" />
-                        </RadioGroup>
-                    </FormControl>
+                    </Grid>
+
+
                 </Grid>
-                <Grid container justify='center' alignItems='center' >
-                    <form onSubmit={submit} style={{ maxWidth: 300, }}>
-                        <TextField label='Enter Your Full Name'
-                            id='name'
-                            required
-                            type="text"
-                            onChange={handelChange}
-                            margin='dense'
-                            fullWidth />
-                        <TextField label='Enter Your Email '
-                            margin='dense'
-                            id='email'
-                            required
-                            type='email'
-                            onChange={handelChange}
-                            fullWidth />
-                        <TextField label='Enter Your Phone Number'
-                            id='phone'
-                            required
-                            margin='dense'
-                            type='number'
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        +91
-                                    </InputAdornment>)
-                            }}
-                            onChange={handelChange}
-                            fullWidth />
-                        <Grid container justify='center' alignItems='center'>
-
-                            <Grid style={{ textAlign: 'center' }}>
-                                <p>or</p>
-                                <p>login using</p>
-                            </Grid>
-                            <Grid container justify='center' alignItems='center'>
-                                <IconButton>
-                                    <SvgIcon style={{ height: 35, width: 35, color: '#000' }}>
-                                        <Q />
-                                    </SvgIcon>
-                                </IconButton>
-                                <IconButton>
-                                    <FacebookIcon style={{ height: 40, width: 40, color: '#000' }} />
-                                </IconButton>
-                            </Grid>
-                        </Grid>
-                        <Grid container justify='center' alignItems='center'>
-                            <Button ref={signUp} type='submit' variant='contained' color='primary' style={{ margin: '20px 0' }}>Next</Button>
-                        </Grid>
-                    </form>
-                </Grid>
-                <Grid style={{ display: 'flex', }}>
-
-                    <Typography >
-                        Please Note :
-                </Typography>
-                    <Typography variant='body2' color='textSecondary'>
-                        To Change Password please contact support Department
-                </Typography>
-                </Grid>
-
-
-            </Grid>
-            <Grid container sm={6} justify='center' alignItems='center' className={sty.side2} style={{  }} >
-                {/* <Grid > */}
-                <Typography variant='h4'>“Know why our Customer love us”</Typography>
-                <Typography variant='subtitle1'>CEO, Roomlelo.in</Typography>
-                {/* </Grid> */}
-            </Grid>
-        </Grid>
-    </>);
+                <Footer />
+        </>
+    )
+};
+RoomsComponents.PropType = {
+                sty: PropType.object.isRequired
 }
-Login.prototype = {
-    auth: PropType.object.isRequired,
-    login: PropType.func.isRequired
-}
-const mapToProp = {
-    login
-}
-const mapToState = (state) => ({
-    auth: state.admin.login
-})
-export default connect(mapToState, mapToProp)(Login); 
+export default (RoomsComponents)

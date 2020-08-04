@@ -1,27 +1,20 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Footer from '../components/footer'
 import clsx from 'clsx'
 import SearchIcon from "@material-ui/icons/Search";
 
 import {
+  Grid, Typography,
   makeStyles,
   fade,
   Toolbar,
   ButtonBase,
-  SvgIcon,
   Button,
   Avatar,
-  Card,
-  CardMedia,
   InputBase,
-  IconButton,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as Temple } from "../static/temple.svg";
-import Filter from '../components/filter/filter'
-import AppBarSpace from "../components/appBarSpace";
 
 
 const styles = makeStyles((theme) => ({
@@ -111,7 +104,7 @@ const styles = makeStyles((theme) => ({
     justifyContent: "center",
     color: theme.palette.common.white,
   },
- 
+
   growth: {
     height: 250,
     flexDirection: 'column'
@@ -130,26 +123,19 @@ const styles = makeStyles((theme) => ({
   benefit: {
     flexDirection: 'row'
   },
-  filter: {
-    padding: '0 12px',
-    [theme.breakpoints.up('sm')]: {
-      height: 100,
-      // backgroundColor: '#d54'
-    }
-  },
 
   search: {
-    position: 'relative', 
-    marginTop:20,
-    borderRadius:30,
+    position: 'relative',
+    marginTop: 20,
+    borderRadius: 30,
     backgroundColor: fade(theme.palette.common.white, 0.50),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.80),
-    }, 
+    },
     marginLeft: 0,
     width: '100%',
 
-    [theme.breakpoints.up('sm')]: { 
+    [theme.breakpoints.up('sm')]: {
       width: 'auto',
     },
     [theme.breakpoints.down('xs')]: {
@@ -168,7 +154,7 @@ const styles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: "inherit",
-    
+
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -176,22 +162,29 @@ const styles = makeStyles((theme) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    height:30,
+    height: 30,
     [theme.breakpoints.up('sm')]: {
-      
-      height:30,
+
+      height: 30,
       width: '56vw',
       '&:focus': {
         width: '35ch',
       },
     },
   },
+  m: {
+    padding: '20px 40px',
+    [theme.breakpoints.down('xs')]: {
+      padding: '20px 0px',
+
+    }
+  }
 
 }));
 
 const images = [
   {
-    url: "https://material-ui.com/static/images/grid-list/breakfast.jpg",
+    url: "https://cdn.decoist.com/wp-content/uploads/2014/05/Orchard-Way-Private-Home-in-Canada.jpg",
     title: "Private Room",
     width: "30%",
   },
@@ -210,22 +203,20 @@ const images = [
 export default function E4() {
   const history = useHistory();
   const sty = styles();
-
+  var collections = (i) => {
+    if ("Private Room") {
+      history.push('/rooms?type=private')
+    }
+    if ("Shared Room") {
+      history.push('/rooms?type=shared')
+    }
+    if ("Entire House/Flat") {
+      history.push('/rooms?type=entire')
+    }
+  }
   var different = Array.apply(null, { length: 1 }).map((e, i) => (
     <>
-      <Grid
-        container
-        item
-        sm={4}
-        alignItems="center"
-        style={{ margin: "24px 0" }}
-      >
-        <Grid alignItems="center" style={{ display: "flex" }}>
-          <Avatar sizes="5">A</Avatar>
-          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
-            <b>Tenant app </b>- detailed review and clarity of payments , services requests, etc on your personal dashboard.        </Typography>
-        </Grid>
-      </Grid>
+
 
       <Grid
         container
@@ -282,20 +273,7 @@ export default function E4() {
             <b>Safety and security</b> - we filter properties which are in safe zone & healthy neighborhood for your well- being and protection.        </Typography>
         </Grid>
       </Grid>
-      <Grid
-        container
-        item
-        sm={4}
-        alignItems="center"
-        style={{ margin: "24px 0" }}
-      >
-        <Grid alignItems="center" style={{ display: "flex" }}>
-          <Avatar sizes="5">A</Avatar>
-          <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
-            <b>24*7 helpline</b> - Always available to shoot your trouble.
-        </Typography>
-        </Grid>
-      </Grid>
+
 
     </>
   ));
@@ -392,50 +370,42 @@ export default function E4() {
 
     </>
   ));
-const bookNow=()=>{
-  history.push('/rooms')
-}
- 
+  const bookNow = () => {
+    history.push('/rooms')
+  }
+
   return (
     <>
       <Grid className={sty.root} >
-        <Toolbar /> 
-        {/* <AppBarSpace/> */}
-
-
-
-
-
-
-
+        <Toolbar />
         <Grid
           container
           justify="center"
           alignItems="center"
           className={sty.temple}
-        > 
+        >
           <Temple style={{ zIndex: 2 }} />
           <Typography variant="h3" style={{ paddingTop: 15, color: '#fff', fontWeight: 'bold', zIndex: 2, textAlign: 'center' }}>
             Live with the World
           </Typography>
 
           <div className={sty.search}>
-        <div className={sty.searchIcon}>
-          <SearchIcon />
-        </div>
-        <InputBase
-           onFocus={bookNow}
-          // onChange={handleChange}
-          placeholder="Search…"
-          classes={{
-            root: sty.inputRoot,
-            input: sty.inputInput,
-          }}
-          // value={search}
-          inputProps={{ 'aria-label': 'search' }}
-        />
+            <div className={sty.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              onFocus={bookNow}
+              // onChange={handleChange}
+              placeholder="Search…"
+              classes={{
+                root: sty.inputRoot,
+                input: sty.inputInput,
+              }}
+              // value={search}
+              inputProps={{ 'aria-label': 'search' }}
+            />
 
-      </div>
+          </div>
 
 
           <Button onClick={bookNow} variant='outlined' color='inherit' size="large" style={{ marginTop: 43, color: '#fff', zIndex: 2 }}>
@@ -454,7 +424,6 @@ const bookNow=()=>{
             style={{
               paddingTop: 15,
               paddingBottom: 44,
-              //   width: "100%",
               fontWeight: "bold",
               fontFamily: "Poppins, sans-serif",
             }}
@@ -483,7 +452,7 @@ const bookNow=()=>{
             </Typography>
           </Grid>
           {images.map((image) => (
-            <ButtonBase
+            <ButtonBase onClick={() => collections(image.title)}
               focusRipple
               key={image.title}
               className={sty.image}
@@ -526,7 +495,7 @@ const bookNow=()=>{
             style={{
               paddingTop: 15,
               paddingBottom: 44,
-              //   width: "100%",
+              textAlign: 'center',
               fontWeight: "bold",
               fontFamily: "Poppins, sans-serif",
             }}
@@ -544,6 +513,9 @@ const bookNow=()=>{
           container
           justify="center"
           alignItems="center"
+          style={{
+            textAlign: 'center',
+          }}
           className={sty.offer}
         >
           <Typography
@@ -551,7 +523,6 @@ const bookNow=()=>{
             style={{
               paddingTop: 15,
               paddingBottom: 44,
-              textAlign: 'center',
               fontWeight: "bold",
               fontFamily: "Poppins, sans-serif",
             }}
@@ -589,18 +560,22 @@ const bookNow=()=>{
             Benefits of Listing with Us
           </Typography>
 
-          <Grid container alignItems="center">
-            <Grid item sm={6} style={{ padding: '20px 40px' }}>
-              <Grid container item alignItems="center" justify='center' style={{textAlign:'center',color:'#fff', background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={clsx(sty.growth2, sty.benefit)}>
-                <Typography variant='h4' style={{ paddingBottom: 12 }}>Rent on time</Typography>
-                <Typography variant='body1'>No more monthly reminders, no more late payments</Typography>
+          <Grid container alignItems="center" justify='center'>
+            <Grid item sm={6} className={sty.m} >
+              <Grid container item alignItems="center" justify='center' style={{ padding: '0 12px', textAlign: 'center', color: '#fff', background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={clsx(sty.growth2, sty.benefit)}>
+
+                <Typography variant='h3' style={{ paddingBottom: 12 }}>Rent on time</Typography>
+                <Typography variant='h5'>No more monthly reminders, no more late payments</Typography>
+
               </Grid>
             </Grid>
 
-            <Grid item sm={6} style={{ padding: '20px 40px' }}>
-              <Grid container item alignItems="center" justify='center' style={{textAlign:'center', color:'#fff',background: `url(${require('../static/maintanence.png')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className={clsx(sty.growth2, sty.benefit)}>
-                <Typography variant='h4' style={{ paddingBottom: 12 }}>Maintenance</Typography>
-                <Typography variant='body1' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
+            <Grid item sm={6} className={sty.m} >
+              <Grid container item alignItems="center" justify='center' style={{ textAlign: 'center', padding: '0 12px', color: '#fff', background: `url(${require('../static/maintanence.png')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className={clsx(sty.growth2, sty.benefit)}>
+
+                <Typography variant='h3' style={{ paddingBottom: 12 }}>Maintenance</Typography>
+                <Typography variant='h5' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
+
               </Grid>
             </Grid>
 
@@ -625,7 +600,7 @@ const bookNow=()=>{
             Associate and grow with us. Be a proud part of our venture and get all the bnefits:-
           </Typography>
 
-          <Grid container justify='center' alignItems="center" style={{ overflow: 'hidden',width:'auto' }}>
+          <Grid container justify='center' alignItems="center" style={{ overflow: 'hidden', width: '100%' }}>
             <Grid container style={{ overflowX: 'scroll', flexWrap: 'nowrap' }} className={sty.scroll}>
 
               <Grid item style={{ padding: '20px 40px' }}>
@@ -667,7 +642,7 @@ const bookNow=()=>{
           </Typography>
 
           <Grid container alignItems="center" justify='center'>
-            <Grid item sm={6} style={{ padding: '20px 40px' }}>
+            <Grid item sm={5} style={{ padding: '20px 0px' }}>
               <Grid container item alignItems="center" justify='center' style={{ background: 'aliceblue', backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={sty.growth2}>
                 <Typography variant='h4' style={{ paddingBottom: 12, textAlign: 'center' }}>“Know why our Customer love us”</Typography>
               </Grid>

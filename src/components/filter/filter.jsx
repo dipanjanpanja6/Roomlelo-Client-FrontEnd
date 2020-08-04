@@ -39,11 +39,11 @@ const styles = makeStyles((theme) => ({
     marginLeft: 0,
     width: '100%',
 
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
+    [theme.breakpoints.up('ls')]: {
+      // marginLeft: theme.spacing(1),
       width: 'auto',
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('ls')]: {
       width: '100%'
     }
   },
@@ -67,9 +67,9 @@ const styles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '30ch',
+      // width: '30ch',
       '&:focus': {
-        width: '35ch',
+        // width: '35ch',
       },
     },
   },
@@ -290,7 +290,7 @@ const Filter = (props) => {
   }
 
   return (
-    <Grid container justify='space-around' alignItems='center' >
+    <Grid container justify='space-around' alignItems='center'   >
 
       <div className={sty.search}>
         <div className={sty.searchIcon}>
