@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from 'react-redux'
 import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar } from '@material-ui/core'
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropType from 'prop-types'
 import GoogleMapReact from "google-map-react";
@@ -22,14 +21,14 @@ const style = makeStyles((theme) => ({
         backgroundRepeat: 'no-repeat',
         backgroundPosition: "center",
         [theme.breakpoints.down('xs')]: {
-            height: 200,
+            height: 400,
         }
     },
     title: {
         padding: '12px 0'
     },
     box_grid: {
-        padding: 12, textAlign: 'center'
+        padding: 12, textAlign: 'center', textAlign: '-webkit-center'
     },
     box_class: {
         height: '44px',
@@ -84,6 +83,11 @@ const style = makeStyles((theme) => ({
     },
     bookPadding: {
         padding: 0
+    },
+    menu:{
+        [theme.breakpoints.down('xs')]:{
+            display:'none'
+        }
     }
 
 }))
@@ -143,34 +147,58 @@ const RoomsComponents = (props) => {
             </Grid>
         )
     })
-    const mapData = {
-        center: {
-            lat: 22.5726,
-            lng: 88.3639
-        },
-        zoom: 11
-    };
+   
     const AnyReactComponent = ({ text }) => <div>{text}</div>;
     var handleApiLoaded = (map, maps) => {
 
     };
-    var handleChange=(t)=>{
+    var handleChange = (t) => {
 
     }
+    var rentDetails = props.room.roomDetails ? props.room.roomDetails.rentDetailsArray ? props.room.roomDetails.rentDetailsArray.map(function (p, index) {
+        // myObject[key] *= 2;
+
+        return <Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
+            <Grid item xs={6}>
+                <Typography>{p.key}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography color='textSecondary'>₹ {p.value}</Typography>
+            </Grid>
+        </Grid >
+    }) : "" : ""
+    var roomType = props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type == 'Private Rooms' ? "rooms" : props.room.roomDetails.type == 'Shared Rooms' ? "bed" : "" : "" : ""
+    var RoomCard = Array.apply(null, { length: props.room.roomDetails ? props.room.roomDetails.available_rooms : 0 }).map((e, i) => (
+        <Grid item >
+        <BedRoomCard price={props.room.roomDetails ? props.room.roomDetails.price : ''} name={`${roomType} Number ${i+1}`} />
+</Grid>
+    ))
+
+    var lat=props.room.roomDetails?parseInt(props.room.roomDetails.location.split(',')[0]):''
+    var lan=props.room.roomDetails?parseInt(props.room.roomDetails.location.split(',')[1]):''
+    console.log(lat,lan);
+    const mapData = {
+        center: {
+            lat: 22.5726,
+            lng: 87
+        },
+        zoom: 11
+    };
+    console.log(mapData)
     return (
         <>
             <Toolbar />
             <Grid container>
                 <Grid container className={sty.rootImage} >
                     {props.room.roomDetails != null &&
-                        <ImageSlider images={props.room.roomDetails ? props.room.roomDetails.photos : ""} text={props.room.roomDetails.forWhom} height={600} />}
+                        <ImageSlider images={props.room.roomDetails ? props.room.roomDetails.photos : ""} text={props.room.roomDetails.forWhom} height={600} MHeight={400} />}
 
                     {/* <img src ='https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/modern-houses-7-1538582168.jpg?crop=1.00xw:0.752xh;0,0.106xh&resize=980:*'/> */}
                 </Grid>
 
                 <Grid container>
                     <Grid container item sm={8} style={{ flexDirection: 'column', paddingLeft: 12 }}>
-                        <Grid container >
+                        <Grid container className={sty.menu}>
 
                             <Typography className={sty.tab} variant='subtitle1'>Over-View of the Property</Typography>
                             <Typography variant='subtitle1' className={sty.tab}>Amenities</Typography>
@@ -178,99 +206,41 @@ const RoomsComponents = (props) => {
                             <Typography variant='subtitle1' className={sty.tab}>Your Neighborhood</Typography>
                         </Grid>
                         <Divider />
+                        <Grid>
+
+                            <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : "" : ""}</Typography>
+                            <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : "" : ""}</Typography>
+
+                            <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : "" : ""} | {props.room.roomDetails ?
+                                props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : "" : ""}</Typography>
+
+                            <Typography variant='body1'>{props.room.roomDetails ? props.room.roomDetails.description ? props.room.roomDetails.description : "" : ""}</Typography>
+
+                            {/* <Typography variant='body1'>{props.room.roomDetails ? props.room.roomDetails.rentDetails ? props.room.roomDetails.rentDetails : "" : ""}</Typography> */}
+                            <Divider />
+                            {rentDetails}
+                            {/* <Grid container >
+                                <Typography>A</Typography>
+                                <Typography>C</Typography>
+                            </Grid> */}
+                        </Grid>
+                        <Divider />
                         <Grid container>
 
                             <Typography variant='h4' className={sty.title}>Over-View of the Property</Typography>
                             <Grid container alignItems="center" >
-                                {props.room.roomDetails ? props.room.roomDetails.HouseFeatureArray ?
-                                    props.room.roomDetails.HouseFeatureArray.map((data, index) => <div className={sty.box_grid}>
-                                        <div className={sty.box_class}></div>
-                                        <Typography variant="caption">
-                                            {data.key} - {data.value}
-                                        </Typography>
-                                    </div>) : "" : ""}
-                                {/*
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        Family House
-                                </Typography>
-                                </div>
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        Family House
-                                </Typography>
-                                </div>
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        Family House
-                                </Typography>
-                                </div>
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        Family House
-                                </Typography>
-                                </div>
-                                */}
-
-
-
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid container>
-                            <Typography variant='h4' className={sty.title}>Amenities</Typography>
-                            <Grid container alignItems="center" >
-                                {props.room.roomDetails ? props.room.roomDetails.amenities ?
-                                    props.room.roomDetails.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
+                                {props.room.roomDetails ? props.room.roomDetails.HouseFeature ?
+                                    props.room.roomDetails.HouseFeature.map((data, index) => <div className={sty.box_grid}>
                                         <div className={sty.box_class}></div>
                                         <Typography variant="caption">
                                             {data}
                                         </Typography>
                                     </div>) : "" : ""}
-                                {/*
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        Oven
-                                </Typography>
-                                </div>
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        AC
-                                </Typography>
-                                </div>
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        TV
-                                </Typography>
-                                </div>
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        Sofa
-                                </Typography>
-                                </div>
-                                <div className={sty.box_grid}>
-                                    <div className={sty.box_class}></div>
-                                    <Typography variant="caption">
-                                        Dining Table
-                                </Typography>
-                                </div>
-
-                                */}
-
-
                             </Grid>
-
                         </Grid>
+                      
                     </Grid>
-                    <Grid container sm={4} className={sty.book}>
+                    <Grid container sm={4} className={sty.book} alignItems='baseline'>
 
                         <Paper className={sty.bookPaper}>
                             <Typography variant='body2'>
@@ -286,7 +256,7 @@ const RoomsComponents = (props) => {
 
 
                             <div style={{ boxSizing: 'border-box', display: 'flex' }}>
-                                
+
                                 <TextField className={sty.bookPadding} style={{ paddingRight: 6 }}
                                     fullWidth
                                     margin='dense'
@@ -303,12 +273,12 @@ const RoomsComponents = (props) => {
                                     variant='outlined'
                                     placeholder='Select your time of Visit' />
                             </div>
-                            <TextField className={sty.bookPadding} 
+                            <TextField className={sty.bookPadding}
                                 margin='dense'
                                 variant='outlined'
                                 type="number"
                                 placeholder="Contact Number" />
-                            <TextField className={sty.bookPadding} 
+                            <TextField className={sty.bookPadding}
                                 margin='dense'
                                 variant='outlined'
                                 type="email"
@@ -323,17 +293,33 @@ const RoomsComponents = (props) => {
                             </Button>
                             <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: 99999999999</Typography>
                         </Paper>
-                 
+
                     </Grid>
 
+                    <Divider />
 
                     <Grid container style={{ flexDirection: 'column', paddingLeft: 12, paddingRight: 12 }}>
+                    <Grid container>
+                            <Typography variant='h4' className={sty.title}>Amenities</Typography>
+                            <Grid container alignItems="center" >
+                                {props.room.roomDetails ? props.room.roomDetails.amenities ?
+                                    props.room.roomDetails.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
+                                        <div className={sty.box_class}></div>
+                                        <Typography variant="caption">
+                                            {data}
+                                        </Typography>
+                                    </div>) : "" : ""}
+                            </Grid>
+                        </Grid>
+                  
                         <Divider />
                         <Grid container>
-                            <Typography variant='h4' className={sty.title}>Room</Typography>
-                            <Grid container alignItems="center" style={{ paddingRight: 12 }}>
-                                <BedRoomCard />
-                                <BedRoomCard />
+                            <Typography variant='h4' className={sty.title}>{roomType}</Typography>
+                            <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                <Grid container alignItems="center" className={sty.planRoot}>
+                                {RoomCard}
+
+                            </Grid>
                             </Grid>
 
                         </Grid>
@@ -343,6 +329,7 @@ const RoomsComponents = (props) => {
                             <Typography variant='h4' className={sty.title}>What all in covered in our Plan?</Typography>
                             <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
                                 <Grid container alignItems="center" className={sty.planRoot}>
+
                                     {plan.map((p, i) => {
                                         return <Grid item >
                                             <Card key={i} className={sty.plan}>
@@ -352,6 +339,7 @@ const RoomsComponents = (props) => {
                                             </Card>
                                         </Grid>
                                     })}
+
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -385,8 +373,8 @@ const RoomsComponents = (props) => {
                                     onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
                                 >
                                     <AnyReactComponent
-                                        lat={59.955413}
-                                        lng={30.337844}
+                                        lat={lat}
+                                        lng={lan}
                                         text="My Marker"
                                     />
                                 </GoogleMapReact>

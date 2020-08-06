@@ -1,5 +1,5 @@
-import React from "react"; 
-import { Grid, Paper, makeStyles, useTheme } from '@material-ui/core' 
+import React from "react";
+import { Grid, Paper, makeStyles, useTheme } from '@material-ui/core'
 import Typography from "@material-ui/core/Typography";
 import Button from '@material-ui/core/Button'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -16,7 +16,7 @@ const style = makeStyles((theme) => ({
         marginTop: theme.spacing(1.5),
         marginBottom: theme.spacing(0.8),
         display: 'flex', width: '100%',
-        
+
 
     },
     room_short_details: {
@@ -25,25 +25,25 @@ const style = makeStyles((theme) => ({
         // fontStyle:'normal',
         // fontWeight:'normal',
         // letterSpacing:'0.3px',
-        textAlign: 'center',
+        // textAlign: 'center',
         // color:'#000000',
-        margin: '3%',
+        // margin: '3%',
         [theme.breakpoints.down('xs')]: {
-            fontSize:11
+            fontSize: 11
         }
     },
     box_class: {
         height: '44px',
         width: '44px',
-        backgroundColor: '#C4C4C4',
+        // backgroundColor: '#C4C4C4',
         [theme.breakpoints.down('xs')]: {
             height: 22,
-            width: 22, 
+            width: 22,
         }
     },
     box_info_text_class: {
         [theme.breakpoints.down('xs')]: {
-            fontSize:11
+            fontSize: 11
         }
         // fontSize:'13px',
         // fontStyle:'normal',
@@ -62,65 +62,76 @@ const style = makeStyles((theme) => ({
 
 
     },
-    title:{
+    title: {
         // height:'75%'
+    },
+    icon:{
+        textAlign:'center',
+        textAlign:"-webkit-center"
     }
 
 }))
 const RoomsComponents = (props) => {
     const { room } = props
-const classes=style()
-const theme = useTheme();
-const history = useHistory();
-const matches = useMediaQuery(theme.breakpoints.down('xs'));
-const roomPage=()=>{
-    
-    history.push(`/rooms/${room.id}`)
-}
+    const classes = style()
+    const theme = useTheme();
+    const history = useHistory();
+    const matches = useMediaQuery(theme.breakpoints.down('xs'));
+    const roomPage = () => {
 
+        history.push(`/rooms/${room.id}`)
+    }
+// console.log(room);
     return (
-        <Paper  className={classes.root} elevation={3} >
+        <Paper className={classes.root} elevation={3} >
             <Grid container className={classes.room_box}>
 
                 <Grid container item xs={4}>
-                    <ImageSlider text={room.forWhom} images={room.photos} />
+                    <ImageSlider text={room.forWhom} images={room.photos?room.photos:[]} />
                 </Grid>
-                <Grid container item xs={8}  className={classes.title}>
+                <Grid container item xs={8} className={classes.title}>
 
                     <Grid onClick={roomPage} container
                         direction="column"
                         justify="space-around"
-                        style={{cursor:'pointer'}}
-                        alignItems="center">
-
-                        <Typography variant="subtitle1" className={classes.room_short_details}>{room.type} in Full Furnished {room.propertyType} <br />Starting at @Rs.{room.price}/-</Typography>
+                        style={{ cursor: 'pointer' }}
+                    // alignItems="center"
+                    >
+                        <div style={{ paddingLeft: 12 }}>
+                            {/* <Typography variant="subtitle1" className={classes.room_short_details}>{room.name}</Typography> */}
+                            <Typography variant="subtitle1" className={classes.room_short_details}>{room.type} Starting at <b>₹{room.price}/month</b></Typography>
+                            <Typography variant="caption" color='textSecondary' className={classes.room_short_details}>in {room.propertyAddress}</Typography>
+                        </div>
 
                         <Grid container alignItems="center" justify="space-around">
-                            <div className={classes.box_class}></div>
-                            <div className={classes.box_class}></div>
-                            <div className={classes.box_class}></div>
-                            <div className={classes.box_class}></div>
-                        </Grid>
-                        <Grid style={{ marginTop: '3%' }} container alignItems="center" justify="space-around">
-                            <Typography variant='caption' className={classes.box_info_text_class}>Apartments</Typography>
-                            <Typography variant="caption" className={classes.box_info_text_class}>Private Rooms</Typography>
-                            <Typography variant="caption" className={classes.box_info_text_class}>Full Funrished</Typography>
-                            <Typography variant="caption" className={classes.box_info_text_class}>0% Brokerage</Typography>
+                            <Grid className={classes.icon}>
+                                <div style={{ backgroundImage: `url(${require('../../static/icons/024-accident.svg')})` }} className={classes.box_class}></div>
+                                <Typography variant="caption" className={classes.box_info_text_class}>{room.type}</Typography>
+                            </Grid>
+                            <Grid className={classes.icon}>
+                                <div style={{ backgroundImage: `url(${require('../../static/icons/021-moving-truck.svg')})` }} className={classes.box_class}></div>
+                                <Typography variant="caption" className={classes.box_info_text_class}>Free Shifting</Typography>
+                            </Grid>
+                            <Grid className={classes.icon}>
+                                <div style={{ backgroundImage: `url(${require('../../static/icons/023-hands-up.svg')})` }} className={classes.box_class}></div>
+                                <Typography variant="caption" className={classes.box_info_text_class}>Instant Deposit Return </Typography>
+                            </Grid>
+
                         </Grid>
                     </Grid>
 
-                    {!matches &&   <Grid item    container alignItems="center" justify="space-around">
+                    {!matches && <Grid item container alignItems="center" justify="space-around">
                         <Button className={classes.box_item_buttons} variant="outlined">Book Now</Button>
                         <Button className={classes.box_item_buttons} variant="outlined">Schedule Our Visit</Button>
 
                     </Grid>}
                 </Grid>
-                {matches && 
-                 <Grid item  style={{padding :'12px 0'}} xs={12}  container alignItems="center" justify="space-around">
-                 <Button className={classes.box_item_buttons} variant="outlined">Book Now</Button>
-                 <Button className={classes.box_item_buttons} variant="outlined">Schedule Our Visit</Button>
+                {matches &&
+                    <Grid item style={{ padding: '12px 0' }} xs={12} container alignItems="center" justify="space-around">
+                        <Button className={classes.box_item_buttons} variant="outlined">Book Now</Button>
+                        <Button className={classes.box_item_buttons} variant="outlined">Schedule Our Visit</Button>
 
-             </Grid>
+                    </Grid>
                 }
             </Grid>
         </Paper>

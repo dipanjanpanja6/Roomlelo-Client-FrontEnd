@@ -10,6 +10,7 @@ import { getRooms, getRoomsWithPagination, getRoomWithTypePagination, clearFilte
 
 //M-Ui
 import Grid from '@material-ui/core/Grid'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { MAP_API_KEY } from '../config/config'
 //Components 
@@ -47,6 +48,12 @@ const style = (theme) => ({
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 class RoomsPage extends Component {
+    constructor(){
+        super()
+        this.state={
+            loading:false
+        }
+    }
     static defaultProps = {
         center: {
             lat: 22.5726,
@@ -54,9 +61,15 @@ class RoomsPage extends Component {
         },
         zoom: 11
     };
+     
     componentWillMount() {
         this.props.getRooms()
     }
+    // componentWillReceiveProps(){
+    //     if(this.props.room.rooms){
+    //         this.setState({loading:false})
+    //     }
+    // }
     handleApiLoaded = (map, maps) => {
 
     };
@@ -65,18 +78,22 @@ class RoomsPage extends Component {
 
         const scrollCheck = event => { 
             // console.log( parseInt(event.target.scrollHeight - event.target.scrollTop));
-            // console.log(event.target.clientHeight);
-            const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight;
+            // console.log(event.target.clientHeight-1);
+            const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight+1;
+        //    console.log(bottom);
             if (bottom) {
-                
+                // console.log('trigered');
+                // console.log(this.props.room.roomsCount);
                 if (this.props.room.filtered === false && this.props.room.searched === false) {
+                    console.log(this.props.room.roomsCount);
+                    // this.setState({loading:true})
                     this.props.getRoomsWithPagination(this.props.room.roomsCount)
                 }
                 
             }
         };
 
-        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading/>;
+        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={room.id} index={index} room={room} />) : <Loading/>;
 
         return (
             <div >
@@ -89,6 +106,7 @@ class RoomsPage extends Component {
                         {/* <RoomsComponents room={this.props.room} rooms={this.props.room.rooms} history={this.props.history} /> */}
 
                         {roomMarkUp}
+                        {/* {this.state.loading && <CircularProgress/>} */}
                     </Grid>
 
                     <Grid sm={5} item className={classes.side_map_class}>

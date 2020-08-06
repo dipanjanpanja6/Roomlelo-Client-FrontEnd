@@ -79,8 +79,7 @@ const Filter = (props) => {
   const sty = styles()
   let location = useLocation()
   let history = useHistory()
-  const [search, setSearch] = useState("")
-  const [state, setstate] = useState("")
+  const [search, setSearch] = useState("") 
   const [type, setType] = useState("")
   const [sort, setSort] = useState("")
   const [forWhom, setForWhom] = useState("")
@@ -288,7 +287,12 @@ const Filter = (props) => {
       }
       
   }
-
+const clear=()=>{
+  setForWhom('')
+  setSearch("")
+  setSort("")
+  setType("")
+}
   return (
     <Grid container justify='space-around' alignItems='center'   >
 
@@ -311,7 +315,7 @@ const Filter = (props) => {
       <div style={{ flexGrow: 1 }}></div>
 
 
-      <IconButton style={{padding:5}}>
+      <IconButton onClick={clear} style={{padding:5}}>
         {/* <HighlightOffIcon /> */}
         <ClearAllIcon />
       </IconButton>
@@ -323,9 +327,10 @@ const Filter = (props) => {
         label="For Whom" className={sty.select}
         value={forWhom}
       >
+        <MenuItem onClick={handleForWhomClick} id="none" value="">None</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="boys" value="Boys">Boys</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="girls" value="Girls">Girls</MenuItem>
-        <MenuItem onClick={handleForWhomClick} id="family" value="family">Family</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="family" value="Family">Family</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="any" value="Any">Any</MenuItem>
 
       </TextField>
@@ -334,6 +339,7 @@ const Filter = (props) => {
         value={type}
         label="Type"
       >
+        <MenuItem onClick={handleTypeClick} id="none" value="">None</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>
@@ -343,6 +349,7 @@ const Filter = (props) => {
         value={sort}
         label="Sort by"
       >
+        <MenuItem  onClick={handlePriceChange} id="none" value="">None</MenuItem>
         <MenuItem id="low" onClick={handlePriceChange} value="Price Low to High">Price Low to High</MenuItem>
         <MenuItem id="high" onClick={handlePriceChange} value="Price High to Low">Price High to Low</MenuItem>
       </TextField>

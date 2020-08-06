@@ -10,14 +10,14 @@ import { makeStyles } from "@material-ui/core";
 
 
 const ImageSlider = (props) =>{
-    const {images, height, width} = props
+    const {images, height,MHeight, width} = props
 const styles = makeStyles((theme) => ({
     
     root:{
         height:height ? height : 250,
         width:'100%',
         [theme.breakpoints.down('xs')]:{
-            height:150,
+            height:MHeight ? MHeight : 150, 
             width:'100%',
 
         }
@@ -26,7 +26,7 @@ const styles = makeStyles((theme) => ({
         height:height ? height : 250,
         width:'100%',
         [theme.breakpoints.down('xs')]:{
-            height:150,
+            height:MHeight ? MHeight : 150, 
             width:'100%',
 
         }
@@ -41,7 +41,7 @@ const sty =styles()
     return(
         <div className={sty.root} >
 
-            <Carousel slide={true} defaultActiveIndex={0} indicators={false} controls={true} interval={5000}  onSelect={handleSelect}>
+            <Carousel slide={true} defaultActiveIndex={0} indicators={true} controls={true} interval={5000}  onSelect={handleSelect}>
 
                 {images.map((image, index) => <Carousel.Item key={index} >
                     <img 

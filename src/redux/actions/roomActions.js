@@ -266,6 +266,7 @@ export const getRoomsWithPagination = (count) => (dispatch) =>{
         .then((response) =>{
             response.json()
                 .then((data) =>{
+                    console.log(data);
                     if(data.success){
                         dispatch({type:SET_ROOMS_PAGINATION_LIST_DATA, payload:data.data})
                         dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload:count + data.data.length})

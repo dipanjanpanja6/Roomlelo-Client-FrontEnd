@@ -186,7 +186,7 @@ export default function PrimarySearchAppBar(props) {
   return (
     <div className={classes.grow}>
       <SearchFilterDialog show={show} handleClose={handleFilterClose} />
-      <AppBar color='' className={classes.Appbar}>
+      <AppBar color='inherit' className={classes.Appbar}>
         <Toolbar variant="regular">
           <IconButton
             onClick={() => {
@@ -207,14 +207,13 @@ export default function PrimarySearchAppBar(props) {
 
           <div className={classes.sectionDesktop}>
 
-            <Button onClick={() => history.push("/whyus")} color="inherit">
+            {/* <Button onClick={() => history.push("/whyus")} color="inherit">
               <Typography variant="button">Why Prefer us</Typography>
-            </Button>
+            </Button> */}
 
-            <Button color="inherit" onClick={() => history.push("/properties")}>
+            {/* <Button color="inherit" onClick={() => history.push("/properties")}>
               <Typography variant="button">Our Properties</Typography>
-
-            </Button>
+            </Button> */}
 
             <Button onClick={() => history.push("/refer")} color="inherit">
               <Typography variant="button">Refer & Earn</Typography>

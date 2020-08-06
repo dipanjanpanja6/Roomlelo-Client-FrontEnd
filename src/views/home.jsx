@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from '../components/footer'
-import clsx from 'clsx'
 import SearchIcon from "@material-ui/icons/Search";
+import Typing from 'react-typing-animation';
 
 import {
   Grid, Typography,
@@ -15,6 +15,11 @@ import {
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as Temple } from "../static/temple.svg";
+import AnimatedNumber from "animated-number-react";
+import Growth from "../components/ourGroth";
+import Benefit from "../components/benefit";
+
+
 
 
 const styles = makeStyles((theme) => ({
@@ -178,6 +183,13 @@ const styles = makeStyles((theme) => ({
       padding: '20px 0px',
 
     }
+  },
+  animatedNum: {
+    paddingBottom: 12,
+    fontSize: '3rem',
+  },
+  differentText: {
+    margin: "24px 0", padding: '0 30px'
   }
 
 }));
@@ -200,7 +212,8 @@ const images = [
   },
 ];
 
-export default function E4() {
+
+function Home() {
   const history = useHistory();
   const sty = styles();
   var collections = (i) => {
@@ -221,9 +234,9 @@ export default function E4() {
       <Grid
         container
         item
-        sm={4}
+        sm={6}
         alignItems="center"
-        style={{ margin: "24px 0" }}
+        className={sty.differentText}
       >
         <Grid alignItems="center" style={{ display: "flex" }}>
           <Avatar sizes="5">A</Avatar>
@@ -235,9 +248,9 @@ export default function E4() {
       <Grid
         container
         item
-        sm={4}
+        sm={6}
         alignItems="center"
-        style={{ margin: "24px 0" }}
+        className={sty.differentText}
       >
         <Grid alignItems="center" style={{ display: "flex" }}>
           <Avatar sizes="5">A</Avatar>
@@ -249,9 +262,10 @@ export default function E4() {
       <Grid
         container
         item
-        sm={4}
+        sm={6}
         alignItems="center"
-        style={{ margin: "24px 0" }}
+        className={sty.differentText}
+
       >
         <Grid alignItems="center" style={{ display: "flex" }}>
           <Avatar sizes="5">A</Avatar>
@@ -263,9 +277,9 @@ export default function E4() {
       <Grid
         container
         item
-        sm={4}
+        sm={6}
         alignItems="center"
-        style={{ margin: "24px 0" }}
+        className={sty.differentText}
       >
         <Grid alignItems="center" style={{ display: "flex" }}>
           <Avatar sizes="5">A</Avatar>
@@ -376,7 +390,7 @@ export default function E4() {
 
   return (
     <>
-      <Grid className={sty.root} >
+      <Grid>
         <Toolbar />
         <Grid
           container
@@ -386,7 +400,9 @@ export default function E4() {
         >
           <Temple style={{ zIndex: 2 }} />
           <Typography variant="h3" style={{ paddingTop: 15, color: '#fff', fontWeight: 'bold', zIndex: 2, textAlign: 'center' }}>
-            Live with the World
+            <Typing speed={30}>
+              Live with the World
+          </Typing>
           </Typography>
 
           <div className={sty.search}>
@@ -507,89 +523,17 @@ export default function E4() {
             {different}
           </Grid>
         </Grid>
+        <Growth />
+        <Benefit />
+
+        {/* /////////////////////////// */}
 
 
-        <Grid
-          container
-          justify="center"
-          alignItems="center"
-          style={{
-            textAlign: 'center',
-          }}
-          className={sty.offer}
-        >
-          <Typography
-            variant="h4"
-            style={{
-              paddingTop: 15,
-              paddingBottom: 44,
-              fontWeight: "bold",
-              fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            Our remarkable growth
-          </Typography>
-
-          <Grid container alignItems="center">
-            <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
-              <Typography variant='h3' style={{ paddingBottom: 12 }}>+1</Typography>
-              <Typography variant='h5'>City</Typography>
-            </Grid>
-            <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
-              <Typography variant='h3' style={{ paddingBottom: 12 }}>100+</Typography>
-              <Typography variant='h5'>Property Owners</Typography>
-            </Grid>
-            <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
-              <Typography variant='h3' style={{ paddingBottom: 12 }}>700+</Typography>
-              <Typography variant='h5'>Customers</Typography>
-            </Grid>
-            <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
-              <Typography variant='h3' style={{ paddingBottom: 12 }}>2200+</Typography>
-              <Typography variant='h5'>No. of Beds</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid container justify="center" alignItems="center" className={clsx(sty.offer)}
-        >
-          <Typography
-            variant="h4" style={{
-              paddingTop: 15, paddingBottom: 44, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            Benefits of Listing with Us
-          </Typography>
-
-          <Grid container alignItems="center" justify='center'>
-            <Grid item sm={6} className={sty.m} >
-              <Grid container item alignItems="center" justify='center' style={{ padding: '0 12px', textAlign: 'center', color: '#fff', background: `url(${require('../static/rent.webp')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={clsx(sty.growth2, sty.benefit)}>
-
-                <Typography variant='h3' style={{ paddingBottom: 12 }}>Rent on time</Typography>
-                <Typography variant='h5'>No more monthly reminders, no more late payments</Typography>
-
-              </Grid>
-            </Grid>
-
-            <Grid item sm={6} className={sty.m} >
-              <Grid container item alignItems="center" justify='center' style={{ textAlign: 'center', padding: '0 12px', color: '#fff', background: `url(${require('../static/maintanence.png')})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className={clsx(sty.growth2, sty.benefit)}>
-
-                <Typography variant='h3' style={{ paddingBottom: 12 }}>Maintenance</Typography>
-                <Typography variant='h5' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
-
-              </Grid>
-            </Grid>
-
-          </Grid>
-        </Grid>
-
-
-        <Grid container justify="center" alignItems="center" className={sty.offer}
-        >
+        <Grid container justify="center" alignItems="center" className={sty.offer}        >
           <Typography
             variant="h4" style={{
               paddingTop: 15, paddingBottom: 20, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
-            }}
-          >
+            }}          >
             Limited Period Offers
           </Typography>
           <Typography
@@ -624,6 +568,7 @@ export default function E4() {
             </Grid>
           </Grid>
         </Grid>
+
         <Grid container justify="center" alignItems="center" className={sty.offer}
         >
           <Typography
@@ -656,3 +601,4 @@ export default function E4() {
     </>
   );
 }
+export default Home
