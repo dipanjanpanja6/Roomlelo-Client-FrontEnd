@@ -19,7 +19,9 @@ const styles = makeStyles(t => ({
         height: `calc(100vh - 156px)`,}
     },
     side2:{
-        background: 'rgb(183 183 183)', flexDirection: 'column',
+        background: 'url(https://source.unsplash.com/random/?digital-marketing)', 
+        flexDirection: 'column',
+        color:'#eee',
         [t.breakpoints.down('xs')]:{
             display:'none'
         }

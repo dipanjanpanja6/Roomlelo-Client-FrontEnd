@@ -53,6 +53,7 @@ const Growth = (props) => {
                     <AnimatedNumber
                         className={sty.animatedNum}
                         value={1}
+                        
                         formatValue={(value) => `${Number(value).toFixed(0)} +`}
                     // duration={2000}
                     />

@@ -18,6 +18,7 @@ import { ReactComponent as Temple } from "../static/temple.svg";
 import AnimatedNumber from "animated-number-react";
 import Growth from "../components/ourGroth";
 import Benefit from "../components/benefit";
+import Testo from "../components/testo";
 
 
 
@@ -400,7 +401,7 @@ function Home() {
         >
           <Temple style={{ zIndex: 2 }} />
           <Typography variant="h3" style={{ paddingTop: 15, color: '#fff', fontWeight: 'bold', zIndex: 2, textAlign: 'center' }}>
-            <Typing speed={30}>
+            <Typing startDelay={12} speed={60}>
               Live with the World
           </Typing>
           </Typography>
@@ -548,20 +549,20 @@ function Home() {
             <Grid container style={{ overflowX: 'scroll', flexWrap: 'nowrap' }} className={sty.scroll}>
 
               <Grid item style={{ padding: '20px 40px' }}>
-                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
-                  <Typography variant='h4' style={{ paddingBottom: 12 }}>Free Stay offer</Typography>
+                <Grid container item alignItems="center" justify='center' style={{ background: `url(https://source.unsplash.com/random/?offer)`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
+                  <Typography variant='h4' style={{ paddingBottom: 12,color:'#eee' }}>Free Stay offer</Typography>
                 </Grid>
               </Grid>
 
               <Grid item style={{ padding: '20px 40px' }}>
-                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
-                  <Typography variant='h4' style={{ paddingBottom: 12 }}>Free Stay offer</Typography>
+                <Grid container item alignItems="center" justify='center' style={{ background: `url(https://source.unsplash.com/random/?offers)`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
+                  <Typography variant='h4' style={{ paddingBottom: 12,color:'#eee' }}>Free Stay offer</Typography>
                 </Grid>
               </Grid>
 
               <Grid item style={{ padding: '20px 40px' }}>
-                <Grid container item alignItems="center" justify='center' style={{ background: `aliceblue`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
-                  <Typography variant='h4' style={{ paddingBottom: 12 }}>Know More</Typography>
+                <Grid container item alignItems="center" justify='center' style={{ background: `url(https://source.unsplash.com/random/?more)`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: 300 }} className={sty.growth2}>
+                  <Typography variant='h4' style={{ paddingBottom: 12,color:'#eee' }}>Know More</Typography>
                 </Grid>
               </Grid>
 
@@ -569,33 +570,7 @@ function Home() {
           </Grid>
         </Grid>
 
-        <Grid container justify="center" alignItems="center" className={sty.offer}
-        >
-          <Typography
-            variant="h4" style={{
-              paddingTop: 15, paddingBottom: 20, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            Testimonials
-          </Typography>
-          <Typography
-            variant='body1' style={{
-              paddingBottom: 44, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            Know why our Clients, believe and love us
-          </Typography>
-
-          <Grid container alignItems="center" justify='center'>
-            <Grid item sm={5} style={{ padding: '20px 0px' }}>
-              <Grid container item alignItems="center" justify='center' style={{ background: 'aliceblue', backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={sty.growth2}>
-                <Typography variant='h4' style={{ paddingBottom: 12, textAlign: 'center' }}>“Know why our Customer love us”</Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-
-        </Grid>
-
+        <Testo />
       </Grid>
       <Footer />
     </>

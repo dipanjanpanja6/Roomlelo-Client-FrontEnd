@@ -100,7 +100,7 @@ const Filter = (props) => {
      
   }
   const handleFocus = () => {
-    if (location.pathname === '/') {
+    if (location.pathname !== '/rooms') {
       history.push('/rooms')
     }
   }
@@ -301,7 +301,7 @@ const clear=()=>{
           <SearchIcon />
         </div>
         <InputBase
-          onFocus={handleFocus}
+          onInput={handleFocus}
           autoFocus
           onChange={handleChange}
           placeholder="Search…"
