@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { RadioGroup, Grid, FormControl, FormControlLabel, FormLabel, TextField, Button, Typography, makeStyles, Select, Radio, Toolbar, Link } from '@material-ui/core';
-import { useState } from 'react';
-import clsx from 'clsx'
+import { useState } from 'react'; 
 import { connect } from 'react-redux';
 import PropType from 'prop-types'
 import { login } from '../redux/actions/student'
-import { useHistory } from 'react-router-dom';
-import AppBarSpace from '../components/appBarSpace';
+import { useHistory } from 'react-router-dom'; 
 
 
 const styles = makeStyles(t => ({
@@ -14,9 +12,9 @@ const styles = makeStyles(t => ({
         // flexDirection: 'column'
     },
     root: {
-        height: `calc(100vh - 128px)`,
+        height: `calc(100vh - 64px)`,
         [t.breakpoints.down('xs')]:{
-        height: `calc(100vh - 156px)`,}
+        height: `calc(100vh - 56px)`,}
     },
     side2:{
         background: 'url(https://source.unsplash.com/random/?digital-marketing)', 
@@ -63,8 +61,7 @@ function Login(props) {
         setValue(event.target.value);
     };
     return (<>
-        <Toolbar />
-        <AppBarSpace />
+        <Toolbar /> 
         <Grid container justify='center' className={sty.root}>
             <Grid container justify='center' alignItems='center' className={sty.side1} sm={6}>
                 <Typography variant='h4'>Welcome to Roomlelo </Typography>

@@ -224,9 +224,7 @@ export default function PrimarySearchAppBar(props) {
               <Typography variant="button">Login</Typography>
             </Button>
 
-            <Button variant='outlined' onClick={() => history.push("/signup")}
-              // disabled={props.auth === null}
-              // onClick={handleProfileMenuOpen}
+            <Button variant='outlined' onClick={() => history.push("/joinus")} 
               color="inherit"
             >
               <Typography variant="button">List with us</Typography>
