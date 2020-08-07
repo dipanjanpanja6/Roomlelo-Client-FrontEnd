@@ -386,7 +386,7 @@ const RoomsComponents = (props) => {
                             <Grid container alignItems="center" className={sty.side_map_class} >
                                 <GoogleMapReact
                                     bootstrapURLKeys={{ key: MAP_API_KEY }}
-                                    defaultCenter={defaultProps.center}
+                                    defaultCenter={{lat:props.room.roomDetails.locationData.lat, lng:props.room.roomDetails.locationData.lng}}
                                     defaultZoom={defaultProps.zoom}
                                     yesIWantToUseGoogleMapApiInternals
                                     onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
