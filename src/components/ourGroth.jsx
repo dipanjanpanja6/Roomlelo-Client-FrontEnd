@@ -14,9 +14,15 @@ const styles = makeStyles((theme) => ({
     growth: {
         height: 250,
         flexDirection: 'column'
-    }, animatedNum: {
+    },
+    animatedNum: {
+        color:"#314862",
         paddingBottom: 12,
         fontSize: '3rem',
+    },
+    subTitle: {
+        color: "#2289FF",
+        fontFamily: 'Poppins'
     },
 }))
 
@@ -35,7 +41,7 @@ const Growth = (props) => {
             className={sty.offer}
         >
             <Typography
-                variant="h4"
+                variant="h4" color='textPrimary'
                 style={{
                     paddingTop: 15,
                     // paddingBottom: 44,
@@ -53,12 +59,12 @@ const Growth = (props) => {
                     <AnimatedNumber
                         className={sty.animatedNum}
                         value={1}
-                        
+
                         formatValue={(value) => `${Number(value).toFixed(0)} +`}
                     // duration={2000}
                     />
                     {/* <Typography variant='h3' style={{ paddingBottom: 12 }}>+1</Typography> */}
-                    <Typography variant='h5'>City</Typography>
+                    <Typography className={sty.subTitle} variant='h5'>City</Typography>
                 </Grid>
                 <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
                     <AnimatedNumber
@@ -68,7 +74,7 @@ const Growth = (props) => {
                         duration={4000}
                     />
                     {/* <Typography variant='h3' style={{ paddingBottom: 12 }}>100+</Typography> */}
-                    <Typography variant='h5'>Property Owners</Typography>
+                    <Typography className={sty.subTitle} variant='h5'>Property Owners</Typography>
                 </Grid>
                 <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
                     <AnimatedNumber
@@ -78,7 +84,7 @@ const Growth = (props) => {
                         duration={5000}
                     />
                     {/* <Typography variant='h3' style={{ paddingBottom: 12 }}>700+</Typography> */}
-                    <Typography variant='h5'>Customers</Typography>
+                    <Typography className={sty.subTitle} variant='h5'>Customers</Typography>
                 </Grid>
                 <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
                     <AnimatedNumber
@@ -88,7 +94,7 @@ const Growth = (props) => {
                         duration={6000}
                     />
                     {/* <Typography variant='h3' style={{ paddingBottom: 12 }}>2200+</Typography> */}
-                    <Typography variant='h5'>No. of Beds</Typography>
+                    <Typography className={sty.subTitle} variant='h5'>No. of Beds</Typography>
                 </Grid>
             </Grid>
         </Grid>

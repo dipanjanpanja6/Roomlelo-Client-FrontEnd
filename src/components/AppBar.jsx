@@ -173,7 +173,7 @@ export default function PrimarySearchAppBar(props) {
   }
 
   const match = matchPath(location.pathname, {
-    path: "/rooms/:id",
+    path: "/rooms",
     exact: true,
     strict: false
   });
@@ -224,9 +224,7 @@ export default function PrimarySearchAppBar(props) {
               <Typography variant="button">Login</Typography>
             </Button>
 
-            <Button variant='outlined' onClick={() => history.push("/signup")}
-              // disabled={props.auth === null}
-              // onClick={handleProfileMenuOpen}
+            <Button variant='outlined' onClick={() => history.push("/joinus")} 
               color="inherit"
             >
               <Typography variant="button">List with us</Typography>
@@ -248,10 +246,10 @@ export default function PrimarySearchAppBar(props) {
 
         
 
-        {match || match1 ?'':
+        {match ?
           <Toolbar>
             <Filter />
-          </Toolbar>}
+          </Toolbar>:''}
 
       </AppBar>
       {renderMobileMenu}

@@ -60,7 +60,7 @@ const App = (props) => {
 
 					<Route exact path="/login" component={Login} />
 
-					<Route exact path="/signup" component={SignUp} />
+					<Route exact path="/joinus" component={SignUp} />
 					<Route exact path='/rooms/:id' component={RoomPage}/>
 					<Route exact path='/rooms' component={RoomsPageList}/>
 

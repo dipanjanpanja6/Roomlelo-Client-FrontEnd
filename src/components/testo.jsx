@@ -31,7 +31,7 @@ const Testo = (props) => {
             Testimonials
           </Typography>
           <Typography
-            variant='body1' style={{
+            variant='body1' color='textSecondary' style={{
               paddingBottom: 44, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
             }}
           >

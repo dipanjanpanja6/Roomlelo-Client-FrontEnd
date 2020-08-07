@@ -19,7 +19,28 @@ const theme = createMuiTheme({
       lg: 1280,
       xl: 1920,
     }
+  },
+  typography:{ 
+    fontFamily:[
+      'Poppins',
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+  },palette:{
+    text:{
+      primary:'#314862',
+      secondary:'#2289FF'
+    }
   }
+  
 })
 ReactDOM.render(
   <Provider store={store}>
