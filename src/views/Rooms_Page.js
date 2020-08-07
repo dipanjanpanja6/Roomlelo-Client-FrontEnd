@@ -16,6 +16,7 @@ import { MAP_API_KEY } from '../config/config'
 //Components 
  
 import { Toolbar } from '@material-ui/core';
+import Marker from '../static/icons/marker_2.svg'
 
 const style = (theme) => ({
     root: {
@@ -46,7 +47,7 @@ const style = (theme) => ({
     },
 })
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const AnyReactComponent = ({ text }) => <div><img height={25} width={25} src={Marker}/></div>;
 class RoomsPage extends Component {
     constructor(){
         super()
@@ -56,10 +57,10 @@ class RoomsPage extends Component {
     }
     static defaultProps = {
         center: {
-            lat: 22.5726,
-            lng: 88.3639
+            lat: 20.5937,
+            lng: 78.9629
         },
-        zoom: 11
+        zoom: 8
     };
      
     componentWillMount() {
@@ -84,7 +85,7 @@ class RoomsPage extends Component {
             if (bottom) {
                 // console.log('trigered');
                 // console.log(this.props.room.roomsCount);
-                if (this.props.room.filtered === false && this.props.room.searched === false) {
+                if (this.props.room.filtered === false && this.props.room.searched === false && this.props.room.error === false) {
                     console.log(this.props.room.roomsCount);
                     // this.setState({loading:true})
                     this.props.getRoomsWithPagination(this.props.room.roomsCount)
@@ -93,7 +94,7 @@ class RoomsPage extends Component {
             }
         };
 
-        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={room.id} index={index} room={room} />) : <Loading/>;
+        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading/>;
 
         return (
             <div >
@@ -118,11 +119,20 @@ class RoomsPage extends Component {
                             yesIWantToUseGoogleMapApiInternals
                             onGoogleApiLoaded={({ map, maps }) => this.handleApiLoaded(map, maps)}
                         >
-                            <AnyReactComponent
-                                lat={59.955413}
-                                lng={30.337844}
+                            {this.props.room.locations ? this.props.room.locations.map((marks, index) => 
+                            <AnyReactComponent lat={marks.lat}
+                                lng={marks.lng}
+                                text="My Marker" key={index}/>):""}
+                            {/* <AnyReactComponent
+                                lat={22.5726}
+                                lng={88.3639}
                                 text="My Marker"
                             />
+                             <AnyReactComponent
+                                lat={22.5726}
+                                lng={88.3639}
+                                text="My New Marker"
+                            /> */}
                         </GoogleMapReact>
 
                     </Grid>

@@ -373,8 +373,8 @@ const RoomsComponents = (props) => {
                                     onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
                                 >
                                     <AnyReactComponent
-                                        lat={lat}
-                                        lng={lan}
+                                        lat={props.room.roomDetails ? props.room.roomDetails.locationData.lat :"20.5937"}
+                                        lng={props.room.roomDetails ? props.room.roomDetails.locationData.lng : "78.9629"}
                                         text="My Marker"
                                     />
                                 </GoogleMapReact>

@@ -1,6 +1,7 @@
 import {SET_ROOMS_DATA, SET_ALL_ROOMS_LOADED_COUNT, SET_ROOMS_PAGINATION_LIST_DATA, SET_SEARCH_DATA_ERROR,SET_ROOM_DETAILS,
     SET_SEARCH_DATA, SET_NOT_SEARCHED, SET_SEARCHED, SET_SEARCH_DATA_NULL, SET_DATA_WITH_TYPES, SET_NO_DATA_WITH_TYPES,
-    SET_FILTER_WITH_TYPE_DATA, SET_FILTER_WITH_TYPE_DATA_ERROR, SET_FILTER_FOR_WHOM_DATA_NULL, SET_FILTERED} from '../type'
+    SET_FILTER_WITH_TYPE_DATA, SET_FILTER_WITH_TYPE_DATA_ERROR, SET_FILTER_FOR_WHOM_DATA_NULL, SET_FILTERED,
+    SET_LOCATIONS, SET_PAGINATION_LOCATIONS, SET_ROOM_PAGINATION_ERROR, SET_NOT_FILTERED} from '../type'
 
 import {url} from '../../config/config'
 
@@ -35,28 +36,36 @@ export const getFilterSearchRooms = (data, search) => (dispatch) =>{
         sort:data.sort,
         for:data.for
     }
-    dispatch({type:SET_FILTERED})
-    fetch(`${url}/search/filter/room/${search}`, {
-        method:'POST',
-        body:JSON.stringify(filter),
-        headers:{
-            'Content-Type': 'application/json',
-        }
-    })
-    .then((response) =>{
-        response.json()
-        .then((data) =>{
-            console.log(data)
-            if(data.success){
-                dispatch({type:SET_ROOMS_DATA, payload:data.data})
-                dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload: data.data.length})
-               
+    if(filter.type === "" && filter.sort === "" && filter.for === ""){
+        dispatch(searchLocation(search))
+        dispatch({type:SET_NOT_FILTERED})
+    }else{
+        dispatch({type:SET_FILTERED})
+        fetch(`${url}/search/filter/room/${search}`, {
+            method:'POST',
+            body:JSON.stringify(filter),
+            headers:{
+                'Content-Type': 'application/json',
             }
         })
-    })
-    .catch((error) =>{
-        console.log(error)
-    })
+        .then((response) =>{
+            response.json()
+            .then((data) =>{
+                console.log(data)
+                if(data.success){
+                    dispatch({type:SET_ROOMS_DATA, payload:data.data})
+                    dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload: data.data.length})
+                    dispatch({type:SET_LOCATIONS, payload:data.location})
+                   
+                }
+            })
+        })
+        .catch((error) =>{
+            console.log(error)
+        })
+    }
+    
+    
 }
 
 export const getFilterRooms = (data) => (dispatch) =>{
@@ -65,28 +74,37 @@ export const getFilterRooms = (data) => (dispatch) =>{
         sort:data.sort,
         for:data.for
     }
-    dispatch({type:SET_FILTERED})
-    fetch(`${url}/filter/room/list`, {
-        method:'POST',
-        body:JSON.stringify(filter),
-        headers:{
-            'Content-Type': 'application/json',
-        }
-    })
-    .then((response) =>{
-        response.json()
-        .then((data) =>{
-            console.log(data)
-            if(data.success){
-                dispatch({type:SET_ROOMS_DATA, payload:data.data})
-                dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload: data.data.length})
-               
+    
+    if(filter.type === "" && filter.sort === "" && filter.for === ""){
+        dispatch(getRooms())
+        dispatch({type:SET_NOT_FILTERED})
+    }else{
+        dispatch({type:SET_FILTERED})
+        fetch(`${url}/filter/room/list`, {
+            method:'POST',
+            body:JSON.stringify(filter),
+            headers:{
+                'Content-Type': 'application/json',
             }
         })
-    })
-    .catch((error) =>{
-        console.log(error)
-    })
+        .then((response) =>{
+            response.json()
+            .then((data) =>{
+                console.log(data)
+                if(data.success){
+                    dispatch({type:SET_ROOMS_DATA, payload:data.data})
+                    dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload: data.data.length})
+                    dispatch({type:SET_LOCATIONS, payload:data.location})
+                   
+                }
+            })
+        })
+        .catch((error) =>{
+            console.log(error)
+        })
+    }
+    
+    
 }
 
 export const getRoomWithForWhom = (forWhom) => (dispatch) =>{
@@ -225,8 +243,10 @@ export const searchLocation = (text) => (dispatch) =>{
     .then((response) =>{
         response.json()
         .then((data) =>{
+            console.log(data)
             if(data.success){
                 dispatch({type:SET_SEARCH_DATA, payload:data.data})
+                dispatch({type:SET_LOCATIONS, payload:data.location})
             }
             if(data.error){
                 dispatch({type:SET_SEARCH_DATA_ERROR, payload:data})
@@ -250,6 +270,7 @@ export const getRooms = () => (dispatch) => {
                     if(data.success){
                         dispatch({type:SET_ROOMS_DATA, payload:data.data})
                         dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload: data.data.length})
+                        dispatch({type:SET_LOCATIONS, payload:data.location})
                     }
                 })
                 .catch((error) =>{})
@@ -268,8 +289,15 @@ export const getRoomsWithPagination = (count) => (dispatch) =>{
                 .then((data) =>{
                     console.log(data);
                     if(data.success){
-                        dispatch({type:SET_ROOMS_PAGINATION_LIST_DATA, payload:data.data})
-                        dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload:count + data.data.length})
+                        if(data.data.length !== 0){
+                            dispatch({type:SET_ROOMS_PAGINATION_LIST_DATA, payload:data.data})
+                            dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload:count + data.data.length})
+                            dispatch({type:SET_PAGINATION_LOCATIONS, payload:data.location})
+                        }
+                        
+                    }
+                    if(data.error){
+                        dispatch({type:SET_ROOM_PAGINATION_ERROR})
                     }
                     
                 })

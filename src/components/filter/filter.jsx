@@ -109,6 +109,7 @@ const Filter = (props) => {
 
     if(event.target.id === "boys"){
       setForWhom("Boys")
+      
       if(search === ""){
         const filter = {
           type:type,
@@ -146,6 +147,31 @@ const Filter = (props) => {
       }
       
     }
+    if(event.target.id === "none"){
+      if(search === ""){
+        setForWhom("")
+        const filter = {
+          type:type,
+          sort:sort,
+          for:""
+        
+          
+        }
+        props.getFilterRooms(filter)
+      }else{
+        setForWhom("")
+        const filter = {
+          type:type,
+          sort:sort,
+          for:""
+        
+          
+        }
+        props.getFilterSearchRooms(filter, search)
+      }
+      
+    }
+    
     if(event.target.id === "any"){
       setForWhom("Any")
       if(search === ""){
@@ -226,6 +252,24 @@ const Filter = (props) => {
       }
       
     }
+    if(event.target.id === "none"){
+      setSort('')
+      if(search === ""){
+        const filter = {
+          type:type,
+          sort:"",
+          for:forWhom
+      }
+        props.getFilterRooms(filter)
+      }else{
+        const filter = {
+          type:type,
+          sort:"",
+          for:forWhom
+      }
+      props.getFilterSearchRooms(filter, search)
+      }
+    }
   }
   const handleTypeClick = (event) =>{
     if(event.target.id === "Private_Rooms"){
@@ -285,6 +329,24 @@ const Filter = (props) => {
       }
         props.getFilterSearchRooms(filter, search)
       }
+      if(event.target.id === "none"){
+        setSort('')
+        if(search === ""){
+          const filter = {
+            type:"",
+            sort:sort,
+            for:forWhom
+        }
+          props.getFilterRooms(filter)
+        }else{
+          const filter = {
+            type:"",
+            sort:sort,
+            for:forWhom
+        }
+        props.getFilterSearchRooms(filter, search)
+        }
+      }
       
   }
 const clear=()=>{
@@ -325,9 +387,9 @@ const clear=()=>{
 
       <TextField select margin='dense'
         label="For Whom" className={sty.select}
-        value={forWhom}
+        
       >
-        <MenuItem onClick={handleForWhomClick} id="none" value="">None</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="none" value="None">None</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="boys" value="Boys">Boys</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="girls" value="Girls">Girls</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="family" value="Family">Family</MenuItem>
@@ -336,20 +398,20 @@ const clear=()=>{
       </TextField>
 
       <TextField select className={sty.select} margin='dense'
-        value={type}
+        
         label="Type"
       >
-        <MenuItem onClick={handleTypeClick} id="none" value="">None</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="none" value="None">None</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>
       </TextField>
 
       <TextField select className={sty.select} margin='dense'
-        value={sort}
+       
         label="Sort by"
       >
-        <MenuItem  onClick={handlePriceChange} id="none" value="">None</MenuItem>
+        <MenuItem  onClick={handlePriceChange} id="none" value="None">None</MenuItem>
         <MenuItem id="low" onClick={handlePriceChange} value="Price Low to High">Price Low to High</MenuItem>
         <MenuItem id="high" onClick={handlePriceChange} value="Price High to Low">Price High to Low</MenuItem>
       </TextField>
