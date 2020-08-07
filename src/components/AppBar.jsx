@@ -173,7 +173,7 @@ export default function PrimarySearchAppBar(props) {
   }
 
   const match = matchPath(location.pathname, {
-    path: "/rooms/:id",
+    path: "/rooms",
     exact: true,
     strict: false
   });
@@ -248,10 +248,10 @@ export default function PrimarySearchAppBar(props) {
 
         
 
-        {match || match1 ?'':
+        {match ?
           <Toolbar>
             <Filter />
-          </Toolbar>}
+          </Toolbar>:''}
 
       </AppBar>
       {renderMobileMenu}

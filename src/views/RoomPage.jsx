@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from 'react-redux'
-import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar } from '@material-ui/core'
+import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropType from 'prop-types'
 import GoogleMapReact from "google-map-react";
@@ -167,7 +167,7 @@ const RoomsComponents = (props) => {
             </Grid>
         </Grid >
     }) : "" : ""
-    var roomType = props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type == 'Private Rooms' ? "rooms" : props.room.roomDetails.type == 'Shared Rooms' ? "bed" : "" : "" : ""
+    var roomType = props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type == 'Private Rooms' ? "Rooms" : props.room.roomDetails.type == 'Shared Rooms' ? "Beds" : "" : "" : ""
     var RoomCard = Array.apply(null, { length: props.room.roomDetails ? props.room.roomDetails.available_rooms : 0 }).map((e, i) => (
         <Grid item >
         <BedRoomCard price={props.room.roomDetails ? props.room.roomDetails.price : ''} name={`${roomType} Number ${i+1}`} />
@@ -288,7 +288,7 @@ const RoomsComponents = (props) => {
                                 Schedule your Visit
                             </Button>
                             <Typography style={{ textAlign: 'center' }}>OR</Typography>
-                            <Button variant='outlined'>
+                            <Button variant='contained' color='primary'>
                                 Book Now
                             </Button>
                             <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: 99999999999</Typography>
@@ -313,7 +313,7 @@ const RoomsComponents = (props) => {
                         </Grid>
                   
                         <Divider />
-                        <Grid container>
+                      {roomType &&  <><Grid container>
                             <Typography variant='h4' className={sty.title}>{roomType}</Typography>
                             <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
                                 <Grid container alignItems="center" className={sty.planRoot}>
@@ -323,7 +323,8 @@ const RoomsComponents = (props) => {
                             </Grid>
 
                         </Grid>
-                        <Divider />
+                            <Divider /></>
+                        }
 
                         <Grid container justify='center'>
                             <Typography variant='h4' className={sty.title}>What all in covered in our Plan?</Typography>
@@ -333,9 +334,12 @@ const RoomsComponents = (props) => {
                                     {plan.map((p, i) => {
                                         return <Grid item >
                                             <Card key={i} className={sty.plan}>
+                                                <CardMedia style={{height:'100%',width:"100%",display:'flex',alignItems:'center'}} image="https://source.unsplash.com/random/?house">
+
                                                 <Typography variant='subtitle1' className={sty.planTitle}>
                                                     {p}
                                                 </Typography>
+                                                </CardMedia>
                                             </Card>
                                         </Grid>
                                     })}

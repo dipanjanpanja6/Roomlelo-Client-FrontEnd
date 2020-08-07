@@ -24,7 +24,8 @@ const styles = makeStyles((theme) => ({
     },
     image:{
         height:height ? height : 250,
-        width:'100%',
+        display:'block !important',
+        width:'100% !important',
         [theme.breakpoints.down('xs')]:{
             height:MHeight ? MHeight : 150, 
             width:'100%',
@@ -45,7 +46,7 @@ const sty =styles()
 
                 {images.map((image, index) => <Carousel.Item key={index} >
                     <img 
-                        className={`d-block w-100 ${sty.image}`}
+                        className={`  ${sty.image}`}
                         src={image}
                         alt="First slide"  
                     />
