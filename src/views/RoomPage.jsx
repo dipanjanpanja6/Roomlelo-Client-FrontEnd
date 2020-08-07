@@ -99,7 +99,13 @@ const style = makeStyles((theme) => ({
 
 }))
 const RoomsComponents = (props) => {
-
+    const defaultProps = {
+        center: {
+            lat: 20.5937,
+            lng: 78.9629
+        },
+        zoom: 8
+    };
     const sty = style()
     // const theme = useTheme();
     // const matches = useMediaQuery(theme.breakpoints.down('xs'));
@@ -183,11 +189,12 @@ const RoomsComponents = (props) => {
 
     var lat = props.room.roomDetails ? parseInt(props.room.roomDetails.location.split(',')[0]) : ''
     var lan = props.room.roomDetails ? parseInt(props.room.roomDetails.location.split(',')[1]) : ''
+    
     console.log(lat, lan);
     const mapData = {
         center: {
-            lat: 22.5726,
-            lng: 87
+            lat: props.room.roomDetails ? props.room.roomDetails.locationData.lat : "20.5937",
+            lng: props.room.roomDetails ? props.room.roomDetails.locationData.lng : "78.9629"
         },
         zoom: 11
     };
@@ -216,15 +223,15 @@ const RoomsComponents = (props) => {
                         <Divider />
                         <Grid>
 
-                            <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton/> : <Skeleton/>}</Typography>
-                            <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton/> : <Skeleton/>}</Typography>
+                            <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton /> : <Skeleton />}</Typography>
+                            <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton /> : <Skeleton />}</Typography>
 
-                            <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton/> : <Skeleton/>} | {props.room.roomDetails ?
-                                props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton/> : <Skeleton/>}</Typography>
+                            <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton /> : <Skeleton />} | {props.room.roomDetails ?
+                                props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
 
-                            <Typography variant='body1'>{props.room.roomDetails ? props.room.roomDetails.description ? props.room.roomDetails.description : <Skeleton/> : <Skeleton/>}</Typography>
- 
-                           
+                            <Typography variant='body1'>{props.room.roomDetails ? props.room.roomDetails.description ? props.room.roomDetails.description : <Skeleton /> : <Skeleton />}</Typography>
+
+
                         </Grid>
                         <Divider />
                         <Grid container>
@@ -330,9 +337,9 @@ const RoomsComponents = (props) => {
 
 
 
-{rentDetails} 
+                        {rentDetails}
 
-<Divider/>
+                        <Divider />
 
                         <Grid container justify='center'>
                             <Typography variant='h4' className={sty.title}>What all in covered in our Plan?</Typography>
@@ -379,13 +386,13 @@ const RoomsComponents = (props) => {
                             <Grid container alignItems="center" className={sty.side_map_class} >
                                 <GoogleMapReact
                                     bootstrapURLKeys={{ key: MAP_API_KEY }}
-                                    defaultCenter={mapData.center}
-                                    defaultZoom={mapData.zoom}
+                                    defaultCenter={defaultProps.center}
+                                    defaultZoom={defaultProps.zoom}
                                     yesIWantToUseGoogleMapApiInternals
                                     onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
                                 >
                                     <AnyReactComponent
-                                        lat={props.room.roomDetails ? props.room.roomDetails.locationData.lat :"20.5937"}
+                                        lat={props.room.roomDetails ? props.room.roomDetails.locationData.lat : "20.5937"}
                                         lng={props.room.roomDetails ? props.room.roomDetails.locationData.lng : "78.9629"}
                                         text="My Marker"
                                     />

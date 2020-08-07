@@ -47,7 +47,9 @@ const style = (theme) => ({
     },
 })
 
-const AnyReactComponent = ({ text }) => <div><img height={25} width={25} src={Marker}/></div>;
+const AnyReactComponent = ({ text }) => <div><h1>1</h1>
+    {/* <img height={25} width={25} src={Marker}/> */}
+    </div>;
 class RoomsPage extends Component {
     constructor(){
         super()
