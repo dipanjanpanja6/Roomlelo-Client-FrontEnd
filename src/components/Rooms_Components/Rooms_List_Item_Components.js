@@ -109,6 +109,10 @@ const RoomsComponents = (props) => {
                                 <Typography variant="caption" className={classes.box_info_text_class}>{room.type}</Typography>
                             </Grid>
                             <Grid className={classes.icon}>
+                                <div style={{ backgroundImage: `url(${require('../../static/icons/024-accident.svg')})` }} className={classes.box_class}></div>
+                                <Typography variant="caption" className={classes.box_info_text_class}>{room.furnished}</Typography>
+                            </Grid>
+                            <Grid className={classes.icon}> 
                                 <div style={{ backgroundImage: `url(${require('../../static/icons/021-moving-truck.svg')})` }} className={classes.box_class}></div>
                                 <Typography variant="caption" className={classes.box_info_text_class}>Free Shifting</Typography>
                             </Grid>

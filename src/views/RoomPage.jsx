@@ -163,16 +163,17 @@ const RoomsComponents = (props) => {
         )
     })
 
-    const AnyReactComponent = ({ text }) => <div>{text}</div>;
-    var handleApiLoaded = (map, maps) => {
-
-    };
-    var handleChange = (t) => {
-
-    }
+    var othersCharge = props.room.roomDetails ? props.room.roomDetails.OtherChargesArray ? props.room.roomDetails.OtherChargesArray.map(function (p, index) {
+        return <Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
+            <Grid item xs={6}>
+                <Typography>{p.key}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography color='textSecondary'>{p.value ? p.value == 0 ? "Excludes With Rent" : `₹ ${p.value}` : "Excludes With Rent"}</Typography>
+            </Grid>
+        </Grid >
+    }) : "" : ""
     var rentDetails = props.room.roomDetails ? props.room.roomDetails.rentDetailsArray ? props.room.roomDetails.rentDetailsArray.map(function (p, index) {
-        // myObject[key] *= 2;
-
         return <Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
             <Grid item xs={6}>
                 <Typography>{p.key}</Typography>
@@ -189,12 +190,14 @@ const RoomsComponents = (props) => {
         </Grid>
     ))
 
-    var lat = props.room.roomDetails ?  props.room.roomDetails.location.split(',')[0] : ''
+    var lat = props.room.roomDetails ? props.room.roomDetails.location.split(',')[0] : ''
     var lan = props.room.roomDetails ? props.room.roomDetails.location.split(',')[1] : ''
 
     console.log(lat, lan);
-
+const handleChange=(e)=>{
     
+}
+
     return (
         <>
             <Toolbar />
@@ -221,6 +224,7 @@ const RoomsComponents = (props) => {
 
                             <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton /> : <Skeleton />}</Typography>
                             <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton /> : <Skeleton />}</Typography>
+                            <Typography variant='subtitle1' >{props.room.roomDetails ? props.room.roomDetails.furnished ? props.room.roomDetails.furnished : <Skeleton /> : <Skeleton />}</Typography>
 
                             <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton /> : <Skeleton />} | {props.room.roomDetails ?
                                 props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
@@ -334,6 +338,7 @@ const RoomsComponents = (props) => {
 
 
                         {rentDetails}
+                        {othersCharge}
 
                         <Divider />
 
@@ -396,13 +401,13 @@ const RoomsComponents = (props) => {
                                     center={{
                                         lat: lat,
                                         lng: lan
-                                      }}
+                                    }}
                                 >
                                     <Marker
                                         name={'Dolores park'}
                                         zoom={15}
                                         position={{ lat: lat, lng: lan }} />
-                                    
+
                                 </Map>
                             </Grid>
                         </Grid>
