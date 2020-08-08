@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropType from 'prop-types'
-import GoogleMapReact from "google-map-react";
 import { MAP_API_KEY } from '../config/config'
 import Footer from "../components/footer";
 import ImageSlider from '../components/ImageSlider'
 import TimeInput from 'material-ui-time-picker'
 import Skeleton from '@material-ui/lab/Skeleton';
 import { getRoomDetails } from '../redux/actions/roomActions'
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+
+
 const style = makeStyles((theme) => ({
     tab: {
         padding: '7px 8px'
@@ -187,18 +189,12 @@ const RoomsComponents = (props) => {
         </Grid>
     ))
 
-    var lat = props.room.roomDetails ? parseInt(props.room.roomDetails.location.split(',')[0]) : ''
-    var lan = props.room.roomDetails ? parseInt(props.room.roomDetails.location.split(',')[1]) : ''
-    
+    var lat = props.room.roomDetails ?  props.room.roomDetails.location.split(',')[0] : ''
+    var lan = props.room.roomDetails ? props.room.roomDetails.location.split(',')[1] : ''
+
     console.log(lat, lan);
-    const mapData = {
-        center: {
-            lat: props.room.roomDetails ? props.room.roomDetails.locationData.lat : "20.5937",
-            lng: props.room.roomDetails ? props.room.roomDetails.locationData.lng : "78.9629"
-        },
-        zoom: 11
-    };
-    console.log(mapData)
+
+    
     return (
         <>
             <Toolbar />
@@ -384,19 +380,30 @@ const RoomsComponents = (props) => {
                             <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
 
                             <Grid container alignItems="center" className={sty.side_map_class} >
-                                <GoogleMapReact
-                                    bootstrapURLKeys={{ key: MAP_API_KEY }}
-                                    defaultCenter={defaultProps.center}
-                                    defaultZoom={defaultProps.zoom}
-                                    yesIWantToUseGoogleMapApiInternals
-                                    onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+                                <Map google={props.google} containerStyle={{
+                                    position: 'relative',
+                                    width: '100%',
+                                    height: '100%'
+                                }} zoom={17}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%'
+                                    }}
+                                    initialCenter={{
+                                        lat: lat,
+                                        lng: lan
+                                    }}
+                                    center={{
+                                        lat: lat,
+                                        lng: lan
+                                      }}
                                 >
-                                    <AnyReactComponent
-                                        lat={props.room.roomDetails ? props.room.roomDetails.locationData.lat : "20.5937"}
-                                        lng={props.room.roomDetails ? props.room.roomDetails.locationData.lng : "78.9629"}
-                                        text="My Marker"
-                                    />
-                                </GoogleMapReact>
+                                    <Marker
+                                        name={'Dolores park'}
+                                        zoom={15}
+                                        position={{ lat: lat, lng: lan }} />
+                                    
+                                </Map>
                             </Grid>
                         </Grid>
 
@@ -419,4 +426,4 @@ const mapState = (state) => ({
 const mapActionsToProps = {
     getRoomDetails
 };
-export default connect(mapState, mapActionsToProps)(RoomsComponents)
+export default connect(mapState, mapActionsToProps)((GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsComponents)))
