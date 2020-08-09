@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropType from 'prop-types'
-import GoogleMapReact from "google-map-react";
 import { MAP_API_KEY } from '../config/config'
 import Footer from "../components/footer";
 import ImageSlider from '../components/ImageSlider'
 import TimeInput from 'material-ui-time-picker'
 import Skeleton from '@material-ui/lab/Skeleton';
 import { getRoomDetails } from '../redux/actions/roomActions'
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+
+
 const style = makeStyles((theme) => ({
     tab: {
         padding: '7px 8px'
@@ -161,16 +163,17 @@ const RoomsComponents = (props) => {
         )
     })
 
-    const AnyReactComponent = ({ text }) => <div>{text}</div>;
-    var handleApiLoaded = (map, maps) => {
-
-    };
-    var handleChange = (t) => {
-
-    }
+    var othersCharge = props.room.roomDetails ? props.room.roomDetails.OtherChargesArray ? props.room.roomDetails.OtherChargesArray.map(function (p, index) {
+        return <Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
+            <Grid item xs={6}>
+                <Typography>{p.key}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography color='textSecondary'>{p.value ? p.value == 0 ? "Excludes With Rent" : `₹ ${p.value}` : "Excludes With Rent"}</Typography>
+            </Grid>
+        </Grid >
+    }) : "" : ""
     var rentDetails = props.room.roomDetails ? props.room.roomDetails.rentDetailsArray ? props.room.roomDetails.rentDetailsArray.map(function (p, index) {
-        // myObject[key] *= 2;
-
         return <Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
             <Grid item xs={6}>
                 <Typography>{p.key}</Typography>
@@ -187,18 +190,14 @@ const RoomsComponents = (props) => {
         </Grid>
     ))
 
-    var lat = props.room.roomDetails ? parseInt(props.room.roomDetails.location.split(',')[0]) : ''
-    var lan = props.room.roomDetails ? parseInt(props.room.roomDetails.location.split(',')[1]) : ''
-    
+    var lat = props.room.roomDetails ? props.room.roomDetails.location.split(',')[0] : ''
+    var lan = props.room.roomDetails ? props.room.roomDetails.location.split(',')[1] : ''
+
     console.log(lat, lan);
-    const mapData = {
-        center: {
-            lat: props.room.roomDetails ? props.room.roomDetails.locationData.lat : "20.5937",
-            lng: props.room.roomDetails ? props.room.roomDetails.locationData.lng : "78.9629"
-        },
-        zoom: 11
-    };
+const handleChange=(e)=>{
     
+}
+
     return (
         <>
             <Toolbar />
@@ -225,6 +224,7 @@ const RoomsComponents = (props) => {
 
                             <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton /> : <Skeleton />}</Typography>
                             <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton /> : <Skeleton />}</Typography>
+                            <Typography variant='subtitle1' >{props.room.roomDetails ? props.room.roomDetails.furnished ? props.room.roomDetails.furnished : <Skeleton /> : <Skeleton />}</Typography>
 
                             <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton /> : <Skeleton />} | {props.room.roomDetails ?
                                 props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
@@ -338,6 +338,7 @@ const RoomsComponents = (props) => {
 
 
                         {rentDetails}
+                        {othersCharge}
 
                         <Divider />
 
@@ -384,19 +385,30 @@ const RoomsComponents = (props) => {
                             <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
 
                             <Grid container alignItems="center" className={sty.side_map_class} >
-                                <GoogleMapReact
-                                    bootstrapURLKeys={{ key: MAP_API_KEY }}
-                                    defaultCenter={mapData.center}
-                                    defaultZoom={defaultProps.zoom}
-                                    yesIWantToUseGoogleMapApiInternals
-                                    onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+                                <Map google={props.google} containerStyle={{
+                                    position: 'relative',
+                                    width: '100%',
+                                    height: '100%'
+                                }} zoom={17}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%'
+                                    }}
+                                    initialCenter={{
+                                        lat: lat,
+                                        lng: lan
+                                    }}
+                                    center={{
+                                        lat: lat,
+                                        lng: lan
+                                    }}
                                 >
-                                    <AnyReactComponent
-                                        lat={props.room.roomDetails ? props.room.roomDetails.locationData.lat : "20.5937"}
-                                        lng={props.room.roomDetails ? props.room.roomDetails.locationData.lng : "78.9629"}
-                                        text="My Marker"
-                                    />
-                                </GoogleMapReact>
+                                    <Marker
+                                        name={'Dolores park'}
+                                        zoom={15}
+                                        position={{ lat: lat, lng: lan }} />
+
+                                </Map>
                             </Grid>
                         </Grid>
 
@@ -419,4 +431,4 @@ const mapState = (state) => ({
 const mapActionsToProps = {
     getRoomDetails
 };
-export default connect(mapState, mapActionsToProps)(RoomsComponents)
+export default connect(mapState, mapActionsToProps)((GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsComponents)))

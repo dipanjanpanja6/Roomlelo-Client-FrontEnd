@@ -1,28 +1,30 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropType from 'prop-types'
 import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_Item_Components";
-import GoogleMapReact from 'google-map-react';
 import AppBarSpace from '../components/appBarSpace';
 import Loading from '../components/loading'
 import { getRooms, getRoomsWithPagination, getRoomWithTypePagination, clearFilter } from '../redux/actions/roomActions'
 
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 //M-Ui
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { MAP_API_KEY } from '../config/config'
 //Components 
- 
-import { Toolbar } from '@material-ui/core';
-import Marker from '../static/icons/marker_2.svg'
 
-const style = (theme) => ({
+import { Toolbar, makeStyles } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+// import Marker from '../static/icons/marker_2.svg'
+
+const styles = makeStyles((theme) => ({
     root: {
         height: `calc(100vh - 128px)`,
-        [theme.breakpoints.down('xs')]:{
-        height: `calc(100vh - 156px)`,}
+        [theme.breakpoints.down('xs')]: {
+            height: `calc(100vh - 156px)`,
+        }
     },
     side_map_class: {
         padding: 12,
@@ -31,6 +33,11 @@ const style = (theme) => ({
             display: 'none'
         }
     },
+    map_class: {
+        position: 'relative',
+        width: '100%',
+        height: '100%'
+    },
     side_room_class: {
         paddingLeft: 5,
         paddingRight: 5,
@@ -38,118 +45,122 @@ const style = (theme) => ({
             width: 0,
         },
         overflow: 'auto',
-        width:'100%',
+        width: '100%',
         maxHeight: 'calc(100vh - 130px)',
         [theme.breakpoints.down('xs')]: {
             maxHeight: 'calc(100vh - 160px)',
 
         }
     },
-})
-
-const AnyReactComponent = ({ text }) => <div><h1>1</h1>
-    {/* <img height={25} width={25} src={Marker}/> */}
-    </div>;
-class RoomsPage extends Component {
-    constructor(){
-        super()
-        this.state={
-            loading:false
+    marker: {
+        // padding:1,
+        '&:hover': {
+            display: 'none'
         }
     }
-    static defaultProps = {
-        center: {
-            lat: 20.5937,
-            lng: 78.9629
-        },
-        zoom: 8
-    };
-     
-    componentWillMount() {
-        this.props.getRooms()
-    }
+}))
+
+const RoomsPage = (props) => {
+    const classes = styles()
+
+    const [state, setState] = useState({
+        loading: false
+    })
+    const history = useHistory()
+
+    useEffect(() => {
+        props.getRooms()
+    }, [])
+
     // componentWillReceiveProps(){
-    //     if(this.props.room.rooms){
-    //         this.setState({loading:false})
+    //     if(props.room.rooms){
+    //         setState({loading:false})
     //     }
     // }
-    handleApiLoaded = (map, maps) => {
+    const handleApiLoaded = (map, maps) => {
 
     };
-    render() {
-        const { classes } = this.props
 
-        const scrollCheck = event => { 
-            // console.log( parseInt(event.target.scrollHeight - event.target.scrollTop));
-            // console.log(event.target.clientHeight-1);
-            const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight+1;
+
+    const scrollCheck = event => {
+        // console.log( parseInt(event.target.scrollHeight - event.target.scrollTop));
+        // console.log(event.target.clientHeight-1);
+        const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight + 1;
         //    console.log(bottom);
-            if (bottom) {
-                // console.log('trigered');
-                // console.log(this.props.room.roomsCount);
-                if (this.props.room.filtered === false && this.props.room.searched === false && this.props.room.error === false) {
-                    console.log(this.props.room.roomsCount);
-                    // this.setState({loading:true})
-                    this.props.getRoomsWithPagination(this.props.room.roomsCount)
-                }
-                
+        if (bottom) {
+            // console.log('trigered');
+            // console.log(props.room.roomsCount);
+            if (props.room.filtered === false && props.room.searched === false && props.room.error === false) {
+                console.log(props.room.roomsCount);
+                // setState({loading:true})
+                props.getRoomsWithPagination(props.room.roomsCount)
             }
-        };
 
-        let roomMarkUp = this.props.room.rooms != null ? this.props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading/>;
+        }
+    };
 
-        return (
-            <div >
-                <Toolbar />
-                <AppBarSpace />
-                <Grid container className={classes.root}  >
+    let roomMarkUp = props.room.rooms != null ? props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading />;
+    const onMarkerClick = (id) => {
+        history.push(`/rooms/${id}`)
+    }
+    const style = {
+        width: '100%',
+        height: '100%'
+    }
+    const c = {
 
-                    <Grid sm={7} item className={classes.side_room_class} onScroll={scrollCheck}>
+        position: 'relative',
+        width: '100%',
+        height: '100%'
+    }
 
-                        {/* <RoomsComponents room={this.props.room} rooms={this.props.room.rooms} history={this.props.history} /> */}
+    const poin = props.room.rooms ? props.room.rooms.map((marks, index) =>
 
-                        {roomMarkUp}
-                        {/* {this.state.loading && <CircularProgress/>} */}
-                    </Grid>
+        <Marker onClick={()=>onMarkerClick(marks.id)}
+            name={'Dolores park'}
+            zoom={15}
+            position={{ lat: marks.lat, lng: marks.lng }} />
+    ) : ""
 
-                    <Grid sm={5} item className={classes.side_map_class}>
+    return (
+        <div >
+            <Toolbar />
+            <AppBarSpace />
+            <Grid container className={classes.root}  >
 
-                        <GoogleMapReact
-                            bootstrapURLKeys={{ key: MAP_API_KEY }}
-                            defaultCenter={this.props.center}
-                            defaultZoom={this.props.zoom}
-                            yesIWantToUseGoogleMapApiInternals
-                            onGoogleApiLoaded={({ map, maps }) => this.handleApiLoaded(map, maps)}
-                        >
-                            {this.props.room.locations ? this.props.room.locations.map((marks, index) => 
-                            <AnyReactComponent lat={marks.lat}
-                                lng={marks.lng}
-                                text="My Marker" key={index}/>):""}
-                            {/* <AnyReactComponent
-                                lat={22.5726}
-                                lng={88.3639}
-                                text="My Marker"
-                            />
-                             <AnyReactComponent
-                                lat={22.5726}
-                                lng={88.3639}
-                                text="My New Marker"
-                            /> */}
-                        </GoogleMapReact>
+                <Grid sm={7} item className={classes.side_room_class} onScroll={scrollCheck}>
 
-                    </Grid>
+                    {/* <RoomsComponents room={props.room} rooms={props.room.rooms} history={props.history} /> */}
+
+                    {roomMarkUp}
+                    {/* {state.loading && <CircularProgress/>} */}
+                </Grid>
+
+                <Grid sm={5} item className={classes.side_map_class}>
+ 
+                    <Map google={props.google} containerStyle={c} zoom={5}
+                        style={style}
+                        initialCenter={{
+                            lat: 24.510084,
+                            lng: 82.562385
+                        }}
+                    >
+                        {poin}
+                    </Map>
 
                 </Grid>
-            </div>
-        )
-    }
+
+            </Grid>
+        </div>
+    )
 }
+
 RoomsPage.PropType = {
     room: PropType.object.isRequired,
     getRooms: PropType.func.isRequired,
     classes: PropType.object.isRequired,
-    getRoomWithTypePagination:PropType.func.isRequired,
-    clearFilter:PropType.func.isRequired
+    getRoomWithTypePagination: PropType.func.isRequired,
+    clearFilter: PropType.func.isRequired
 };
 const mapState = (state) => ({
     room: state.room
@@ -160,4 +171,4 @@ const mapActionsToProps = {
     getRoomWithTypePagination,
     clearFilter
 };
-export default connect(mapState, mapActionsToProps)(withStyles(style)(RoomsPage))
+export default connect(mapState, mapActionsToProps)(GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsPage))
