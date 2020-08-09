@@ -101,13 +101,7 @@ const style = makeStyles((theme) => ({
 
 }))
 const RoomsComponents = (props) => {
-    const defaultProps = {
-        center: {
-            lat: props.room.roomDetails ? Number(props.room.roomDetails.locationData.lat) : 20.5937,
-            lng: props.room.roomDetails ? Number(props.room.roomDetails.locationData.lng) : 78.9629
-        },
-        zoom: 8
-    };
+     
     const sty = style()
     // const theme = useTheme();
     // const matches = useMediaQuery(theme.breakpoints.down('xs'));
@@ -190,8 +184,8 @@ const RoomsComponents = (props) => {
         </Grid>
     ))
 
-    var lat = props.room.roomDetails ? props.room.roomDetails.location.split(',')[0] : ''
-    var lan = props.room.roomDetails ? props.room.roomDetails.location.split(',')[1] : ''
+    var lat = props.room.roomDetails ? props.room.roomDetails.lat : ''
+    var lan = props.room.roomDetails ? props.room.roomDetails.lan: ''
 
     console.log(lat, lan);
 const handleChange=(e)=>{

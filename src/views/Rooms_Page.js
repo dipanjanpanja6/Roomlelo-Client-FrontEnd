@@ -12,7 +12,7 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { MAP_API_KEY } from '../config/config'
+import { MAP_API_KEY } from '../config/config' 
 //Components 
 
 import { Toolbar, makeStyles } from '@material-ui/core';
