@@ -101,8 +101,8 @@ const style = makeStyles((theme) => ({
 const RoomsComponents = (props) => {
     const defaultProps = {
         center: {
-            lat: 20.5937,
-            lng: 78.9629
+            lat: props.room.roomDetails ? Number(props.room.roomDetails.locationData.lat) : 20.5937,
+            lng: props.room.roomDetails ? Number(props.room.roomDetails.locationData.lng) : 78.9629
         },
         zoom: 8
     };
@@ -198,7 +198,7 @@ const RoomsComponents = (props) => {
         },
         zoom: 11
     };
-    console.log(mapData)
+    
     return (
         <>
             <Toolbar />
@@ -386,7 +386,7 @@ const RoomsComponents = (props) => {
                             <Grid container alignItems="center" className={sty.side_map_class} >
                                 <GoogleMapReact
                                     bootstrapURLKeys={{ key: MAP_API_KEY }}
-                                    defaultCenter={{lat:props.room.roomDetails.locationData.lat, lng:props.room.roomDetails.locationData.lng}}
+                                    defaultCenter={mapData.center}
                                     defaultZoom={defaultProps.zoom}
                                     yesIWantToUseGoogleMapApiInternals
                                     onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
