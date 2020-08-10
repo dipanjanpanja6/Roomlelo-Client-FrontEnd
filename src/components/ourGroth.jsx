@@ -6,23 +6,28 @@ import AnimatedNumber from "animated-number-react";
 
 const styles = makeStyles((theme) => ({
     offer: {
-        padding: '50px 20px 0',
-
+        padding: '25px 20px 0',
+        textAlign: 'center',
         // height: 420,
+        background: theme.palette.divider,
         flexDirection: "column",
     },
     growth: {
-        height: 250,
+        height: 210,
         flexDirection: 'column'
     },
     animatedNum: {
-        color:"#314862",
+        color: "#314862",
         paddingBottom: 12,
         fontSize: '3rem',
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '2.5rem',
+
+        }
     },
     subTitle: {
-        color: "#2289FF",
-        fontFamily: 'Poppins'
+        // color: "#2289FF",
+        // fontFamily: 'Poppins'
     },
 }))
 
@@ -35,9 +40,6 @@ const Growth = (props) => {
             container
             justify="center"
             alignItems="center"
-            style={{
-                textAlign: 'center',
-            }}
             className={sty.offer}
         >
             <Typography
@@ -60,41 +62,41 @@ const Growth = (props) => {
                         className={sty.animatedNum}
                         value={1}
 
-                        formatValue={(value) => `${Number(value).toFixed(0)} +`}
+                        formatValue={(value) => `${Number(value).toFixed(0)}+`}
                     // duration={2000}
                     />
                     {/* <Typography variant='h3' style={{ paddingBottom: 12 }}>+1</Typography> */}
-                    <Typography className={sty.subTitle} variant='h5'>City</Typography>
+                    <Typography className={sty.subTitle} color='primary' variant='h6'>City</Typography>
                 </Grid>
                 <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
                     <AnimatedNumber
                         className={sty.animatedNum}
                         value={100}
-                        formatValue={(value) => `${Number(value).toFixed(0)} +`}
+                        formatValue={(value) => `${Number(value).toFixed(0)}+`}
                         duration={4000}
                     />
                     {/* <Typography variant='h3' style={{ paddingBottom: 12 }}>100+</Typography> */}
-                    <Typography className={sty.subTitle} variant='h5'>Property Owners</Typography>
+                    <Typography className={sty.subTitle} color='primary' variant='h6'>Property Owners</Typography>
                 </Grid>
                 <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
                     <AnimatedNumber
                         className={sty.animatedNum}
                         value={700}
-                        formatValue={(value) => `${Number(value).toFixed(0)} +`}
+                        formatValue={(value) => `${Number(value).toFixed(0)}+`}
                         duration={5000}
                     />
                     {/* <Typography variant='h3' style={{ paddingBottom: 12 }}>700+</Typography> */}
-                    <Typography className={sty.subTitle} variant='h5'>Customers</Typography>
+                    <Typography className={sty.subTitle} color='primary' variant='h6'>Customers</Typography>
                 </Grid>
                 <Grid container item xs={6} sm={3} alignItems="center" justify='center' className={sty.growth}>
                     <AnimatedNumber
                         className={sty.animatedNum}
                         value={2200}
-                        formatValue={(value) => `${Number(value).toFixed(0)} +`}
+                        formatValue={(value) => `${Number(value).toFixed(0)}+`}
                         duration={6000}
                     />
                     {/* <Typography variant='h3' style={{ paddingBottom: 12 }}>2200+</Typography> */}
-                    <Typography className={sty.subTitle} variant='h5'>No. of Beds</Typography>
+                    <Typography className={sty.subTitle} color='primary' variant='h6'>No. of Beds</Typography>
                 </Grid>
             </Grid>
         </Grid>

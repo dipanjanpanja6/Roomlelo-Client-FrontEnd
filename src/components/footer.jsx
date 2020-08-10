@@ -12,8 +12,9 @@ import { useHistory } from "react-router-dom";
 
 const styles = makeStyles((theme) => ({
     root: {
-        height: "100vh",
-        // background: "#dfa",
+        paddingBottom: 30, paddingTop: 30,
+        //  background: theme.palette.info.light
+         background: 'aliceblue'
     },
     content: {
         flexDirection: 'column',
@@ -33,7 +34,7 @@ export default function Footer() {
 
     return (
 
-        <Grid container justify="center" style={{ paddingBottom: 30, paddingTop: 30, background: 'aliceblue' }}>
+        <Grid container justify="center" className={sty.root} >
 
             <Grid sm={3} justify="center" alignItems='center' container style={{ flexDirection: 'column' }}>
                 <img src={require('../static/roomlelologo.webp')} height="45px" width='183px' alt="Roomlelo" />

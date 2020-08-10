@@ -401,7 +401,7 @@ const clear=()=>{
         
         label="Type"
       >
-        <MenuItem onClick={handleTypeClick} id="none" value="None">None</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="none" value="None">All Types</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>

@@ -16,7 +16,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { Link as RouterLink, useHistory, useLocation ,matchPath} from "react-router-dom"; 
+import { Link as RouterLink, useHistory, useLocation, matchPath } from "react-router-dom";
 import Logo from "../static/roomlelologo.png";
 import SearchFilterDialog from '../components/SearchFilterDialog'
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   grow: {
-    flexGrow: 1, 
+    flexGrow: 1,
   },
   menuButton: {
     padding: 0,
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily:
       "Wallman, -apple-system, BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans- serif,Apple Color Emoji,Segoe UI Emoji, Segoe UI Symbol",
   },
- 
+
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("xm")]: {
@@ -65,14 +65,14 @@ const useStyles = makeStyles((theme) => ({
   },
   menu: {
     // background: Theme.boxColor,
-    minHeight:'100vh !important',
+    minHeight: '100vh !important',
     right: '0 !important',
     top: '0 !important',
-    width:200,
+    width: 200,
     left: 'auto !important',
-    [theme.breakpoints.down('ls')]:{
+    [theme.breakpoints.down('ls')]: {
 
-    }, 
+    },
   },
 
 }));
@@ -182,7 +182,7 @@ export default function PrimarySearchAppBar(props) {
     exact: true,
     strict: false
   });
- 
+
   return (
     <div className={classes.grow}>
       <SearchFilterDialog show={show} handleClose={handleFilterClose} />
@@ -224,10 +224,8 @@ export default function PrimarySearchAppBar(props) {
               <Typography variant="button">Login</Typography>
             </Button>
 
-            <Button variant='outlined' onClick={() => history.push("/joinus")} 
-              color="inherit"
-            >
-              <Typography variant="button">List with us</Typography>
+            <Button variant='contained' style={{color:'#fff'}} color='primary' onClick={() => history.push("/joinus")} >
+              <Typography color='inherit' variant="button">List with us</Typography>
             </Button>
           </div>
 
@@ -244,12 +242,12 @@ export default function PrimarySearchAppBar(props) {
           </div>
         </Toolbar>
 
-        
+
 
         {match ?
           <Toolbar>
             <Filter />
-          </Toolbar>:''}
+          </Toolbar> : ''}
 
       </AppBar>
       {renderMobileMenu}
