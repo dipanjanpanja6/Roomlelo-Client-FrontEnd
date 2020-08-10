@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { checkUser, logout } from './redux/actions/student'
 import PropType from 'prop-types' 
 import aboutUs from './views/aboutUs';
+import Account_SignUp from '../src/views/account_signup'
 
 
 
@@ -66,7 +67,7 @@ const App = (props) => {
 
  
 					<Route exact path="/about" component={aboutUs} />
-
+					<Route exact path="/account/signup" component={Account_SignUp}/>
 
 					<Route exact component={E4} />
 
