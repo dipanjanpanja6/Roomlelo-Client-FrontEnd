@@ -186,7 +186,7 @@ export default function PrimarySearchAppBar(props) {
   return (
     <div className={classes.grow}>
       <SearchFilterDialog show={show} handleClose={handleFilterClose} />
-      <AppBar color='inherit' className={classes.Appbar}>
+      <AppBar color='inherit' className={classes.Appbar} >
         <Toolbar variant="regular">
           <IconButton
             onClick={() => {
