@@ -17,9 +17,9 @@ const styles = makeStyles((theme) => ({
     flexDirection: 'column'
   },
   m: {
-    padding: '20px 40px',
+    padding: '20px 40px 0',
     [theme.breakpoints.down('xs')]: {
-      padding: '20px 0px',
+      padding: '0px',
 
     }
   },
@@ -38,7 +38,7 @@ const Benefit = (props) => {
     <Grid container justify="center" alignItems="center" className={sty.offer}
     >
       <Typography
-        variant="h4" style={{
+        variant="h4" color='textPrimary' style={{
           paddingTop: 15, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
         }}
       >
@@ -50,22 +50,22 @@ const Benefit = (props) => {
         <Grid item sm={4} className={sty.m} >
           <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
             <img src={require('../static/benifit3.svg')} />
-            <Typography variant='subtitle1' >Maintenance</Typography>
-            <Typography variant='caption' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
+            <Typography variant='subtitle1' color='textPrimary' >Maintenance</Typography>
+            <Typography variant='caption' color='textSecondary' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
           </Grid>
         </Grid>
         <Grid item sm={4} className={sty.m} >
           <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
             <img src={require('../static/benifit2.svg')} />
-            <Typography variant='subtitle1' >Maintenance</Typography>
-            <Typography variant='caption' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
+            <Typography variant='subtitle1' color='textPrimary'>Maintenance</Typography>
+            <Typography variant='caption' color='textSecondary'>Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
           </Grid>
         </Grid>
         <Grid item sm={4} className={sty.m} >
           <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
             <img src={require('../static/benifit.svg')} />
-            <Typography variant='subtitle1' style={{ paddingBottom: 12 }}>Rent on time</Typography>
-            <Typography variant='caption'>No more monthly reminders, no more late payments</Typography>
+            <Typography variant='subtitle1' color='textPrimary' style={{ paddingBottom: 12 }}>Rent on time</Typography>
+            <Typography variant='caption'color='textSecondary'>No more monthly reminders, no more late payments</Typography>
 
           </Grid>
         </Grid>

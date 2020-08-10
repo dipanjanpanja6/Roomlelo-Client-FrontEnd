@@ -12,19 +12,19 @@ import {
   IconButton,
   Badge,
   Typography,
+  CssBaseline,
+  useScrollTrigger,
 } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import FilterListIcon from '@material-ui/icons/FilterList';
+import MenuIcon from "@material-ui/icons/Menu"; 
 import { Link as RouterLink, useHistory, useLocation, matchPath } from "react-router-dom";
 import Logo from "../static/roomlelologo.png";
 import SearchFilterDialog from '../components/SearchFilterDialog'
-
+import PropTypes from 'prop-types';
 import Filter from '../components/filter/filter'
 
 const useStyles = makeStyles((theme) => ({
   Appbar: {
-    background: '#fff',
+    background: !theme.palette.text.primary,
   },
 
   grow: {
@@ -76,6 +76,31 @@ const useStyles = makeStyles((theme) => ({
   },
 
 }));
+
+function ElevationScroll(props) {
+  const { children, window } = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+    target: window ? window() : undefined,
+  });
+
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
+
+ElevationScroll.propTypes = {
+  children: PropTypes.element.isRequired,
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
+};
 
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
@@ -131,7 +156,7 @@ export default function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={() => {
+      {/* <MenuItem onClick={() => {
         history.push("/whyus")
         handleMobileMenuClose()
       }}>
@@ -140,10 +165,10 @@ export default function PrimarySearchAppBar(props) {
       <MenuItem onClick={() => {
         history.push("/properties")
         handleMobileMenuClose()
-      }}>
+      }}> 
 
         <p>Our Properties</p>
-      </MenuItem>
+    </MenuItem>*/}
       <MenuItem onClick={() => {
         history.push("/refer")
         handleMobileMenuClose()
@@ -159,7 +184,7 @@ export default function PrimarySearchAppBar(props) {
         <p>Login</p>
       </MenuItem>
       <MenuItem onClick={() => {
-        history.push('/signup')
+        history.push('/joinus')
         handleMobileMenuClose()
       }}>
 
@@ -177,80 +202,82 @@ export default function PrimarySearchAppBar(props) {
     exact: true,
     strict: false
   });
-  const match1 = matchPath(location.pathname, {
-    path: "/",
-    exact: true,
-    strict: false
-  });
+
 
   return (
     <div className={classes.grow}>
       <SearchFilterDialog show={show} handleClose={handleFilterClose} />
-      <AppBar color='inherit' className={classes.Appbar}>
-        <Toolbar variant="regular">
-          <IconButton
-            onClick={() => {
-              history.push("/");
-            }}
-            edge="start"
-            className={classes.menuButton}
-            disableFocusRipple
-            disableRipple
-            style={{ backgroundColor: "transparent" }}
-          >
+      <React.Fragment>
+        <CssBaseline />
+        <ElevationScroll {...props}>
+          <AppBar color='inherit' className={classes.Appbar}>
+            <Toolbar variant="regular">
+              <IconButton
+                onClick={() => {
+                  history.push("/");
+                }}
+                edge="start"
+                className={classes.menuButton}
+                disableFocusRipple
+                disableRipple
+                style={{ backgroundColor: "transparent" }}
+              >
 
-            <img src={Logo} height="45px" alt="Roomlelo" />
-          </IconButton>
+                <img src={Logo} height="45px" alt="Roomlelo" />
+              </IconButton>
 
-          <div className={classes.grow} />
+              <div className={classes.grow} />
 
 
-          <div className={classes.sectionDesktop}>
+              <div className={classes.sectionDesktop}>
 
-            {/* <Button onClick={() => history.push("/whyus")} color="inherit">
+                {/* <Button onClick={() => history.push("/whyus")} color="inherit">
               <Typography variant="button">Why Prefer us</Typography>
             </Button> */}
 
-            {/* <Button color="inherit" onClick={() => history.push("/properties")}>
+                {/* <Button color="inherit" onClick={() => history.push("/properties")}>
               <Typography variant="button">Our Properties</Typography>
             </Button> */}
 
-            <Button onClick={() => history.push("/refer")} color="inherit">
-              <Typography variant="button">Refer & Earn</Typography>
+                <Button onClick={() => history.push("/refer")} color="inherit">
+                  <Typography variant="button">Refer & Earn</Typography>
 
-            </Button>
-            {props.auth === true && ""}
-            <Button onClick={() => history.push("/login")} color="inherit">
-              <Typography variant="button">Login</Typography>
-            </Button>
+                </Button>
+                {props.auth === true && ""}
+                <Button onClick={() => history.push("/login")} color="inherit">
+                  <Typography variant="button">Login</Typography>
+                </Button>
 
-            <Button variant='contained' style={{color:'#fff'}} color='primary' onClick={() => history.push("/joinus")} >
-              <Typography color='inherit' variant="button">List with us</Typography>
-            </Button>
-          </div>
+                <Button variant='contained' color='primary' onClick={() => history.push("/joinus")} >
+                  <Typography color='inherit' variant="button">List with us</Typography>
+                </Button>
+              </div>
 
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
+              <div className={classes.sectionMobile}>
+                <IconButton
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={handleMobileMenuOpen}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+              </div>
+            </Toolbar>
 
 
 
-        {match ?
-          <Toolbar>
-            <Filter />
-          </Toolbar> : ''}
+            {match ?
+              <Toolbar>
+                <Filter />
+              </Toolbar> : ''}
 
-      </AppBar>
-      {renderMobileMenu}
+          </AppBar>
+        </ElevationScroll>
+        {renderMobileMenu}
+      </React.Fragment>
+
     </div>
   );
 }

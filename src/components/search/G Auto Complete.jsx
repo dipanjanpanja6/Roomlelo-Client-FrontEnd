@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     marginRight: theme.spacing(2),
   },
+  PaperStyle:{
+    background:theme.palette.secondary.main
+  }
 }));
 
 export default function GoogleMapsAutoComplete() {
@@ -100,6 +103,7 @@ console.log(value);
       filterOptions={(x) => x}
       options={options}
       autoComplete
+      classes={{paper:classes.PaperStyle}}
       includeInputInList
       filterSelectedOptions
       value={value}
