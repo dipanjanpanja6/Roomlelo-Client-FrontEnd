@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux'
 import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
@@ -10,6 +10,8 @@ import TimeInput from 'material-ui-time-picker'
 import Skeleton from '@material-ui/lab/Skeleton';
 import { getRoomDetails } from '../redux/actions/roomActions'
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+
+import {signInWithMobile, verifyMobileCode} from '../redux/actions/userActions'
 
 
 const style = makeStyles((theme) => ({
@@ -102,7 +104,13 @@ const style = makeStyles((theme) => ({
 }))
 const RoomsComponents = (props) => {
      
-    const sty = style()
+    const [number, setNumber]  = useState("");
+    const [email, setEmail] = useState("");
+    const [code, setCode] = useState("");
+    const [time, setTime] = useState("");
+    const [date, setDate] = useState("");
+    
+    const sty = style();
     // const theme = useTheme();
     // const matches = useMediaQuery(theme.breakpoints.down('xs'));
     const plan = [
@@ -121,11 +129,11 @@ const RoomsComponents = (props) => {
         { key: "Location", star: 4.5 },
         { key: "value", star: 4.5 },
         { key: "Service", star: 4.5 },
-    ]
+    ];
 
     useEffect(() => {
         const id = props.match.params.id
-        props.getRoomDetails(id)
+        props.getRoomDetails(id);
     }, [props.match.params.id])
 
     const Rating = rate1.map((p, i) => {
@@ -185,13 +193,34 @@ const RoomsComponents = (props) => {
     ))
 
     var lat = props.room.roomDetails ? props.room.roomDetails.lat : ''
-    var lan = props.room.roomDetails ? props.room.roomDetails.lan: ''
+    var lan = props.room.roomDetails ? props.room.roomDetails.lng: ''
 
     console.log(lat, lan);
 const handleChange=(e)=>{
+    const d = new Date(e)
+    // const hours = d.getHours()
+    // const minutes = d.getMinutes()
+    // const t = `${hours}:${minutes}`
+    var time = d.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3")
     
+    setTime(time)
 }
 
+const handleScheduleClick = () =>{
+    props.signInWithMobile(number)
+}
+const handleNumberChange = (event) =>{
+    setNumber(event.target.value)
+}
+const handleVerifyClick = () =>{
+    const mobile = props.user.number
+    const data = {
+        date:date,
+        time:time,
+        id:props.match.params.id
+    }
+    props.verifyMobileCode(mobile, code, data)
+}
     return (
         <>
             <Toolbar />
@@ -264,7 +293,7 @@ const handleChange=(e)=>{
                                     fullWidth
                                     margin='dense'
                                     type="date"
-                                    variant='outlined'
+                                    variant='outlined' onChange={(e) => setDate(e.target.value)}
                                     placeholder="Choose your Prefered Date or Week-end" />
 
                                 <TimeInput
@@ -273,21 +302,32 @@ const handleChange=(e)=>{
                                     onChange={(time) => handleChange(time)}
                                     inputComponent={TextField}
                                     margin='dense'
-                                    variant='outlined'
+                                    variant='outlined' 
                                     placeholder='Select your time of Visit' />
                             </div>
                             <TextField className={sty.bookPadding}
                                 margin='dense'
-                                variant='outlined'
-                                type="number"
+                                variant='outlined'  value={number}
+                                type="number" onChange={handleNumberChange}
                                 placeholder="Contact Number" />
                             <TextField className={sty.bookPadding}
                                 margin='dense'
-                                variant='outlined'
+                                variant='outlined' 
                                 type="email"
                                 placeholder="Email address" />
 
-                            <Button variant='outlined'>
+                                {props.user.sended && 
+                                <TextField placeholder="Verification Code" 
+                                type="number"  onChange={(e) => setCode(e.target.value)}
+                                margin="dense" variant="outlined"  value={code}
+                                className={sty.bookPadding}/>}
+                                
+
+                                    {props.user.sended && 
+                                    <Button onClick={handleVerifyClick} variant='outlined'>
+                                        Verify Mobile
+                                    </Button>}
+                            <Button onClick={handleScheduleClick} variant='outlined'>
                                 Schedule your Visit
                             </Button>
                             <Typography style={{ textAlign: 'center' }}>OR</Typography>
@@ -417,12 +457,17 @@ const handleChange=(e)=>{
 };
 RoomsComponents.PropType = {
     sty: PropType.object.isRequired,
-    getRoomDetails: PropType.func.isRequired
+    getRoomDetails: PropType.func.isRequired,
+    signInWithMobile:PropType.func.isRequired,
+    verifyMobileCode:PropType.func.isRequired
 }
 const mapState = (state) => ({
-    room: state.room
+    room: state.room,
+    user:state.user
 });
 const mapActionsToProps = {
-    getRoomDetails
+    getRoomDetails,
+    signInWithMobile,
+    verifyMobileCode
 };
 export default connect(mapState, mapActionsToProps)((GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsComponents)))
