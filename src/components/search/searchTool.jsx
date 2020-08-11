@@ -9,10 +9,10 @@ import {getFilteredSearch, getFiltered} from '../../redux/actions/roomActions'
 const style = makeStyles(theme => ({
     padding: {
         // padding: 20,
-        [theme.breakpoints.down('xs')]:{
+        [theme.breakpoints.down('xs')]: {
             // padding: 0,
-            
-          }
+
+        }
     },
     title: {
         fontWeight: 'bold',
@@ -22,14 +22,18 @@ const style = makeStyles(theme => ({
         marginBottom: 4,
         width: '90%'
     },
+    paperRoot: {
+        background: theme.palette.secondary.main,
+
+    },
     paper: {
-        minHeight: 100,
+        // minHeight: 150,
         width: "100%",
-        padding: 20, 
+        padding: '20px 0',
         // maxWidth:200,
         [theme.breakpoints.down('xs')]: {
-            
-            borderRadius:0
+
+            borderRadius: 0
         }
     }
 }))
@@ -116,8 +120,8 @@ const SearchToolBar = props => {
             alignItems="center"
             className={sty.padding}
         >
-            <Paper className={sty.paper}>
-                <Grid style={{ height: '100%', width: "100%" }}
+            <Paper className={sty.paper} elevation={0} classes={{ root: sty.paperRoot }}>
+                <Grid style={{ minHeight: 140, width: "100%" }}
                     container
                     justify="center"
                     alignItems="center"
@@ -128,8 +132,8 @@ const SearchToolBar = props => {
                     </Grid>
                     <Grid item xs={6} sm={3}>
                         <Typography variant='h6' className={sty.title}>Property Type</Typography>
-                        <Select variant='outlined' margin='dense' value={type} className={sty.select}>
-                            <MenuItem onClick={handleTypeClick} id="none" value="All Types">All Types</MenuItem>
+                        <Select variant='outlined' margin='dense' value={'None'} className={sty.select} MenuProps={{classes:{paper:sty.paperRoot}}} >
+                            <MenuItem onClick={handleTypeClick} id="none" value="None">All Types</MenuItem>
                             <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
                             <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
                             <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>

@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
     marginRight: theme.spacing(2),
   },
+  PaperStyle:{
+    background:theme.palette.secondary.main
+  }
 }));
 
 function GoogleMapsAutoComplete(props) {
@@ -105,6 +108,7 @@ const handleChange = (event, newValue) =>{
       filterOptions={(x) => x}
       options={options}
       autoComplete
+      classes={{paper:classes.PaperStyle}}
       includeInputInList
       filterSelectedOptions
       value={value}

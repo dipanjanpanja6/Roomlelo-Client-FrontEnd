@@ -13,8 +13,8 @@ import { useHistory } from "react-router-dom";
 const styles = makeStyles((theme) => ({
     root: {
         paddingBottom: 30, paddingTop: 30,
-        //  background: theme.palette.info.light
-         background: 'aliceblue'
+         background: theme.palette.text.icon ?"#000":theme.palette.secondary.main
+        //  background: theme.palette.text.icon ? "#000": 'aliceblue'
     },
     content: {
         flexDirection: 'column',
@@ -48,7 +48,7 @@ export default function Footer() {
             </Grid>
 
             <Grid sm={3} container className={sty.content} >
-                <Typography variant="h5" >
+                <Typography variant="h5"  color='textPrimary'>
                     About the Company
                 </Typography>
                 <Link color='textSecondary'  variant='body1' to='/about' component={RouterLink}>About us</Link>
@@ -64,7 +64,7 @@ export default function Footer() {
                 </Typography>
         </Grid>
         <Grid sm={3} container className={sty.content} >
-            <Typography variant="h5">
+            <Typography variant="h5" color='textPrimary'>
                 Partner with us
                 </Typography>
             <Typography variant='body1' color="textSecondary">
@@ -75,7 +75,7 @@ export default function Footer() {
                 </Typography>
         </Grid>
         <Grid sm={3} container className={sty.content} >
-            <Typography variant="h5">
+            <Typography variant="h5" color='textPrimary'>
                 More Information
                 </Typography>
             <Typography variant='body1' color="textSecondary">

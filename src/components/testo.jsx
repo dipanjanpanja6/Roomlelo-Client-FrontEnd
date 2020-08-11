@@ -24,15 +24,15 @@ const Testo = (props) => {
         <Grid container justify="center" alignItems="center" className={sty.offer}
         >
           <Typography
-            variant="h4" style={{
-              paddingTop: 15, paddingBottom: 20, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
+            variant="h4" color='textPrimary' style={{
+              paddingTop: 15, paddingBottom: 20, textAlign: 'center', fontWeight: "bold", 
             }}
           >
             Testimonials
           </Typography>
           <Typography
             variant='body1' color='textSecondary' style={{
-              paddingBottom: 44, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
+              paddingBottom: 44, textAlign: 'center', fontWeight: "bold", 
             }}
           >
             Know why our Clients, believe and love us
@@ -40,10 +40,12 @@ const Testo = (props) => {
 
           <Grid container alignItems="center" justify='center'>
             <Grid item sm={5} style={{ padding: '20px 0px' }}>
-              <Grid container item alignItems="center" justify='center' style={{ background: `url(https://source.unsplash.com/random/?house)`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={sty.growth2}>
-                <Typography variant='h4' style={{ fontWeight:'bold',paddingBottom: 12,color:'#eee', textAlign: 'center' }}>“Know why our Customer love us”</Typography>
-              </Grid>
+              <img  src={`https://source.unsplash.com/random/?house`} className={sty.growth2}/>
+             
             </Grid>
+            <Grid item sm={5}>
+                <Typography variant='h4' style={{ fontWeight:'bold',paddingBottom: 12, textAlign: 'center' }}>“Know why our Customer love us”</Typography>
+          </Grid>
           </Grid>
 
         </Grid>
