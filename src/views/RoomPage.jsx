@@ -84,7 +84,6 @@ const style = makeStyles((theme) => ({
             display: 'none'
         }
     },
-
     menu: {
         [theme.breakpoints.down('xs')]: {
             display: 'none'

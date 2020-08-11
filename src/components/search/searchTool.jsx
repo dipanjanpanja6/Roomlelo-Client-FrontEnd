@@ -151,7 +151,7 @@ const SearchToolBar = props => {
                     </Grid>
 
                     <Grid item xs={6} sm={3} container justify='center' alignItems='center'>
-                        <Button onClick={handleSearch} variant='contained' size='large' color='primary' style={{ color: '#fff', paddingLeft: 50,marginTop:12, paddingRight: 50 }}>
+                        <Button onClick={handleSearch} variant='contained' size='large' color='primary' style={{paddingLeft: 50,marginTop:12, paddingRight: 50 }}>
                             Search
                         </Button>
                     </Grid>

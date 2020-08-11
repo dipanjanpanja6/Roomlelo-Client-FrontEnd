@@ -44,7 +44,7 @@ function GoogleMapsAutoComplete(props) {
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAP_API_KEY}&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAP_API_KEY}&libraries=places&region=in`,
         document.querySelector('head'),
         'google-maps',
       );
@@ -65,7 +65,8 @@ function GoogleMapsAutoComplete(props) {
     let active = true;
 
     if (!autocompleteService.current && window.google) {
-      autocompleteService.current = new window.google.maps.places.AutocompleteService();
+      autocompleteService.current = new window.google.maps.places.AutocompleteService()
+
     }
     if (!autocompleteService.current) {
       return undefined;
@@ -76,7 +77,7 @@ function GoogleMapsAutoComplete(props) {
       return undefined;
     }
 
-    fetch({ input: inputValue }, (results) => {
+    fetch({ input: inputValue,componentRestrictions:{'country': 'in'},types: ['(regions)'], }, (results) => {
       if (active) {
         let newOptions = [];
 
@@ -87,7 +88,6 @@ function GoogleMapsAutoComplete(props) {
         if (results) {
           newOptions = [...newOptions, ...results];
         }
-
         setOptions(newOptions);
       }
     });
@@ -96,7 +96,7 @@ function GoogleMapsAutoComplete(props) {
       active = false;
     };
   }, [value, inputValue, fetch]);
-console.log(value);
+console.log(value,inputValue, fetch);
 const handleChange = (event, newValue) =>{
   
 }

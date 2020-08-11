@@ -203,8 +203,10 @@ const RoomsPage = (props) => {
 
         }
     };
-
-    let roomMarkUp = props.room.rooms != null ? props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) : <Loading />;
+console.log(props.room.rooms);
+    let roomMarkUp = props.room.rooms != null ?
+     props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) 
+     : <Loading />;
     const onMarkerClick = (id) => {
         history.push(`/rooms/${id}`)
     }
