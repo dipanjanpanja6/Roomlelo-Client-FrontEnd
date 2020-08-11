@@ -132,8 +132,8 @@ const SearchToolBar = props => {
                     </Grid>
                     <Grid item xs={6} sm={3}>
                         <Typography variant='h6' className={sty.title}>Property Type</Typography>
-                        <Select variant='outlined' margin='dense' value={'None'} className={sty.select} MenuProps={{classes:{paper:sty.paperRoot}}} >
-                            <MenuItem onClick={handleTypeClick} id="none" value="None">All Types</MenuItem>
+                        <Select variant='outlined' margin='dense' value={type} className={sty.select} MenuProps={{classes:{paper:sty.paperRoot}}} >
+                            <MenuItem onClick={handleTypeClick} id="none" value="All Types">All Types</MenuItem>
                             <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
                             <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
                             <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>
