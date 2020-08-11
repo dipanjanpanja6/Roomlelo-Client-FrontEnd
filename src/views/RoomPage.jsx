@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { connect } from 'react-redux'
-import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress } from '@material-ui/core'
+import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress, InputAdornment, ButtonGroup } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
-import PropType from 'prop-types'
+import PropTypes from 'prop-types'
 import { MAP_API_KEY } from '../config/config'
 import Footer from "../components/footer";
 import ImageSlider from '../components/ImageSlider'
-import TimeInput from 'material-ui-time-picker'
+// import TimeInput from 'material-ui-time-picker'
+
 import Skeleton from '@material-ui/lab/Skeleton';
 import { getRoomDetails } from '../redux/actions/roomActions'
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 
-import {signInWithMobile, verifyMobileCode} from '../redux/actions/userActions'
-
+import BookScheduleCard from "../components/Book & Schedule/Book & Schedule Card";
+import Loading from '../components/loading';
+import ResponsiveDialog from "../components/bottom nevigation/dialog";
 
 const style = makeStyles((theme) => ({
     tab: {
@@ -78,16 +80,11 @@ const style = makeStyles((theme) => ({
     },
     book: {
         padding: 34,
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        }
     },
-    bookPaper: {
-        flexDirection: 'column',
-        display: 'flex',
-        padding: 12,
-        background: 'rgba(196, 196, 196, 0.3)'
-    },
-    bookPadding: {
-        padding: 0
-    },
+
     menu: {
         [theme.breakpoints.down('xs')]: {
             display: 'none'
@@ -99,17 +96,30 @@ const style = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             height: 400
         }
-    }
+    },
+    bottomNav: {
+        display: 'none',
+        width: '100vw',
+        position: 'fixed',
+        bottom: 0,
+        right: 0,
+        zIndex: theme.zIndex.drawer ,
+        background: theme.palette.primary.main,
+        [theme.breakpoints.down('xs')]: {
+            display: 'flex',
+            height: 50
+        }
+    },
+    footer: {
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        }
 
+    }
 }))
 const RoomsComponents = (props) => {
-     
-    const [number, setNumber]  = useState("");
-    const [email, setEmail] = useState("");
-    const [code, setCode] = useState("");
-    const [time, setTime] = useState("");
-    const [date, setDate] = useState("");
-    
+
+    const [dialog, setDialog] = useState(false)
     const sty = style();
     // const theme = useTheme();
     // const matches = useMediaQuery(theme.breakpoints.down('xs'));
@@ -193,281 +203,212 @@ const RoomsComponents = (props) => {
     ))
 
     var lat = props.room.roomDetails ? props.room.roomDetails.lat : ''
-    var lan = props.room.roomDetails ? props.room.roomDetails.lng: ''
+    var lan = props.room.roomDetails ? props.room.roomDetails.lng : ''
 
     console.log(lat, lan);
-const handleChange=(e)=>{
-    const d = new Date(e)
-    // const hours = d.getHours()
-    // const minutes = d.getMinutes()
-    // const t = `${hours}:${minutes}`
-    var time = d.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3")
-    
-    setTime(time)
-}
-
-const handleScheduleClick = () =>{
-    props.signInWithMobile(number)
-}
-const handleNumberChange = (event) =>{
-    setNumber(event.target.value)
-}
-const handleVerifyClick = () =>{
-    const mobile = props.user.number
-    const data = {
-        date:date,
-        time:time,
-        id:props.match.params.id
+    const BookNowMobile = () => {
+       setDialog(!dialog)
     }
-    props.verifyMobileCode(mobile, code, data)
-}
+   
     return (
         <>
             <Toolbar />
-            <Grid container>
-                <Grid container className={sty.rootImage} >
-                    {props.room.roomDetails != null ?
-                        <ImageSlider images={props.room.roomDetails ? props.room.roomDetails.photos : ""} text={props.room.roomDetails.forWhom} height={600} MHeight={400} /> :
+            {!props.room.roomDetails ?
+                <Loading />
+                :
+                <Grid container>
+                    <Grid container className={sty.rootImage} >
+                        {/* {props.room.roomDetails != null ? */}
+                        <ImageSlider images={props.room.roomDetails ? props.room.roomDetails.photos : ""} text={props.room.roomDetails.forWhom} height={600} MHeight={400} />
+                        {/* :
                         <Grid container justify="center" alignItems="center" className={sty.imageSlider} >
                             <CircularProgress />
-                        </Grid>}
-                </Grid>
-
-                <Grid container>
-                    <Grid container item sm={8} style={{ flexDirection: 'column', paddingLeft: 12 }}>
-                        <Grid container className={sty.menu}>
-
-                            <Typography className={sty.tab} variant='subtitle1'>Over-View of the Property</Typography>
-                            <Typography variant='subtitle1' className={sty.tab}>Amenities</Typography>
-                            <Typography variant='subtitle1' className={sty.tab}>Your Room</Typography>
-                            <Typography variant='subtitle1' className={sty.tab}>Your Neighborhood</Typography>
-                        </Grid>
-                        <Divider />
-                        <Grid>
-
-                            <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton /> : <Skeleton />}</Typography>
-                            <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton /> : <Skeleton />}</Typography>
-                            <Typography variant='subtitle1' >{props.room.roomDetails ? props.room.roomDetails.furnished ? props.room.roomDetails.furnished : <Skeleton /> : <Skeleton />}</Typography>
-
-                            <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton /> : <Skeleton />} | {props.room.roomDetails ?
-                                props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
-
-                            <Typography variant='body1'>{props.room.roomDetails ? props.room.roomDetails.description ? props.room.roomDetails.description : <Skeleton /> : <Skeleton />}</Typography>
-
-
-                        </Grid>
-                        <Divider />
-                        <Grid container>
-
-                            <Typography variant='h4' className={sty.title}>Over-View of the Property</Typography>
-                            <Grid container alignItems="center" >
-                                {props.room.roomDetails ? props.room.roomDetails.HouseFeature ?
-                                    props.room.roomDetails.HouseFeature.map((data, index) => <div className={sty.box_grid}>
-                                        <div className={sty.box_class}></div>
-                                        <Typography variant="caption">
-                                            {data}
-                                        </Typography>
-                                    </div>) : "" : ""}
-                            </Grid>
-                        </Grid>
-
-                    </Grid>
-                    <Grid container sm={4} className={sty.book} alignItems='baseline'>
-
-                        <Paper className={sty.bookPaper}>
-                            <Typography variant='body2'>
-                                {props.room.roomDetails ? props.room.roomDetails.type : "Private Rooms"} in Apartment
-                             </Typography>
-                            <Typography variant='body2'>
-                                Starting at <b>Rs. {props.room.roomDetails ? props.room.roomDetails.price : "Loading..."} /- </b>Per Month
-                            </Typography>
-                            <Divider style={{ margin: '12px 0' }} />
-                            <Typography variant='body1'>
-                                <b>Schedule your Visit:</b>
-                            </Typography>
-
-
-                            <div style={{ boxSizing: 'border-box', display: 'flex' }}>
-
-                                <TextField className={sty.bookPadding} style={{ paddingRight: 6 }}
-                                    fullWidth
-                                    margin='dense'
-                                    type="date"
-                                    variant='outlined' onChange={(e) => setDate(e.target.value)}
-                                    placeholder="Choose your Prefered Date or Week-end" />
-
-                                <TimeInput
-                                    mode='12h'
-                                    className={sty.bookPadding} style={{ paddingLeft: 6 }}
-                                    onChange={(time) => handleChange(time)}
-                                    inputComponent={TextField}
-                                    margin='dense'
-                                    variant='outlined' 
-                                    placeholder='Select your time of Visit' />
-                            </div>
-                            <TextField className={sty.bookPadding}
-                                margin='dense'
-                                variant='outlined'  value={number}
-                                type="number" onChange={handleNumberChange}
-                                placeholder="Contact Number" />
-                            <TextField className={sty.bookPadding}
-                                margin='dense'
-                                variant='outlined' 
-                                type="email"
-                                placeholder="Email address" />
-
-                                {props.user.sended && 
-                                <TextField placeholder="Verification Code" 
-                                type="number"  onChange={(e) => setCode(e.target.value)}
-                                margin="dense" variant="outlined"  value={code}
-                                className={sty.bookPadding}/>}
-                                
-
-                                    {props.user.sended && 
-                                    <Button onClick={handleVerifyClick} variant='outlined'>
-                                        Verify Mobile
-                                    </Button>}
-                            <Button onClick={handleScheduleClick} variant='outlined'>
-                                Schedule your Visit
-                            </Button>
-                            <Typography style={{ textAlign: 'center' }}>OR</Typography>
-                            <Button variant='contained' color='primary'>
-                                Book Now
-                            </Button>
-                            <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: 99999999999</Typography>
-                        </Paper>
-
+                         </Grid>} */}
                     </Grid>
 
-                    <Divider />
+                    <Grid container>
+                        <Grid container item sm={8} style={{ flexDirection: 'column', paddingLeft: 12 }}>
+                            <Grid container className={sty.menu}>
 
-                    <Grid container style={{ flexDirection: 'column', paddingLeft: 12, paddingRight: 12 }}>
-                        <Grid container>
-                            <Typography variant='h4' className={sty.title}>Amenities</Typography>
-                            <Grid container alignItems="center" >
-                                {props.room.roomDetails ? props.room.roomDetails.amenities ?
-                                    props.room.roomDetails.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
-                                        <div className={sty.box_class}></div>
-                                        <Typography variant="caption">
-                                            {data}
-                                        </Typography>
-                                    </div>) : "" : ""}
+                                <Typography className={sty.tab} variant='subtitle1'>Over-View of the Property</Typography>
+                                <Typography variant='subtitle1' className={sty.tab}>Amenities</Typography>
+                                <Typography variant='subtitle1' className={sty.tab}>Your Room</Typography>
+                                <Typography variant='subtitle1' className={sty.tab}>Your Neighborhood</Typography>
                             </Grid>
-                        </Grid>
+                            <Divider />
+                            <Grid>
 
-                        <Divider />
-                        {roomType && <><Grid container>
-                            <Typography variant='h4' className={sty.title}>Rent Details</Typography>
-                            <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
-                                <Grid container alignItems="center" className={sty.planRoot}>
-                                    {RoomCard}
+                                <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='subtitle1' >{props.room.roomDetails ? props.room.roomDetails.furnished ? props.room.roomDetails.furnished : <Skeleton /> : <Skeleton />}</Typography>
 
+                                <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton /> : <Skeleton />} | {props.room.roomDetails ?
+                                    props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
+
+                                <Typography variant='body1'>{props.room.roomDetails ? props.room.roomDetails.description ? props.room.roomDetails.description : <Skeleton /> : <Skeleton />}</Typography>
+
+
+                            </Grid>
+                            <Divider />
+                            <Grid container>
+
+                                <Typography variant='h4' className={sty.title}>Over-View of the Property</Typography>
+                                <Grid container alignItems="center" >
+                                    {props.room.roomDetails ? props.room.roomDetails.HouseFeature ?
+                                        props.room.roomDetails.HouseFeature.map((data, index) => <div className={sty.box_grid}>
+                                            <div className={sty.box_class}></div>
+                                            <Typography variant="caption">
+                                                {data}
+                                            </Typography>
+                                        </div>) : "" : ""}
                                 </Grid>
                             </Grid>
 
                         </Grid>
-                            <Divider /></>
-                        }
+                        <Grid container sm={4} className={sty.book} justify='center' alignItems='baseline'>
 
+                            <BookScheduleCard />
 
-
-                        {rentDetails}
-                        {othersCharge}
+                        </Grid>
 
                         <Divider />
 
-                        <Grid container justify='center'>
-                            <Typography variant='h4' className={sty.title}>What all in covered in our Plan?</Typography>
-                            <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
-                                <Grid container alignItems="center" className={sty.planRoot}>
-
-                                    {plan.map((p, i) => {
-                                        return <Grid item >
-                                            <Card key={i} className={sty.plan}>
-                                                <CardMedia style={{ height: '100%', width: "100%", display: 'flex', alignItems: 'center' }} image="https://source.unsplash.com/random/?house">
-
-                                                    <Typography variant='subtitle1' className={sty.planTitle}>
-                                                        {p}
-                                                    </Typography>
-                                                </CardMedia>
-                                            </Card>
-                                        </Grid>
-                                    })}
-
+                        <Grid container style={{ flexDirection: 'column', paddingLeft: 12, paddingRight: 12 }}>
+                            <Grid container>
+                                <Typography variant='h4' className={sty.title}>Amenities</Typography>
+                                <Grid container alignItems="center" >
+                                    {props.room.roomDetails ? props.room.roomDetails.amenities ?
+                                        props.room.roomDetails.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
+                                            <div className={sty.box_class}></div>
+                                            <Typography variant="caption">
+                                                {data}
+                                            </Typography>
+                                        </div>) : "" : ""}
                                 </Grid>
                             </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid container justify='center' alignItems='center' className={sty.reviews}>
-                            <Typography variant='h4' className={sty.title}>Cutomer Reviews</Typography>
-                            <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
-                        </Grid>
 
-                        <Grid container justify='center' alignItems="center"  >
-                            <Grid container item sm={6} justify='center' alignItems="center"  >
-                                {Rating}
+                            <Divider />
+                            {roomType && <><Grid container>
+                                <Typography variant='h4' className={sty.title}>Rent Details</Typography>
+                                <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                    <Grid container alignItems="center" className={sty.planRoot}>
+                                        {RoomCard}
+
+                                    </Grid>
+                                </Grid>
+
                             </Grid>
-                            <Grid container item sm={6} justify='center' alignItems="center"  >
-                                {Rating1}
+                                <Divider /></>
+                            }
+
+
+
+                            {rentDetails}
+                            {othersCharge}
+
+                            <Divider />
+
+                            <Grid container justify='center'>
+                                <Typography variant='h4' className={sty.title}>What all in covered in our Plan?</Typography>
+                                <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                    <Grid container alignItems="center" className={sty.planRoot}>
+
+                                        {plan.map((p, i) => {
+                                            return <Grid item >
+                                                <Card key={i} className={sty.plan}>
+                                                    <CardMedia style={{ height: '100%', width: "100%", display: 'flex', alignItems: 'center' }} image="https://source.unsplash.com/random/?house">
+
+                                                        <Typography variant='subtitle1' className={sty.planTitle}>
+                                                            {p}
+                                                        </Typography>
+                                                    </CardMedia>
+                                                </Card>
+                                            </Grid>
+                                        })}
+
+                                    </Grid>
+                                </Grid>
                             </Grid>
-                        </Grid>
+                            <Divider />
+                            <Grid container justify='center' alignItems='center' className={sty.reviews}>
+                                <Typography variant='h4' className={sty.title}>Cutomer Reviews</Typography>
+                                <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
+                            </Grid>
+
+                            <Grid container justify='center' alignItems="center"  >
+                                <Grid container item sm={6} justify='center' alignItems="center"  >
+                                    {Rating}
+                                </Grid>
+                                <Grid container item sm={6} justify='center' alignItems="center"  >
+                                    {Rating1}
+                                </Grid>
+                            </Grid>
 
 
-                        <Grid container justify='center' alignItems='center' className={sty.reviews}>
+                            <Grid container justify='center' alignItems='center' className={sty.reviews}>
 
-                            <Typography variant='h4' className={sty.title}>Your Neighbourhood</Typography>
-                            <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
+                                <Typography variant='h4' className={sty.title}>Your Neighbourhood</Typography>
+                                <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
 
-                            <Grid container alignItems="center" className={sty.side_map_class} >
-                                <Map google={props.google} containerStyle={{
-                                    position: 'relative',
-                                    width: '100%',
-                                    height: '100%'
-                                }} zoom={17}
-                                    style={{
+                                <Grid container alignItems="center" className={sty.side_map_class} >
+                                    <Map google={props.google} containerStyle={{
+                                        position: 'relative',
                                         width: '100%',
                                         height: '100%'
-                                    }}
-                                    initialCenter={{
-                                        lat: lat,
-                                        lng: lan
-                                    }}
-                                    center={{
-                                        lat: lat,
-                                        lng: lan
-                                    }}
-                                >
-                                    <Marker
-                                        name={'Dolores park'}
-                                        zoom={15}
-                                        position={{ lat: lat, lng: lan }} />
+                                    }} zoom={17}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%'
+                                        }}
+                                        initialCenter={{
+                                            lat: lat,
+                                            lng: lan
+                                        }}
+                                        center={{
+                                            lat: lat,
+                                            lng: lan
+                                        }}
+                                    >
+                                        <Marker
+                                            name={'Dolores park'}
+                                            zoom={15}
+                                            position={{ lat: lat, lng: lan }} />
 
-                                </Map>
+                                    </Map>
+                                </Grid>
                             </Grid>
+
+
+
                         </Grid>
-
-
-
                     </Grid>
+                    {<ResponsiveDialog open={dialog}>
+                        <BookScheduleCard/>
+                    </ResponsiveDialog>}
                 </Grid>
+            }
+
+            <Grid container className={sty.bottomNav}>
+                <ButtonGroup disableElevation variant="contained" size='large' fullWidth color="primary">
+                    <Button onClick={BookNowMobile}>Book Now</Button>
+                    <Button onClick={BookNowMobile} color='secondary'>Schedule your Visit</Button>
+                </ButtonGroup>
             </Grid>
-            <Footer />
+            <div className={sty.footer}>
+                <Footer />
+            </div>
         </>
     )
 };
 RoomsComponents.PropType = {
-    sty: PropType.object.isRequired,
-    getRoomDetails: PropType.func.isRequired,
-    signInWithMobile:PropType.func.isRequired,
-    verifyMobileCode:PropType.func.isRequired
+    sty: PropTypes.object.isRequired,
+    getRoomDetails: PropTypes.func.isRequired,
 }
 const mapState = (state) => ({
     room: state.room,
-    user:state.user
+    user: state.user
 });
 const mapActionsToProps = {
     getRoomDetails,
-    signInWithMobile,
-    verifyMobileCode
 };
 export default connect(mapState, mapActionsToProps)((GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsComponents)))

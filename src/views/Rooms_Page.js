@@ -29,7 +29,7 @@ const styles = makeStyles((theme) => ({
     side_map_class: {
         padding: 12,
         width: '100%',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             display: 'none'
         }
     },
@@ -128,7 +128,7 @@ const RoomsPage = (props) => {
             <AppBarSpace />
             <Grid container className={classes.root}  >
 
-                <Grid sm={7} item className={classes.side_room_class} onScroll={scrollCheck}>
+                <Grid md={7} item className={classes.side_room_class} onScroll={scrollCheck}>
 
                     {/* <RoomsComponents room={props.room} rooms={props.room.rooms} history={props.history} /> */}
 
@@ -136,7 +136,7 @@ const RoomsPage = (props) => {
                     {/* {state.loading && <CircularProgress/>} */}
                 </Grid>
 
-                <Grid sm={5} item className={classes.side_map_class}>
+                <Grid md={5} item className={classes.side_map_class}>
  
                     <Map google={props.google} containerStyle={c} zoom={5}
                         style={style}

@@ -126,3 +126,7 @@ input[type=number] {
 .active{
   display: block;
 }
+form{
+  display: contents !important;
+
+}

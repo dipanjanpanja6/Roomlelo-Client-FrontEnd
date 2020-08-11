@@ -31,7 +31,7 @@ const style = makeStyles((theme) => ({
     },
     bookPadding: {
         padding: 0,
-        background: '#fff'
+        // background: '#fff'
     },
     dashImg: {
         backgroundImage: `url(${require('../static/TenantDashboard.png')})`,
@@ -204,7 +204,7 @@ const RoomsComponents = (props) => {
                                 placeholder=" Email address" />
                             <Divider style={{ margin: '12px 0' }} />
 
-                            <Button variant='contained' color='primary'>
+                            <Button variant='contained' color='secondary'>
                                 Request a Call back for Assistance
                             </Button>
 

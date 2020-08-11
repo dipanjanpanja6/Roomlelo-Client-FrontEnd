@@ -9,7 +9,8 @@ import { Button } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    margin:20
+    margin:20,
+    background:theme.palette.secondary.main
   },
   details: {
     display: 'flex',
@@ -49,7 +50,7 @@ export default function MediaControlCard(props) {
           </Typography>
         </CardContent>
         <div className={classes.controls}>
-          <Button variant='outlined'>Book Now</Button>
+          <Button variant='contained' color='primary'>Book Now</Button>
         </div>
       </div>
       <CardMedia
