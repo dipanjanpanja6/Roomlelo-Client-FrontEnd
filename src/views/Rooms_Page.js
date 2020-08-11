@@ -5,8 +5,8 @@ import PropType from 'prop-types'
 import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_Item_Components";
 import AppBarSpace from '../components/appBarSpace';
 import Loading from '../components/loading'
-import { getRooms, getRoomsWithPagination, getRoomWithTypePagination, clearFilter } from '../redux/actions/roomActions'
-
+import { getRooms, getRoomsWithPagination, getRoomWithTypePagination, clearFilter, getFilteredSearch, getFiltered } from '../redux/actions/roomActions'
+import queryString from 'query-string'
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 //M-Ui
 import Grid from '@material-ui/core/Grid'
@@ -69,7 +69,112 @@ const RoomsPage = (props) => {
     const history = useHistory()
 
     useEffect(() => {
-        props.getRooms()
+        
+        const {searchId, search, filter, price, type} = queryString.parse(props.location.search)
+        if(search || filter){
+            
+            if(searchId !== "" && searchId && search === 'true'){
+                if(filter === 'true'){
+                    if(price && type){
+                  
+                        if(price !== "No Limit" && type !== "All Types"){
+                              if(price === "Below 5k"){
+                                  props.getFilteredSearch(searchId, "option_1", type)
+     
+                             }
+                             if(price === "5k to 10k"){
+                                  props.getFilteredSearch(searchId, "option_2", type)
+                             }
+                             if(price === "10k to 20k"){
+                              props.getFilteredSearch(searchId, "option_3", type)
+                             }
+                             if(price === "above 20k"){
+                              props.getFilteredSearch(searchId, "option_4", type)
+                             }
+                            
+                        }
+                        if(price === "No Limit" || type === "All Types"){
+                            if(price === "No Limit" && type !== "All Types"){
+                             props.getFilteredSearch(searchId, "", type)
+                            }
+                            if(price !== "No Limit" && type === "All Types"){
+                                if(price === "Below 5k"){
+                                     props.getFilteredSearch(searchId, "option_1", "")
+                                 
+                                }
+                                if(price === "5k to 10k"){
+                                     props.getFilteredSearch(searchId, "option_2", "")
+                                }
+                                if(price === "10k to 20k"){
+                                 props.getFilteredSearch(searchId, "option_3", "")
+                                }
+                                if(price === "above 20k"){
+                                 props.getFilteredSearch(searchId, "option_4", "")
+                                }
+                            }
+                             
+                        }
+                     }
+                }else{
+                    props.getFilteredSearch(searchId, "", "")
+                }
+                
+                
+            } 
+
+
+            if(search === 'false' && filter === "true"){
+                console.log(price)
+                if(price || type){
+
+                    if(price !== "No Limit" && type !== "All Types"){
+                        if(price === "Below 5k"){
+                            props.getFiltered( "option_1", type)
+
+                       }
+                       if(price === "5k to 10k"){
+                            props.getFiltered("option_2", type)
+                       }
+                       if(price === "10k to 20k"){
+                        props.getFiltered("option_3", type)
+                       }
+                       if(price === "above 20k"){
+                        props.getFiltered("option_4", type)
+                       }
+                      
+                  }
+
+                    if(price === "No Limit" || type === "All Types"){
+                        if(price === "No Limit" && type !== "All Types"){
+                         props.getFiltered("", type)
+                        }
+                        if(price !== "No Limit" && type === "All Types"){
+                            if(price === "Below 5k"){
+                                 props.getFiltered("option_1", "")
+                             
+                            }
+                            if(price === "5k to 10k"){
+                                 props.getFiltered( "option_2", "")
+                            }
+                            if(price === "10k to 20k"){
+                             props.getFiltered("option_3", "")
+                            }
+                            if(price === "above 20k"){
+                             props.getFiltered("option_4", "")
+                            }
+                        }
+                         
+                    }
+                }
+            }
+        }
+        if(!search && !filter){
+            props.getRooms()
+        }       
+    },[])
+
+    useEffect(() => {
+        
     }, [])
 
     // componentWillReceiveProps(){
@@ -160,7 +265,9 @@ RoomsPage.PropType = {
     getRooms: PropType.func.isRequired,
     classes: PropType.object.isRequired,
     getRoomWithTypePagination: PropType.func.isRequired,
-    clearFilter: PropType.func.isRequired
+    clearFilter: PropType.func.isRequired,
+    getFilteredSearch:PropType.func.isRequired,
+    getFiltered:PropType.func.isRequired
 };
 const mapState = (state) => ({
     room: state.room
@@ -169,6 +276,8 @@ const mapActionsToProps = {
     getRooms,
     getRoomsWithPagination,
     getRoomWithTypePagination,
-    clearFilter
+    clearFilter,
+    getFilteredSearch, 
+    getFiltered
 };
 export default connect(mapState, mapActionsToProps)(GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsPage))

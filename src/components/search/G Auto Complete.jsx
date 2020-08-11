@@ -7,7 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
-
+import {connect} from 'react-redux'
+import PropType from 'prop-types'
+import {setSearchText} from '../../redux/actions/roomActions'
 function loadScript(src, position, id) {
   if (!position) {
     return;
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoogleMapsAutoComplete() {
+function GoogleMapsAutoComplete(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState("Varanasi, Uttar Pradesh, India");
   const [inputValue, setInputValue] = React.useState('');
@@ -92,6 +94,9 @@ export default function GoogleMapsAutoComplete() {
     };
   }, [value, inputValue, fetch]);
 console.log(value);
+const handleChange = (event, newValue) =>{
+  
+}
   return (
     <Autocomplete
       id="google-map-demo"
@@ -106,9 +111,14 @@ console.log(value);
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        
+        
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
+       
+        props.setSearchText(newInputValue)
+        
       }}
       renderInput={(params) => (
         <TextField {...params} variant="outlined" margin='dense' style={{width:'90%'}} />
@@ -142,3 +152,13 @@ console.log(value);
     />
   );
 }
+GoogleMapsAutoComplete.PropType = {
+  setSearchText:PropType.func.isRequired
+}
+const mapState = (state) => ({
+
+})
+const mapActionsToProps = {
+setSearchText
+}
+export default connect(mapState, mapActionsToProps)(GoogleMapsAutoComplete)
