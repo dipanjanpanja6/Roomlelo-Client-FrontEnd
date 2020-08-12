@@ -394,7 +394,7 @@ const RoomsComponents = (props) => {
                         </Grid>
                     </Grid>
                     {<ResponsiveDialog open={dialog}>
-                        <BookScheduleCard />
+                        <BookScheduleCard id={props.match.params.id}/>
                     </ResponsiveDialog>}
                 </Grid>
             }
