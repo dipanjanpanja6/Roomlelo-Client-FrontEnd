@@ -72,12 +72,25 @@ function BookScheduleCard(props) {
         const data = {
             date: state.date,
             time: state.time,
-            id: props.match.params.id
+            id: props.id
             
         }
-        props.verifyMobileCode(mobile, code, data)
+        if(submitType === "schedule"){
+            props.verifyMobileCode(mobile, code,state.email, data, 'schedule')
+        }else{
+            props.verifyMobileCode(mobile, code,state.email, props.id, "book")
+        }
+        
     }
 
+    const scheduleClick = () =>{
+        setSubmitType('schedule')
+        props.signInWithMobile(state.number)
+    }
+    const bookClick = () =>{
+        setSubmitType('book')
+        props.signInWithMobile(state.number)
+    }
 
     return (
 
@@ -192,8 +205,8 @@ function BookScheduleCard(props) {
                     <div style={{ display: 'flex', flexGrow: 1 }}></div>
 
                     <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
-                        <Button mane='submit' onClick={()=>{setSubmitType('book')}} type='submit'>Book Now</Button>
-                        <Button mane='schedule' onClick={()=>{setSubmitType('schedule')}}  type='submit' color='secondary'>Schedule your Visit</Button>
+                        <Button mane='submit' onClick={bookClick} type='submit'>Book Now</Button>
+                        <Button mane='schedule' onClick={scheduleClick}  type='submit' color='secondary'>Schedule your Visit</Button>
                     </ButtonGroup></>}
 
                 {/* <Button type='submit'
