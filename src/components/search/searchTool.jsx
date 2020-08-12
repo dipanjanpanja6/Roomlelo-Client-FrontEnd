@@ -114,7 +114,7 @@ const SearchToolBar = props => {
             className={sty.padding}
         >
             <Paper className={sty.paper} elevation={0} classes={{ root: sty.paperRoot }}>
-                <Grid style={{ minHeight: 140, width: "100%" }}
+                <Grid style={{ minHeight: 100, width: "100%" }}
                     container
                     justify="center"
                     alignItems="center"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid,  makeStyles,  Typography, Toolbar } from '@material-ui/core'
  
 import PropType from 'prop-types' 
@@ -23,13 +23,15 @@ const style = makeStyles((theme) => ({
 
 }))
 const RoomsComponents = (props) => {
-
+    useEffect(() => {
+        window.scrollTo(0, 0) 
+       document.title='About us | RoomLelo'
+      }, [])
     const sty = style() 
 
     return (
         <>
             <Toolbar />
-            <AppBarSpace />
             <Grid container style={{padding:20}}>
                 <Grid container sm={4} className={sty.book}>
 

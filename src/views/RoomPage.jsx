@@ -70,7 +70,21 @@ const style = makeStyles((theme) => ({
         },
     },
     reviews: {
-        flexDirection: 'column'
+        flexDirection: 'column',
+        [theme.breakpoints.down('sm')]: {
+            paddingBottom: 50,
+        },
+    },
+    ratingPadding: {
+        paddingLeft: '15%',
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: '0',
+        },
+    },
+    rating: {
+        [theme.breakpoints.down('sm')]: {
+            justifyContent:'center'
+        },
     },
     side_map_class: {
         padding: 12,
@@ -115,7 +129,6 @@ const style = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             display: 'none'
         }
-
     }
 }))
 const RoomsComponents = (props) => {
@@ -150,7 +163,7 @@ const RoomsComponents = (props) => {
 
     const rating = rate1.map((p, i) => {
         return (
-            <Grid key={i} container alignItems="center" style={{ padding: 12 }}>
+            <Grid key={i} container alignItems="center" className={sty.rating} style={{ padding: 12 }}>
                 <Avatar style={{ margin: 8 }}></Avatar>
                 <Typography variant='body1'>
                     {p.key}
@@ -165,7 +178,7 @@ const RoomsComponents = (props) => {
     })
     const rating1 = rate2.map((p, i) => {
         return (
-            <Grid key={i} container alignItems="center" style={{ padding: 12 }}>
+            <Grid key={i} container alignItems="center" className={sty.rating} style={{ padding: 12 }}>
                 <Avatar style={{ margin: 8 }}></Avatar>
                 <Typography variant='body1'>
                     {p.key}
@@ -347,10 +360,10 @@ const RoomsComponents = (props) => {
                             </Grid>
 
                             <Grid container justify='center' alignItems="center"  >
-                                <Grid container item sm={6} alignItems="center" style={{ paddingLeft: '15%' }} s >
+                                <Grid container item sm={6} alignItems="center" className={sty.ratingPadding} >
                                     {rating}
                                 </Grid>
-                                <Grid container item sm={6} alignItems="center" style={{ paddingLeft: '15%' }} s >
+                                <Grid container item sm={6} alignItems="center"   >
                                     {rating1}
                                 </Grid>
                             </Grid>

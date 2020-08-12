@@ -43,7 +43,7 @@ const styles = makeStyles((theme) => ({
     }
   },
   fImg: {
-    width: 'inherit',
+    // width: 'inherit',
     [theme.breakpoints.down('xs')]: {
       height: 300,
     }
@@ -240,8 +240,8 @@ const FirstView = (sty, b) => {
   return (
     <Grid
       container
-      justify="center"
-      alignItems="center"
+      justify="center" 
+      alignItems='center'
       className={sty.FirstView}
     >
       <Grid item sm={7} style={{ paddingBottom: 50 }}>
@@ -254,7 +254,7 @@ const FirstView = (sty, b) => {
           Roomlelo is an online service provider, catering house owners in managing their properties along with helping the tenants to find a perfect home for them
         </Typography>
         <Button variant='contained' onClick={b} color='primary' size="large" style={{ marginTop: 43, paddingLeft: 50, paddingRight: 50 }}>
-          Book Now
+          Learn More
     </Button>
       </Grid>
       <Grid item sm={5} container justify='center' className={sty.FirstImg} >
@@ -269,6 +269,10 @@ const FirstView = (sty, b) => {
 function Home() {
   const history = useHistory();
   const sty = styles();
+  useEffect(() => {
+    window.scrollTo(0, 0) 
+   document.title='RoomLelo - Flats, house, rooms for rent without brokerage.'
+  }, [])
   var collections = (i) => {
     if (i === "Private Room") {
       history.push('/rooms?type=private')
@@ -497,7 +501,7 @@ function Home() {
   ));
 
   const bookNow = () => {
-    history.push('/rooms')
+    history.push('/about')
   }
 
   return (

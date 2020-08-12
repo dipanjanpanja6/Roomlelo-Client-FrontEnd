@@ -13,8 +13,8 @@ import { useHistory } from "react-router-dom";
 const styles = makeStyles((theme) => ({
     root: {
         paddingBottom: 30, paddingTop: 30,
-         background: theme.palette.text.icon ?"#000":theme.palette.secondary.main
-        //  background: theme.palette.text.icon ? "#000": 'aliceblue'
+        //  background: theme.palette.text.icon ?"#000":theme.palette.secondary.main
+         background: theme.palette.text.icon ? "#000": '#00f4fe3d'
     },
     content: {
         flexDirection: 'column',

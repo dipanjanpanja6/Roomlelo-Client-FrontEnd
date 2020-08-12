@@ -33,7 +33,7 @@ export default function ResponsiveDialog(props) {
                 onClose={handleClose}
                 // style={{padding:20}}
             >
-                <Fab color='secondary' size='small' style={{position:'fixed',top:7,right:7,}}>
+                <Fab color='secondary' onClick={handleClose} size='small' style={{position:'fixed',top:7,right:7,}}>
                     <CloseIcon />
                 </Fab>
                 {props.children}

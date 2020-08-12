@@ -17,14 +17,14 @@ const styles = makeStyles((theme) => ({
     flexDirection: 'column'
   },
   m: {
-    padding: '20px 40px 0',
-    [theme.breakpoints.down('xs')]: {
-      padding: '0px',
-
+    // padding: '20px 40px 0',
+    padding: '2%',
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 395
     }
   },
   benefit: {
-    flexDirection: 'row', 
+    // flexDirection: 'row', 
     textAlign: 'center',
     padding: '0 12px 20px',
   },
@@ -49,23 +49,23 @@ const Benefit = (props) => {
 
         <Grid item sm={4} className={sty.m} >
           <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
-            <img src={require('../static/benifit3.svg')} />
+            <img style={{ width: '100%' }} src={require('../static/benifit3.svg')} />
             <Typography variant='subtitle1' color='textPrimary' >Maintenance</Typography>
             <Typography variant='caption' color='textSecondary' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
           </Grid>
         </Grid>
         <Grid item sm={4} className={sty.m} >
           <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
-            <img src={require('../static/benifit2.svg')} />
+            <img style={{ width: '100%' }} src={require('../static/benifit2.svg')} />
             <Typography variant='subtitle1' color='textPrimary'>Maintenance</Typography>
             <Typography variant='caption' color='textSecondary'>Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
           </Grid>
         </Grid>
         <Grid item sm={4} className={sty.m} >
           <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
-            <img src={require('../static/benifit.svg')} />
+            <img style={{ width: '100%' }} src={require('../static/benifit.svg')} />
             <Typography variant='subtitle1' color='textPrimary' style={{ paddingBottom: 12 }}>Rent on time</Typography>
-            <Typography variant='caption'color='textSecondary'>No more monthly reminders, no more late payments</Typography>
+            <Typography variant='caption' color='textSecondary'>No more monthly reminders, no more late payments</Typography>
 
           </Grid>
         </Grid>
