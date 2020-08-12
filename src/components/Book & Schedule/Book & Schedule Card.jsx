@@ -28,11 +28,13 @@ function BookScheduleCard(props) {
 
     const sty = style()
     const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('sm')); console.log(props);
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    //  console.log(props);
     const [err, setError] = useState({});
     const [state, setState] = useState({});
     const [code, setCode] = useState("");
     const [date, setDate] = useState(new Date());
+    const [submitType, setSubmitType] = useState(null);
 
     const handleDateChange = (e) => {
 
@@ -47,10 +49,10 @@ function BookScheduleCard(props) {
     }
 
     const handleScheduleClick = (e) => {
-        e.preventDefault()
+        e.preventDefault() 
         var phoneno = /^\d{10}$/;
         if (state.number.match(phoneno)) {
-            props.signInWithMobile(state.number)
+            // props.signInWithMobile(state.number)
             // return true;
         } else {
             // alert("message");
@@ -64,12 +66,14 @@ function BookScheduleCard(props) {
         setState({ ...state, [event.target.name]: event.target.value })
     }
 
-    const handleVerifyClick = () => {
+    const handleVerifyClick = (e) => {
+        e.preventDefault()
         const mobile = props.user.number
         const data = {
             date: state.date,
             time: state.time,
             id: props.match.params.id
+            
         }
         props.verifyMobileCode(mobile, code, data)
     }
@@ -125,6 +129,7 @@ function BookScheduleCard(props) {
 
                 <TextField className={sty.bookPadding}
                     margin='dense'
+                    autoFocus
                     required
                     error={err.numberError}
                     helperText={err.numberMessage}
@@ -159,7 +164,7 @@ function BookScheduleCard(props) {
                             type="number" onChange={(e) => setCode(e.target.value)}
                             margin="dense" variant="outlined" value={code}
                             className={sty.bookPadding}
-                            
+
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position='end'>
@@ -171,20 +176,24 @@ function BookScheduleCard(props) {
                             }} />
 
                         <br />
+                        <div style={{ display: 'flex', flexGrow: 1 }}></div>
+                        <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
 
-
-                        <Button type='submit' variant='contained' color='primary'>
-                            Verify Mobile
-                </Button>
-                        <Button variant='contained' color='secondary'>
-                            Cancel
-                </Button>
+                            <Button type='submit' variant='contained' color='primary'>
+                                Verify Mobile
+                            </Button>
+                            <Button variant='contained' color='secondary'>
+                                Cancel
+                            </Button>
+                        </ButtonGroup>
                     </form>}
-                {!props.user.sended &&<>
-                        <br />
+                {!props.user.sended && <>
+                    <br />
+                    <div style={{ display: 'flex', flexGrow: 1 }}></div>
+
                     <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
-                        <Button type='submit'>Book Now</Button>
-                        <Button type='submit' color='secondary'>Schedule your Visit</Button>
+                        <Button mane='submit' onClick={()=>{setSubmitType('book')}} type='submit'>Book Now</Button>
+                        <Button mane='schedule' onClick={()=>{setSubmitType('schedule')}}  type='submit' color='secondary'>Schedule your Visit</Button>
                     </ButtonGroup></>}
 
                 {/* <Button type='submit'

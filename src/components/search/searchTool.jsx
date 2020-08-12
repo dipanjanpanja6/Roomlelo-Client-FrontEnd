@@ -42,13 +42,6 @@ const SearchToolBar = props => {
     
     const [priceValue, setPriceValue] = useState("No Limit")
     const [type, setType] = useState("All Types")
-    
-    const [location, setLocation] = useState([
-        {
-            value: 'USD',
-            label: '$',
-        },
-    ])
 
     let history = useHistory();
 

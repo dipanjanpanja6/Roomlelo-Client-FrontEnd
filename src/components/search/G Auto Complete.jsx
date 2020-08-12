@@ -10,6 +10,7 @@ import throttle from 'lodash/throttle';
 import {connect} from 'react-redux'
 import PropType from 'prop-types'
 import {setSearchText} from '../../redux/actions/roomActions'
+
 function loadScript(src, position, id) {
   if (!position) {
     return;
@@ -23,6 +24,7 @@ function loadScript(src, position, id) {
 }
 
 const autocompleteService = { current: null };
+const place = { current: null };
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 function GoogleMapsAutoComplete(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState("Varanasi, Uttar Pradesh, India");
+  const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
@@ -44,7 +46,7 @@ function GoogleMapsAutoComplete(props) {
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAP_API_KEY}&libraries=places&region=in`,
+        `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAP_API_KEY}&libraries=places`,
         document.querySelector('head'),
         'google-maps',
       );
@@ -66,6 +68,7 @@ function GoogleMapsAutoComplete(props) {
 
     if (!autocompleteService.current && window.google) {
       autocompleteService.current = new window.google.maps.places.AutocompleteService()
+      // place = autocomplete.getPlace();
 
     }
     if (!autocompleteService.current) {
@@ -80,11 +83,9 @@ function GoogleMapsAutoComplete(props) {
     fetch({ input: inputValue,componentRestrictions:{'country': 'in'},types: ['(regions)'], }, (results) => {
       if (active) {
         let newOptions = [];
-
         if (value) {
           newOptions = [value];
         }
-
         if (results) {
           newOptions = [...newOptions, ...results];
         }
@@ -96,10 +97,12 @@ function GoogleMapsAutoComplete(props) {
       active = false;
     };
   }, [value, inputValue, fetch]);
-console.log(value,inputValue, fetch);
-const handleChange = (event, newValue) =>{
-  
-}
+
+
+console.log(value);
+ 
+
+
   return (
     <Autocomplete
       id="google-map-demo"

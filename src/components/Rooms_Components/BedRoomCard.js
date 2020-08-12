@@ -50,7 +50,7 @@ export default function MediaControlCard(props) {
           </Typography>
         </CardContent>
         <div className={classes.controls}>
-          <Button variant='contained' color='primary'>Book Now</Button>
+          <Button variant='contained' onClick={()=>props.onBook()} color='primary'>Book Now</Button>
         </div>
       </div>
       <CardMedia

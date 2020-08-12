@@ -1,13 +1,13 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment, useRef } from "react";
 import { connect } from 'react-redux'
-import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress, InputAdornment, ButtonGroup } from '@material-ui/core'
+import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress, InputAdornment, ButtonGroup, useMediaQuery } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropTypes from 'prop-types'
 import { MAP_API_KEY } from '../config/config'
 import Footer from "../components/footer";
 import ImageSlider from '../components/ImageSlider'
 // import TimeInput from 'material-ui-time-picker'
-
+import Rating from '@material-ui/lab/Rating';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { getRoomDetails } from '../redux/actions/roomActions'
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
@@ -40,7 +40,9 @@ const style = makeStyles((theme) => ({
         height: '44px',
         margin: '0 20px 15px',
         width: '44px',
-        backgroundColor: '#C4C4C4',
+        backgroundRepeat: ' no-repeat',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
         [theme.breakpoints.down('xs')]: {
             height: 22,
             width: 22,
@@ -80,12 +82,12 @@ const style = makeStyles((theme) => ({
     },
     book: {
         padding: 34,
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             display: 'none'
         }
     },
     menu: {
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             display: 'none'
         }
     },
@@ -102,15 +104,15 @@ const style = makeStyles((theme) => ({
         position: 'fixed',
         bottom: 0,
         right: 0,
-        zIndex: theme.zIndex.drawer ,
+        zIndex: theme.zIndex.drawer,
         background: theme.palette.primary.main,
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             display: 'flex',
             height: 50
         }
     },
     footer: {
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             display: 'none'
         }
 
@@ -120,8 +122,9 @@ const RoomsComponents = (props) => {
 
     const [dialog, setDialog] = useState(false)
     const sty = style();
-    // const theme = useTheme();
-    // const matches = useMediaQuery(theme.breakpoints.down('xs'));
+    const BookCardRef = useRef()
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
     const plan = [
         "Showing this house",
         "Booking confirmation",
@@ -145,35 +148,46 @@ const RoomsComponents = (props) => {
         props.getRoomDetails(id);
     }, [props.match.params.id])
 
-    const Rating = rate1.map((p, i) => {
+    const rating = rate1.map((p, i) => {
         return (
-            <Grid key={i} container justify='center' alignItems="center" style={{ padding: 12 }}>
+            <Grid key={i} container alignItems="center" style={{ padding: 12 }}>
                 <Avatar style={{ margin: 8 }}></Avatar>
                 <Typography variant='body1'>
                     {p.key}
                 </Typography>
-                <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div>
+                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+                {/* <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div> */}
                 <Typography variant='body1'>
                     {p.star}
                 </Typography>
             </Grid>
         )
     })
-    const Rating1 = rate2.map((p, i) => {
+    const rating1 = rate2.map((p, i) => {
         return (
-            <Grid key={i} container justify='center' alignItems="center" style={{ padding: 12 }}>
+            <Grid key={i} container alignItems="center" style={{ padding: 12 }}>
                 <Avatar style={{ margin: 8 }}></Avatar>
                 <Typography variant='body1'>
                     {p.key}
                 </Typography>
-                <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div>
+                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+                {/* <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div> */}
                 <Typography variant='body1'>
                     {p.star}
                 </Typography>
             </Grid>
         )
     })
-
+    const BookNowMobile = () => {
+        setDialog(!dialog)
+    }
+    const handelScroll = () => {
+        if (matches) {
+            BookNowMobile()
+        } else {
+            BookCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+    }
     var othersCharge = props.room.roomDetails ? props.room.roomDetails.OtherChargesArray ? props.room.roomDetails.OtherChargesArray.map(function (p, index) {
         return <Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
             <Grid item xs={6}>
@@ -197,7 +211,7 @@ const RoomsComponents = (props) => {
     var roomType = props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type == 'Private Rooms' ? "Rooms" : props.room.roomDetails.type == 'Shared Rooms' ? "Beds" : "" : "" : ""
     var RoomCard = Array.apply(null, { length: props.room.roomDetails ? props.room.roomDetails.available_rooms : 0 }).map((e, i) => (
         <Grid item >
-            <BedRoomCard price={props.room.roomDetails ? props.room.roomDetails.price : ''} name={`${roomType} Number ${i + 1}`} />
+            <BedRoomCard onBook={handelScroll} price={props.room.roomDetails ? props.room.roomDetails.price : ''} name={`${roomType} Number ${i + 1}`} />
         </Grid>
     ))
 
@@ -205,17 +219,15 @@ const RoomsComponents = (props) => {
     var lan = props.room.roomDetails ? props.room.roomDetails.lng : ''
 
     console.log(lat, lan);
-    const BookNowMobile = () => {
-       setDialog(!dialog)
-    }
-   
+
+
     return (
         <>
             <Toolbar />
             {!props.room.roomDetails ?
                 <Loading />
                 :
-                <Grid container>
+                <Grid container >
                     <Grid container className={sty.rootImage} >
                         {/* {props.room.roomDetails != null ? */}
                         <ImageSlider images={props.room.roomDetails ? props.room.roomDetails.photos : ""} text={props.room.roomDetails.forWhom} height={600} MHeight={400} />
@@ -225,8 +237,8 @@ const RoomsComponents = (props) => {
                          </Grid>} */}
                     </Grid>
 
-                    <Grid container>
-                        <Grid container item sm={8} style={{ flexDirection: 'column', paddingLeft: 12 }}>
+                    <Grid container style={{ paddingLeft: 20, paddingRight: 20 }}>
+                        <Grid container item md={8} style={{ flexDirection: 'column', paddingLeft: 12 }}>
                             <Grid container className={sty.menu}>
 
                                 <Typography className={sty.tab} variant='subtitle1'>Over-View of the Property</Typography>
@@ -251,7 +263,7 @@ const RoomsComponents = (props) => {
                             <Divider />
                             <Grid container>
 
-                                <Typography variant='h4' className={sty.title}>Over-View of the Property</Typography>
+                                <Typography variant='h4' className={sty.title}>House Features</Typography>
                                 <Grid container alignItems="center" >
                                     {props.room.roomDetails ? props.room.roomDetails.HouseFeature ?
                                         props.room.roomDetails.HouseFeature.map((data, index) => <div className={sty.box_grid}>
@@ -264,7 +276,7 @@ const RoomsComponents = (props) => {
                             </Grid>
 
                         </Grid>
-                        <Grid container sm={4} className={sty.book} justify='center' alignItems='baseline'>
+                        <Grid container ref={BookCardRef} md={4} className={sty.book} justify='center' alignItems='baseline'>
 
                             <BookScheduleCard />
 
@@ -278,7 +290,7 @@ const RoomsComponents = (props) => {
                                 <Grid container alignItems="center" >
                                     {props.room.roomDetails ? props.room.roomDetails.amenities ?
                                         props.room.roomDetails.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
-                                            <div className={sty.box_class}></div>
+                                            <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/Amenites/${data.replace(/ /g, "-")}.svg`)})` }}></div>
                                             <Typography variant="caption">
                                                 {data}
                                             </Typography>
@@ -335,11 +347,11 @@ const RoomsComponents = (props) => {
                             </Grid>
 
                             <Grid container justify='center' alignItems="center"  >
-                                <Grid container item sm={6} justify='center' alignItems="center"  >
-                                    {Rating}
+                                <Grid container item sm={6} alignItems="center" style={{ paddingLeft: '15%' }} s >
+                                    {rating}
                                 </Grid>
-                                <Grid container item sm={6} justify='center' alignItems="center"  >
-                                    {Rating1}
+                                <Grid container item sm={6} alignItems="center" style={{ paddingLeft: '15%' }} s >
+                                    {rating1}
                                 </Grid>
                             </Grid>
 
@@ -382,7 +394,7 @@ const RoomsComponents = (props) => {
                         </Grid>
                     </Grid>
                     {<ResponsiveDialog open={dialog}>
-                        <BookScheduleCard/>
+                        <BookScheduleCard />
                     </ResponsiveDialog>}
                 </Grid>
             }

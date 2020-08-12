@@ -35,10 +35,13 @@ const style = makeStyles((theme) => ({
     box_class: {
         height: '44px',
         width: '44px',
+        backgroundRepeat:' no-repeat',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
         // backgroundColor: '#C4C4C4',
         [theme.breakpoints.down('xs')]: {
-            height: 22,
-            width: 22,
+            height: 29,
+            width: 29,
         }
     },
     box_info_text_class: {
@@ -98,42 +101,42 @@ const RoomsComponents = (props) => {
                     // alignItems="center"
                     >
                         <div style={{ paddingLeft: 12 }}>
-                            {/* <Typography variant="subtitle1" className={classes.room_short_details}>{room.name}</Typography> */}
-                            <Typography variant="subtitle1" className={classes.room_short_details}>{room.type} Starting at <b>₹{room.price}/month</b></Typography>
+                            <Typography variant="subtitle1" className={classes.room_short_details}>{<b>₹{room.price}/-</b>}</Typography>
+    <Typography variant="subtitle1" className={classes.room_short_details}>{room.type}{" "}{room.available && 'available'}</Typography>
                             <Typography variant="caption" color='textSecondary' className={classes.room_short_details}>in {room.propertyAddress}</Typography>
                         </div>
 
-                        <Grid container alignItems="center" justify="space-around">
+                        <Grid container alignItems="center" justify="space-around" >
                             <Grid className={classes.icon}>
                                 <div style={{ backgroundImage: `url(${require('../../static/icons/024-accident.svg')})` }} className={classes.box_class}></div>
                                 <Typography variant="caption" className={classes.box_info_text_class}>{room.type}</Typography>
                             </Grid>
                             <Grid className={classes.icon}>
-                                <div style={{ backgroundImage: `url(${require('../../static/icons/024-accident.svg')})` }} className={classes.box_class}></div>
+                                <div style={{ backgroundImage: `url(${require('../../static/icons/card/Fully_Furnished.svg')})` }} className={classes.box_class}></div>
                                 <Typography variant="caption" className={classes.box_info_text_class}>{room.furnished}</Typography>
                             </Grid>
                             <Grid className={classes.icon}> 
-                                <div style={{ backgroundImage: `url(${require('../../static/icons/021-moving-truck.svg')})` }} className={classes.box_class}></div>
-                                <Typography variant="caption" className={classes.box_info_text_class}>Free Shifting</Typography>
+                                <div style={{ backgroundImage: `url(${require('../../static/icons/card/Apartment.svg', )})` }} className={classes.box_class}></div>
+                                <Typography variant="caption" className={classes.box_info_text_class}>Security Deposit</Typography>
                             </Grid>
-                            <Grid className={classes.icon}>
+                            {/* <Grid className={classes.icon}>
                                 <div style={{ backgroundImage: `url(${require('../../static/icons/023-hands-up.svg')})` }} className={classes.box_class}></div>
                                 <Typography variant="caption" className={classes.box_info_text_class}>Instant Deposit Return </Typography>
-                            </Grid>
+                            </Grid> */}
 
                         </Grid>
                     </Grid>
 
                     {!matches && <Grid item container alignItems="center" justify="space-around">
                         <Button className={classes.box_item_buttons} variant='contained' color='primary'>Book Now</Button>
-                        <Button className={classes.box_item_buttons} variant="outlined" color='secondary'>Schedule Our Visit</Button>
+                        <Button className={classes.box_item_buttons} variant="contained" color='secondary'>Schedule Our Visit</Button>
 
                     </Grid>}
                 </Grid>
                 {matches &&
                     <Grid item style={{ padding: '12px 0' }} xs={12} container alignItems="center" justify="space-around">
                         <Button className={classes.box_item_buttons} variant="contained" color='primary'>Book Now</Button>
-                        <Button className={classes.box_item_buttons} variant="outlined" color='secondary'>Schedule Our Visit</Button>
+                        <Button className={classes.box_item_buttons} variant="contained" color='secondary'>Schedule Our Visit</Button>
 
                     </Grid>
                 }
