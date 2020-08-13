@@ -174,13 +174,13 @@ export default function PrimarySearchAppBar(props) {
       <div className={classes.grow}></div>
       <ButtonGroup variant='contained' color='secondary'>
 
-        <Button onClick={() => {
+        {/* <Button onClick={() => {
           history.push("/login")
           handleMobileMenuClose()
         }}>
 
           Login
-</Button>
+</Button> */}
 
         <Button variant='contained' color='primary' onClick={() =>{ history.push("/joinus")
        handleMobileMenuClose()}} >
@@ -273,13 +273,12 @@ export default function PrimarySearchAppBar(props) {
                   <Typography variant="button">Refer & Earn</Typography>
 
                 </Button>*/}
-                {props.auth === true && ""}
+                {/* {props.auth === true && ""} */}
                 <ButtonGroup variant='contained' color='secondary'>
 
-                  <Button onClick={() => history.push("/login")}>
-                    {/* <Typography variant="button">Login</Typography> */}
+                  {/* <Button onClick={() => history.push("/login")}>
                   Login
-                </Button>
+                </Button> */}
 
                   <Button variant='contained' color='primary' onClick={() => history.push("/joinus")} >
                     <Typography color='inherit' variant="button">List with us</Typography>

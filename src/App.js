@@ -59,7 +59,7 @@ const App = (props) => {
 					{/* <Route exact path="/about" component={About} />
 					<Route exact path="/courses" component={Courses} /> */}
 
-					<Route exact path="/login" component={Login} />
+					{/* <Route exact path="/login" component={Login} /> */}
 
 					<Route exact path="/joinus" component={SignUp} />
 					<Route exact path='/rooms/:id' component={RoomPage}/>
@@ -67,7 +67,7 @@ const App = (props) => {
 
  
 					<Route exact path="/about" component={aboutUs} />
-					<Route exact path="/account/signup" component={Account_SignUp}/>
+					{/* <Route exact path="/account/signup" component={Account_SignUp}/> */}
 
 					<Route exact component={E4} />
 
