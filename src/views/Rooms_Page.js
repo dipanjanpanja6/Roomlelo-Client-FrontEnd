@@ -69,7 +69,8 @@ const RoomsPage = (props) => {
     const history = useHistory()
 
     useEffect(() => {
-        
+        window.scrollTo(0, 0) 
+        document.title='Find Your best Flats, house, rooms | RoomLelo - Flats, house, rooms for rent without brokerage.'
         const {searchId, search, filter, price, type} = queryString.parse(props.location.search)
         if(search || filter){
             

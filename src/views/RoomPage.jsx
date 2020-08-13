@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux'
 import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress, InputAdornment, ButtonGroup, useMediaQuery } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
@@ -9,8 +9,8 @@ import ImageSlider from '../components/ImageSlider'
 // import TimeInput from 'material-ui-time-picker'
 import Rating from '@material-ui/lab/Rating';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { getRoomDetails } from '../redux/actions/roomActions'
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { getRoomDetails } from '../redux/actions/roomActions';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 import BookScheduleCard from "../components/Book & Schedule/Book & Schedule Card";
 import Loading from '../components/loading';
@@ -131,7 +131,19 @@ const style = makeStyles((theme) => ({
         }
     }
 }))
+
 const RoomsComponents = (props) => {
+useEffect(() => {
+
+    window.scrollTo(0, 0) 
+    document.title='Find Your best Flats, house, rooms | RoomLelo - Flats, house, rooms for rent without brokerage.'
+
+}, [])
+
+useEffect(() => {
+    document.title=`${ props.room.roomDetails?
+        props.room.roomDetails.propertyAddress ?` ${props.room.roomDetails.type} at ${props.room.roomDetails.propertyAddress} | `:"":""} RoomLelo - Flats, house, rooms for rent without brokerage.`
+}, [props.room.roomDetails] )
 
     const [dialog, setDialog] = useState(false)
     const sty = style();
@@ -265,6 +277,7 @@ const RoomsComponents = (props) => {
                                 <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton /> : <Skeleton />}</Typography>
                                 <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton /> : <Skeleton />}</Typography>
                                 <Typography variant='subtitle1' >{props.room.roomDetails ? props.room.roomDetails.furnished ? props.room.roomDetails.furnished : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='body2' color='textSecondary'>{props.room.roomDetails ? props.room.roomDetails.propertyAddress ?`at ${props.room.roomDetails.propertyAddress}` : "" : <Skeleton />}</Typography>
 
                                 <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton /> : <Skeleton />} | {props.room.roomDetails ?
                                     props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>

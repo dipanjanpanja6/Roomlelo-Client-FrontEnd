@@ -127,6 +127,6 @@ input[type=number] {
   display: block;
 }
 form{
-  display: contents !important;
+  display: contents;
 
 }

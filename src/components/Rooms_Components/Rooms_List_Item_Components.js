@@ -7,6 +7,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PropType from 'prop-types'
 import ImageSlider from "../ImageSlider";
 import { useHistory } from "react-router-dom";
+
 const style = makeStyles((theme) => ({
     root: {
         // backgroundColor: '#888',
@@ -74,6 +75,7 @@ const style = makeStyles((theme) => ({
     }
 
 }))
+
 const RoomsComponents = (props) => {
     const { room } = props
     const classes = style()
@@ -144,7 +146,11 @@ const RoomsComponents = (props) => {
         </Paper>
     )
 };
+
+
 RoomsComponents.PropType = {
     classes: PropType.object.isRequired
 }
-export default (RoomsComponents)
+
+
+export default RoomsComponents

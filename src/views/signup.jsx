@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, makeStyles, Typography, Toolbar, TextField, Divider, Paper, Button, Avatar, Card } from '@material-ui/core'
 
 import PropType from 'prop-types'
 import Footer from "../components/footer";
-import AppBarSpace from "../components/appBarSpace";
 import Growth from "../components/ourGroth";
 import Benefit from "../components/benefit";
 import Testo from "../components/testo";
 
 const style = makeStyles((theme) => ({
     book: {
-        padding: 34,
+        padding: 3,
         // backgroundColor: 'rgba(196, 196, 196, 0.19)',
         [theme.breakpoints.down('xs')]: {
             display: 'none'
@@ -27,7 +26,7 @@ const style = makeStyles((theme) => ({
         flexDirection: 'column',
         display: 'flex',
         padding: 12,
-        background: 'rgba(196, 196, 196, 0.2)'
+        // background: 'rgba(196, 196, 196, 0.2)'
     },
     bookPadding: {
         padding: 0,
@@ -36,11 +35,13 @@ const style = makeStyles((theme) => ({
     dashImg: {
         backgroundImage: `url(${require('../static/TenantDashboard.png')})`,
         height: 419,
+        width:'100%',
         backgroundPosition: 'center',
         backgroundRepeat: "no-repeat",
-        [theme.breakpoints.down('xs')]:{
-            height:218,
-            width:356
+        backgroundSize:'contain',
+        [theme.breakpoints.down('xs')]: {
+            height: 218,
+            width: 356
         }
     },
     plan: {
@@ -54,7 +55,7 @@ const style = makeStyles((theme) => ({
     },
     planTitle: {
         textAlign: 'center',
-        color:'#eee'
+        color: '#eee'
     },
     planRoot: {
         paddingRight: 12,
@@ -69,7 +70,10 @@ const style = makeStyles((theme) => ({
 
 }))
 const RoomsComponents = (props) => {
-
+    useEffect(() => {
+        window.scrollTo(0, 0) 
+       document.title='Join with Us | RoomLelo - Flats, house, rooms for rent without brokerage.'
+      }, [])
     const sty = style()
     var six = Array.apply(null, { length: 1 }).map((e, i) => (
         <>
@@ -160,9 +164,8 @@ const RoomsComponents = (props) => {
     return (
         <>
             <Toolbar />
-            <AppBarSpace />
             <Grid>
-                <Grid container style={{ padding: 20 }}>
+                <Grid container alignItems='center' style={{ padding: 20 }}>
                     <Grid container sm={8} className={sty.book}>
 
                         <Grid container justify='center' alignItems='center' style={{ flexDirection: 'column', }}>
@@ -171,11 +174,11 @@ const RoomsComponents = (props) => {
                                 src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
                                 type="application/x-mpegURL"/>
                         </video> */}
-                            <iframe title='video' width="560" height="315" src="https://www.youtube-nocookie.com/embed/IuX6k-Xf_Qk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe title='video' width="90%" height="315" src="https://www.youtube-nocookie.com/embed/IuX6k-Xf_Qk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </Grid>
                     </Grid>
 
-                    <Grid container item sm={4} style={{ flexDirection: 'column', padding: 40 }}>
+                    <Grid container item sm={4} style={{ flexDirection: 'column' }}>
                         <Paper className={sty.bookPaper}>
 
                             <Typography variant='body1'>
@@ -224,17 +227,16 @@ const RoomsComponents = (props) => {
                             paddingBottom: 44,
                             textAlign: 'center',
                             fontWeight: "bold",
-                            fontFamily: "Poppins, sans-serif",
                         }}
                     >
                         Roomlelo properties Dashboard
-          </Typography>
+                        </Typography>
 
                     <Grid container alignItems="center">
-                        <Grid item sm={5} style={{ paddingLeft: '10%' }}>
+                        <Grid item  sm={5} style={{ paddingLeft: '10%' }}>
                             {six}
                         </Grid>
-                        <Grid item sm={7}>
+                        <Grid item justify="center" container sm={7}>
                             <div className={sty.dashImg}></div>
                         </Grid>
                     </Grid>
@@ -254,7 +256,7 @@ const RoomsComponents = (props) => {
                                 paddingBottom: 44, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
                             }}
                         >
-                           How to list your Property us :-
+                            How to list your Property us :-
                     </Typography>
                     </Grid>
 
@@ -275,7 +277,7 @@ const RoomsComponents = (props) => {
                     </Grid>
 
                 </Grid>
-                <Testo/>
+                <Testo />
             </Grid>
 
             <Footer />

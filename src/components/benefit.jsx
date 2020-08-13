@@ -46,31 +46,44 @@ const Benefit = (props) => {
           </Typography>
 
       <Grid container alignItems="center" justify='center'>
-
-        <Grid item sm={4} className={sty.m} >
-          <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
-            <img style={{ width: '100%' }} src={require('../static/benifit3.svg')} />
-            <Typography variant='subtitle1' color='textPrimary' >Maintenance</Typography>
-            <Typography variant='caption' color='textSecondary' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
-          </Grid>
-        </Grid>
-        <Grid item sm={4} className={sty.m} >
-          <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
-            <img style={{ width: '100%' }} src={require('../static/benifit2.svg')} />
-            <Typography variant='subtitle1' color='textPrimary'>Maintenance</Typography>
-            <Typography variant='caption' color='textSecondary'>Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
-          </Grid>
-        </Grid>
-        <Grid item sm={4} className={sty.m} >
-          <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
-            <img style={{ width: '100%' }} src={require('../static/benifit.svg')} />
-            <Typography variant='subtitle1' color='textPrimary' style={{ paddingBottom: 12 }}>Rent on time</Typography>
-            <Typography variant='caption' color='textSecondary'>No more monthly reminders, no more late payments</Typography>
-
-          </Grid>
-        </Grid>
+        {/* <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
+          <Grid container alignItems="center" className={sty.planRoot}> */}
 
 
+            <Grid item xs={6} sm={3} className={sty.m} >
+              <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
+                <img style={{ width: '100%' }} src={require('../static/benifit3.svg')} />
+                <Typography variant='subtitle1' color='textPrimary' >Maintenance</Typography>
+                <Typography variant='caption' color='textSecondary' >Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
+              </Grid>
+            </Grid>
+            <Grid item xs={6} sm={3} className={sty.m} >
+              <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
+                <img style={{ width: '100%' }} src={require('../static/benifit2.svg')} />
+                <Typography variant='subtitle1' color='textPrimary'>Maintenance</Typography>
+                <Typography variant='caption' color='textSecondary'>Good maintenance keeps your tenants happy and also preserve your assets.</Typography>
+              </Grid>
+            </Grid>
+            <Grid item xs={6} sm={3}className={sty.m} >
+              <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
+                <img style={{ width: '100%' }} src={require('../static/benifit.svg')} />
+                <Typography variant='subtitle1' color='textPrimary' style={{ paddingBottom: 12 }}>Rent on time</Typography>
+                <Typography variant='caption' color='textSecondary'>No more monthly reminders, no more late payments</Typography>
+
+              </Grid>
+            </Grid>
+            <Grid item xs={6} sm={3} className={sty.m} >
+              <Grid container item alignItems="center" justify='center' className={clsx(sty.growth2, sty.benefit)}>
+                <img style={{ width: '100%' }} src={require('../static/Active Support-rafiki 2.svg')} />
+                <Typography variant='subtitle1' color='textPrimary' style={{ paddingBottom: 12 }}>Rent on time</Typography>
+                <Typography variant='caption' color='textSecondary'>No more monthly reminders, no more late payments</Typography>
+
+              </Grid>
+            </Grid>
+
+
+          {/* </Grid> */}
+        {/* </Grid> */}
       </Grid>
     </Grid>
 

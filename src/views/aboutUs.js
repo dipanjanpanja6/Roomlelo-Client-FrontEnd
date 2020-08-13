@@ -3,12 +3,14 @@ import { Grid,  makeStyles,  Typography, Toolbar } from '@material-ui/core'
  
 import PropType from 'prop-types' 
 import Footer from "../components/footer";
-import AppBarSpace from "../components/appBarSpace";
+
+
 
 const style = makeStyles((theme) => ({ 
     book: {
         padding: 34,
-        backgroundColor: 'rgba(196, 196, 196, 0.19)',
+        // backgroundColor: 'rgba(196, 196, 196, 0.19)',
+        backgroundColor: theme.palette.primary.main,
         [theme.breakpoints.down('xs')]:{
             display:'none'
         }

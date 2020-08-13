@@ -40,10 +40,10 @@ export default function Footer() {
                 <img src={require('../static/roomlelologo.webp')} height="45px" width='183px' alt="Roomlelo" />
                 <Typography variant='body1' color='textSecondary' style={{ padding: '12px 0 0' }}>Connect with us</Typography>
                 <Grid>
-                    <IconButton><FacebookIcon /></IconButton>
-                    <IconButton><WhatsAppIcon /></IconButton>
-                    <IconButton><TwitterIcon /></IconButton>
-                    <IconButton><InstagramIcon /></IconButton>
+                    <IconButton onClick={()=>window.open('https://www.facebook.com/roomleloinvaranasi/','_blank')}><FacebookIcon /></IconButton>
+                    <IconButton onClick={()=>window.open('https://api.whatsapp.com/send?phone=917667651878&fbclid=IwAR0ASfOooEnNvOFx0opGXp8vit72QfSz_tXE-lnCwp7uVqO_mX5sGd0Ja-w','_blank')}><WhatsAppIcon /></IconButton>
+                    <IconButton onClick={()=>window.open('https://twitter.com/rooomlelo','_blank')}><TwitterIcon /></IconButton>
+                    <IconButton onClick={()=>window.open('https://www.instagram.com/room_le_lo','_blank')}><InstagramIcon /></IconButton>
                 </Grid>
             </Grid>
 
@@ -67,9 +67,11 @@ export default function Footer() {
             <Typography variant="h5" color='textPrimary'>
                 Partner with us
                 </Typography>
-            <Typography variant='body1' color="textSecondary">
+                <Link color='textSecondary'  variant='body1' to='/joinus' component={RouterLink}>For house Owner</Link>
+
+            {/* <Typography variant='body1' color="textSecondary">
                 For house Owner
-                </Typography>
+                </Typography> */}
             <Typography variant='body1' color="textSecondary">
                 For large corporation
                 </Typography>

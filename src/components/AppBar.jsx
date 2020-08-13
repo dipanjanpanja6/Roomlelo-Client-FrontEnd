@@ -14,8 +14,9 @@ import {
   Typography,
   CssBaseline,
   useScrollTrigger,
+  ButtonGroup,
 } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu"; 
+import MenuIcon from "@material-ui/icons/Menu";
 import { Link as RouterLink, useHistory, useLocation, matchPath } from "react-router-dom";
 import Logo from "../static/roomlelologo.png";
 import SearchFilterDialog from '../components/SearchFilterDialog'
@@ -74,6 +75,12 @@ const useStyles = makeStyles((theme) => ({
 
     },
   },
+  list: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    // height: '95vh'
+  }
 
 }));
 
@@ -148,7 +155,7 @@ export default function PrimarySearchAppBar(props) {
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
-      classes={{ paper: classes.menu }}
+      classes={{ paper: classes.menu, list: classes.list }}
       anchorEl={mobileMoreAnchorEl}
       id={mobileMenuId}
       // keepMounted
@@ -156,6 +163,31 @@ export default function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      <MenuItem onClick={() => {
+        history.push('/about')
+        handleMobileMenuClose()
+      }}><p>About Us</p></MenuItem>
+      <MenuItem onClick={() => {
+        history.push('/rooms')
+        handleMobileMenuClose()
+      }}><p>Search Rooms</p></MenuItem>
+      <div className={classes.grow}></div>
+      <ButtonGroup variant='contained' color='secondary'>
+
+        <Button onClick={() => {
+          history.push("/login")
+          handleMobileMenuClose()
+        }}>
+
+          Login
+</Button>
+
+        <Button variant='contained' color='primary' onClick={() =>{ history.push("/joinus")
+       handleMobileMenuClose()}} >
+          <Typography color='inherit' variant="button">List with us</Typography>
+        </Button>
+      </ButtonGroup>
+
       {/* <MenuItem onClick={() => {
         history.push("/whyus")
         handleMobileMenuClose()
@@ -168,15 +200,15 @@ export default function PrimarySearchAppBar(props) {
       }}> 
 
         <p>Our Properties</p>
-    </MenuItem>*/}
+    </MenuItem>
       <MenuItem onClick={() => {
         history.push("/refer")
         handleMobileMenuClose()
       }}>
 
         <p>Refer & Earn</p>
-      </MenuItem>
-      <MenuItem onClick={() => {
+      </MenuItem>*/}
+      {/* <MenuItem onClick={() => {
         history.push("/login")
         handleMobileMenuClose()
       }}>
@@ -186,10 +218,8 @@ export default function PrimarySearchAppBar(props) {
       <MenuItem onClick={() => {
         history.push('/joinus')
         handleMobileMenuClose()
-      }}>
+      }}><p>List with us</p></MenuItem> */}
 
-        <p>List with us</p>
-      </MenuItem>
     </Menu>
   );
 
@@ -237,20 +267,25 @@ export default function PrimarySearchAppBar(props) {
 
                 {/* <Button color="inherit" onClick={() => history.push("/properties")}>
               <Typography variant="button">Our Properties</Typography>
-            </Button> */}
+            </Button> 
 
                 <Button onClick={() => history.push("/refer")} color="inherit">
                   <Typography variant="button">Refer & Earn</Typography>
 
-                </Button>
+                </Button>*/}
                 {props.auth === true && ""}
-                <Button onClick={() => history.push("/login")} color="inherit">
-                  <Typography variant="button">Login</Typography>
+                <ButtonGroup variant='contained' color='secondary'>
+
+                  <Button onClick={() => history.push("/login")}>
+                    {/* <Typography variant="button">Login</Typography> */}
+                  Login
                 </Button>
 
-                <Button variant='contained' color='primary' onClick={() => history.push("/joinus")} >
-                  <Typography color='inherit' variant="button">List with us</Typography>
-                </Button>
+                  <Button variant='contained' color='primary' onClick={() => history.push("/joinus")} >
+                    <Typography color='inherit' variant="button">List with us</Typography>
+                  </Button>
+                </ButtonGroup>
+
               </div>
 
               <div className={classes.sectionMobile}>

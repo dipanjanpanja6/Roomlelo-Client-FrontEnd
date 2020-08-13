@@ -5,19 +5,10 @@ import Typing from 'react-typing-animation';
 import {
   Grid, Typography,
   makeStyles,
-  fade,
   Toolbar,
   ButtonBase,
   Button,
   Avatar,
-  InputBase,
-  Paper,
-  TextField,
-  Menu,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import Growth from "../components/ourGroth";
@@ -43,7 +34,8 @@ const styles = makeStyles((theme) => ({
     }
   },
   fImg: {
-    // width: 'inherit',
+    width: '100%',
+    maxHeight:450,
     [theme.breakpoints.down('xs')]: {
       height: 300,
     }
@@ -215,6 +207,12 @@ const styles = makeStyles((theme) => ({
   },
   differentText: {
     margin: "24px 0", padding: '0 30px'
+  },
+  learn:{
+    marginTop: 43, paddingLeft: 50, paddingRight: 50,
+    [theme.breakpoints.down('xs')]: {
+      display: "none"
+    }
   }
 }));
 
@@ -253,7 +251,7 @@ const FirstView = (sty, b) => {
         <Typography style={{ paddingTop: 25, }} color='textSecondary'>
           Roomlelo is an online service provider, catering house owners in managing their properties along with helping the tenants to find a perfect home for them
         </Typography>
-        <Button variant='contained' onClick={b} color='primary' size="large" style={{ marginTop: 43, paddingLeft: 50, paddingRight: 50 }}>
+        <Button variant='contained' onClick={b} color='primary' size="large" className={sty.learn}>
           Learn More
     </Button>
       </Grid>
