@@ -32,11 +32,11 @@ const styles = makeStyles((theme) => ({
   search: {
     position: 'relative',
     display: 'flex',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.10),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.black, 0.20),
-    },
+    // borderRadius: theme.shape.borderRadius,
+    // backgroundColor: fade(theme.palette.common.black, 0.10),
+    // '&:hover': {
+    //   backgroundColor: fade(theme.palette.common.black, 0.20),
+    // },
     marginLeft: 0,
     width: '100%',
 
@@ -358,9 +358,9 @@ const Filter = (props) => {
   }
   return (
     <Grid container justify='space-around' alignItems='center'   >
-      {/* 
+
       <div className={sty.search}>
-        <div className={sty.searchIcon}>
+        {/*  <div className={sty.searchIcon}>
           <SearchIcon />
         </div>
         <InputBase
@@ -381,9 +381,11 @@ const Filter = (props) => {
       <IconButton onClick={clear} style={{padding:5}}>
          <HighlightOffIcon /> 
         <ClearAllIcon />
-      </IconButton>
-      </div> */}
-      <GAutoComplete />
+        </IconButton>*/}
+        <div style={{ minWidth:300,width: '100%' }}>
+          <GAutoComplete />
+        </div>
+      </div>
       <div style={{ flexGrow: 1 }}></div>
 
       <TextField select margin='dense' defaultValue={"None"}

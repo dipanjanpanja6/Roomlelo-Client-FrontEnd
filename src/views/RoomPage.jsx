@@ -76,14 +76,15 @@ const style = makeStyles((theme) => ({
         },
     },
     ratingPadding: {
-        paddingLeft: '15%',
+        paddingLeft: '5%',
+        paddingRight: '5%',
         [theme.breakpoints.down('sm')]: {
-            paddingLeft: '0',
+            padding: '0',
         },
     },
     rating: {
         [theme.breakpoints.down('sm')]: {
-            justifyContent:'center'
+            justifyContent: 'center'
         },
     },
     side_map_class: {
@@ -133,17 +134,17 @@ const style = makeStyles((theme) => ({
 }))
 
 const RoomsComponents = (props) => {
-useEffect(() => {
+    useEffect(() => {
 
-    window.scrollTo(0, 0) 
-    document.title='Find Your best Flats, house, rooms | RoomLelo - Flats, house, rooms for rent without brokerage.'
+        window.scrollTo(0, 0)
+        document.title = 'Find Your best Flats, house, rooms | RoomLelo - Flats, house, rooms for rent without brokerage.'
 
-}, [])
+    }, [])
 
-useEffect(() => {
-    document.title=`${ props.room.roomDetails?
-        props.room.roomDetails.propertyAddress ?` ${props.room.roomDetails.type} at ${props.room.roomDetails.propertyAddress} | `:"":""} RoomLelo - Flats, house, rooms for rent without brokerage.`
-}, [props.room.roomDetails] )
+    useEffect(() => {
+        document.title = `${props.room.roomDetails ?
+            props.room.roomDetails.propertyAddress ? ` ${props.room.roomDetails.type} at ${props.room.roomDetails.propertyAddress} | ` : "" : ""} RoomLelo - Flats, house, rooms for rent without brokerage.`
+    }, [props.room.roomDetails])
 
     const [dialog, setDialog] = useState(false)
     const sty = style();
@@ -158,14 +159,14 @@ useEffect(() => {
         "Returning deposit at the time of move-out"
     ]
     const rate1 = [
-        { key: "Cleanliness", star: 4.5 },
-        { key: "Check-in", star: 4.5 },
-        { key: "Accuracy", star: 4.5 }
+        { key: "Cleanliness", star: 4.5, img: require('../static/icons/rating/clean.svg') },
+        { key: "Check-in", star: 4.5, img: require('../static/icons/rating/chackin.svg') },
+        { key: "Accuracy", star: 4.5, img: require('../static/icons/rating/accurecy.svg') },
     ]
     const rate2 = [
-        { key: "Location", star: 4.5 },
-        { key: "value", star: 4.5 },
-        { key: "Service", star: 4.5 },
+        { key: "Location", star: 4.5, img: require('../static/icons/rating/location.svg') },
+        { key: "value", star: 4.5, img: require('../static/icons/rating/value.svg') },
+        { key: "Service", star: 4.5, img: require('../static/icons/rating/services.svg') },
     ];
 
     useEffect(() => {
@@ -175,31 +176,39 @@ useEffect(() => {
 
     const rating = rate1.map((p, i) => {
         return (
-            <Grid key={i} container alignItems="center" className={sty.rating} style={{ padding: 12 }}>
-                <Avatar style={{ margin: 8 }}></Avatar>
-                <Typography variant='body1'>
-                    {p.key}
-                </Typography>
-                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
-                {/* <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div> */}
-                <Typography variant='body1'>
-                    {p.star}
-                </Typography>
+            <Grid key={i} container alignItems="center" justify='space-evenly' className={sty.rating} style={{ padding: 12 }}>
+                <Grid container alignItems='center' style={{ width: 'auto' }}>
+                    <Avatar variant='rounded' src={p.img} style={{ margin: 8 }}></Avatar>
+                    <Typography variant='body1'>
+                        {p.key}
+                    </Typography>
+                </Grid>
+                <Grid container alignItems='center' style={{ width: 'auto' }}>
+                    <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+                    {/* <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div> */}
+                    <Typography variant='body1'>
+                        {p.star}
+                    </Typography>
+                </Grid>
             </Grid>
         )
     })
     const rating1 = rate2.map((p, i) => {
         return (
-            <Grid key={i} container alignItems="center" className={sty.rating} style={{ padding: 12 }}>
-                <Avatar style={{ margin: 8 }}></Avatar>
-                <Typography variant='body1'>
-                    {p.key}
-                </Typography>
-                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
-                {/* <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div> */}
-                <Typography variant='body1'>
-                    {p.star}
-                </Typography>
+            <Grid key={i} container alignItems="center" justify='space-evenly' className={sty.rating} style={{ padding: 12 }}>
+                <Grid container alignItems='center' style={{ width: 'auto' }}>
+                    <Avatar variant='rounded' src={p.img} style={{ margin: 8 }}></Avatar>
+                    <Typography variant='body1'>
+                        {p.key}
+                    </Typography>
+                </Grid>
+                <Grid container alignItems='center' style={{ width: 'auto' }}>
+                    <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+                    {/* <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div> */}
+                    <Typography variant='body1'>
+                        {p.star}
+                    </Typography>
+                </Grid>
             </Grid>
         )
     })
@@ -277,7 +286,7 @@ useEffect(() => {
                                 <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton /> : <Skeleton />}</Typography>
                                 <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton /> : <Skeleton />}</Typography>
                                 <Typography variant='subtitle1' >{props.room.roomDetails ? props.room.roomDetails.furnished ? props.room.roomDetails.furnished : <Skeleton /> : <Skeleton />}</Typography>
-                                <Typography variant='body2' color='textSecondary'>{props.room.roomDetails ? props.room.roomDetails.propertyAddress ?`at ${props.room.roomDetails.propertyAddress}` : "" : <Skeleton />}</Typography>
+                                <Typography variant='body2' color='textSecondary'>{props.room.roomDetails ? props.room.roomDetails.propertyAddress ? `at ${props.room.roomDetails.propertyAddress}` : "" : <Skeleton />}</Typography>
 
                                 <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton /> : <Skeleton />} | {props.room.roomDetails ?
                                     props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
@@ -293,7 +302,7 @@ useEffect(() => {
                                 <Grid container alignItems="center" >
                                     {props.room.roomDetails ? props.room.roomDetails.HouseFeature ?
                                         props.room.roomDetails.HouseFeature.map((data, index) => <div className={sty.box_grid}>
-                                            <div className={sty.box_class}></div>
+                                            <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/prize.svg`)})` }}></div>
                                             <Typography variant="caption">
                                                 {data}
                                             </Typography>
@@ -376,7 +385,7 @@ useEffect(() => {
                                 <Grid container item sm={6} alignItems="center" className={sty.ratingPadding} >
                                     {rating}
                                 </Grid>
-                                <Grid container item sm={6} alignItems="center"   >
+                                <Grid container item sm={6} alignItems="center" className={sty.ratingPadding} >
                                     {rating1}
                                 </Grid>
                             </Grid>
@@ -420,7 +429,7 @@ useEffect(() => {
                         </Grid>
                     </Grid>
                     {<ResponsiveDialog open={dialog}>
-                        <BookScheduleCard id={props.match.params.id}/>
+                        <BookScheduleCard id={props.match.params.id} />
                     </ResponsiveDialog>}
                 </Grid>
             }
@@ -432,7 +441,7 @@ useEffect(() => {
                 </ButtonGroup>
             </Grid>
             <div className={sty.footer}>
-                <Footer />
+            {props.room.roomDetails &&   <Footer />}
             </div>
         </>
     )

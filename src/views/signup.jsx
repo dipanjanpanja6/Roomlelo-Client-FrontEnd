@@ -33,7 +33,7 @@ const style = makeStyles((theme) => ({
         // background: '#fff'
     },
     dashImg: {
-        backgroundImage: `url(${require('../static/TenantDashboard.png')})`,
+        backgroundImage: `url(${require('../static/TenantDashboardUI.svg')})`,
         height: 419,
         width:'100%',
         backgroundPosition: 'center',
