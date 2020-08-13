@@ -41,6 +41,7 @@ function GoogleMapsAutoComplete(props) {
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState([]);
+  const [placeId, setPlaceId] = React.useState("")
   const loaded = React.useRef(false);
 
   if (typeof window !== 'undefined' && !loaded.current) {
@@ -119,12 +120,14 @@ console.log(value);
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
         
+        setPlaceId(newValue.place_id)
+        props.setSearchText(newValue.place_id)
         
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
        
-        props.setSearchText(newInputValue)
+       // props.setSearchText(newInputValue)
         
       }}
       renderInput={(params) => (

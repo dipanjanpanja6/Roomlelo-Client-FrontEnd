@@ -4,7 +4,8 @@ import {SET_ROOMS_DATA, SET_MOBILE_AUTH_ERROR_DATA,  MOBILE_AUTH_CODE_SENDED,
 const initialState = {
     number:"",
     sended:false,
-    error:{}
+    error:{},
+    auth:true
 }
 
 export default function (state = initialState, actions) {

@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 import { connect } from 'react-redux';
-import { checkUser, logout } from './redux/actions/student'
+
 import PropType from 'prop-types' 
 import aboutUs from './views/aboutUs';
 import Account_SignUp from '../src/views/account_signup'
@@ -26,7 +26,7 @@ import Account_SignUp from '../src/views/account_signup'
 const App = (props) => { 
 
 	useEffect(() => {
-		props.checkUser() 
+		//props.checkUser() 
 	}, [])
 
 
@@ -81,13 +81,12 @@ const App = (props) => {
 }
 App.prototype = {
 	auth: PropType.object.isRequired,
-	checkUser: PropType.func.isRequired,
-	logout: PropType.func.isRequired,
+
 }
 const mapToProp = {
-	logout, checkUser
+	
 }
 const mapToState = (state) => ({
-	auth: state.admin.auth, 
+	auth: state.user.auth, 
 })
 export default connect(mapToState, mapToProp)(App);
