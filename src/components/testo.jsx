@@ -44,7 +44,7 @@ const Testo = (props) => {
           {/* <ImageSlider images={[""]} height='300px' MHeight='100%' width='100%' /> */}
 
 
-           <Grid container item alignItems="center" justify='center' style={{ background: `#eee`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={sty.growth2}>
+           <Grid container item alignItems="center" justify='center' style={{ background: ``, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', }} className={sty.growth2}>
                 <Typography variant='h4' style={{ fontWeight:'bold',paddingBottom: 12, textAlign: 'center' }}>“Know why our Customer love us”</Typography>
               </Grid> 
         </Grid>

@@ -321,6 +321,18 @@ const RoomsComponents = (props) => {
 
                         <Grid container style={{ flexDirection: 'column', paddingLeft: 12, paddingRight: 12 }}>
                             <Grid container>
+                                <Typography variant='h4' className={sty.title}>Near By</Typography>
+                                <Grid container alignItems="center" >
+                                    {props.room.roomDetails ? props.room.roomDetails.Nearby ?
+                                        Object.keys(props.room.roomDetails.Nearby).map(key => <div key={key} className={sty.box_grid}>
+                                            <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/nearby/${key.replace(/ /g, "-")}.svg`)})` }}></div>
+                                            <Typography variant="caption">
+                                                {props.room.roomDetails.Nearby[key]}{' '}{key}
+                                            </Typography>
+                                        </div>) : "" : ""}
+                                </Grid>
+                            </Grid>
+                            <Grid container>
                                 <Typography variant='h4' className={sty.title}>Amenities</Typography>
                                 <Grid container alignItems="center" >
                                     {props.room.roomDetails ? props.room.roomDetails.amenities ?
