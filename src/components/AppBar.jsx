@@ -22,6 +22,7 @@ import Logo from "../static/roomlelologo.png";
 import SearchFilterDialog from '../components/SearchFilterDialog'
 import PropTypes from 'prop-types';
 import Filter from '../components/filter/filter'
+import SearchTool from "./search/searchTool";
 
 const useStyles = makeStyles((theme) => ({
   Appbar: {
@@ -303,8 +304,9 @@ export default function PrimarySearchAppBar(props) {
 
 
             {match ?
-              <Toolbar>
+              <Toolbar disableGutters>
                 <Filter />
+                {/* <SearchTool/> */}
               </Toolbar> : ''}
 
           </AppBar>

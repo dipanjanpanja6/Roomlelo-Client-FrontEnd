@@ -131,7 +131,7 @@ console.log(value);
         
       }}
       renderInput={(params) => (
-        <TextField {...params} variant="outlined" margin='dense' style={{width:'90%'}} />
+        <TextField {...params} variant="outlined" margin='dense'  />
       )}
       renderOption={(option) => {
         const matches = option.structured_formatting.main_text_matched_substrings;

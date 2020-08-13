@@ -108,7 +108,7 @@ const RoomsComponents = (props) => {
                             <Typography variant="caption" color='textSecondary' className={classes.room_short_details}>in {room.propertyAddress}</Typography>
                         </div>
 
-                        <Grid container alignItems="center" justify="space-around" >
+                        <Grid container style={{flexWrap:'nowrap'}} alignItems="center" justify="space-around" >
                             <Grid className={classes.icon}>
                                 <div style={{ backgroundImage: `url(${require('../../static/icons/024-accident.svg')})` }} className={classes.box_class}></div>
                                 <Typography variant="caption" className={classes.box_info_text_class}>{room.type}</Typography>
