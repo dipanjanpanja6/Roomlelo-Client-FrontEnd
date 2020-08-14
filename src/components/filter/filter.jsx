@@ -356,6 +356,7 @@ const Filter = (props) => {
     setSort("")
     setType("")
   }
+  const handlePiceClick=()=>{}
   return (
     <Grid container justify='space-around' alignItems='center'   >
 
@@ -382,7 +383,7 @@ const Filter = (props) => {
          <HighlightOffIcon /> 
         <ClearAllIcon />
         </IconButton>*/}
-        <div style={{ minWidth:300,width: '100%' }}>
+        <div style={{ minWidth: 300, width: '100%' }}>
           <GAutoComplete />
         </div>
       </div>
@@ -414,7 +415,18 @@ const Filter = (props) => {
         defaultValue={"None"}
         placeholder="Sort by"
       >
-        <MenuItem onClick={handlePriceChange} id="none" value="None">Any Price</MenuItem>
+        <MenuItem onClick={handlePiceClick} id="no_limit" value="No Limit">No Limit</MenuItem>
+        <MenuItem onClick={handlePiceClick} id="option_1" value="Below 5k">Below 5k</MenuItem>
+        <MenuItem onClick={handlePiceClick} id="option_2" value="5k to 10k">5k to 10k</MenuItem>
+        <MenuItem onClick={handlePiceClick} id="option_3" value="10k to 20k">10k to 20k</MenuItem>
+        <MenuItem onClick={handlePiceClick} id="option_4" value="above 20k">above 20k</MenuItem>
+      </TextField>
+
+      <TextField select className={sty.select} margin='dense'
+        defaultValue={"None"}
+        placeholder="Sort by"
+      >
+        <MenuItem onClick={handlePriceChange} id="none" value="None">Recommended Price</MenuItem>
         <MenuItem id="low" onClick={handlePriceChange} value="Price Low to High">Price Low to High</MenuItem>
         <MenuItem id="high" onClick={handlePriceChange} value="Price High to Low">Price High to Low</MenuItem>
       </TextField>
