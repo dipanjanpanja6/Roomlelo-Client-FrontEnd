@@ -138,7 +138,6 @@ const SearchToolBar = props => {
                         <GoogleMapsAutoComplete />
                         </div>
                     </Grid>
-<<<<<<< HEAD
                     <Grid item xs={6} sm={3}>
                         <Typography variant='h6' className={sty.title}>Property Type</Typography>
                         <Select variant='outlined' margin='dense' value={type} className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} >
@@ -171,41 +170,6 @@ const SearchToolBar = props => {
                     <Grid item xs={6} sm={3} container justify='center' alignItems='center'>
                         <Button onClick={handleSearch} variant='contained' size='large' color='primary' style={{ paddingLeft: 50, marginTop: 12, paddingRight: 50 }}>
                             Search
-=======
-                    {/* <Grid container xs={12} sm={9} > */}
-                        <Grid item xs={6} sm={3}>
-                            <Typography variant='h6' className={sty.title}>Property Type</Typography>
-                            <Select variant='outlined' margin='dense' value={type} className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} >
-                                <MenuItem onClick={handleTypeClick} id="none" value="All Types">All Types</MenuItem>
-                                <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
-                                <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
-                                <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>
-                            </Select>
-                        </Grid>
-                        <Grid item xs={6} sm={3}>
-                            <Typography variant='h6' className={sty.title}>For Whom</Typography>
-                            <Select variant='outlined' margin='dense' className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} value={priceValue} >
-                                <MenuItem onClick={handlePiceClick} id="no_limit" value="none">Any</MenuItem>
-                                <MenuItem onClick={handlePiceClick} id="option_1" value="Boys">Boys</MenuItem>
-                                <MenuItem onClick={handlePiceClick} id="option_2" value="Girls">Girls</MenuItem>
-                                <MenuItem onClick={handlePiceClick} id="option_3" value="Family">Family</MenuItem>
-                            </Select>
-                        </Grid>
-                        <Grid item xs={6} sm={3}>
-                            <Typography variant='h6' className={sty.title}>Max Price</Typography>
-                            <Select variant='outlined' margin='dense' className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} value={priceValue} >
-                                <MenuItem onClick={handlePiceClick} id="no_limit" value="No Limit">No Limit</MenuItem>
-                                <MenuItem onClick={handlePiceClick} id="option_1" value="Below 5k">Below 5k</MenuItem>
-                                <MenuItem onClick={handlePiceClick} id="option_2" value="5k to 10k">5k to 10k</MenuItem>
-                                <MenuItem onClick={handlePiceClick} id="option_3" value="10k to 20k">10k to 20k</MenuItem>
-                                <MenuItem onClick={handlePiceClick} id="option_4" value="above 20k">above 20k</MenuItem>
-                            </Select>
-                        </Grid>
-
-                        <Grid item xs={6} sm={3} container justify='center' alignItems='center'>
-                            <Button onClick={handleSearch} variant='contained' size='large' color='primary' style={{ paddingLeft: 50, marginTop: 12, paddingRight: 50 }}>
-                                Search
->>>>>>> a05bcffc0a952624d27761b2a3fc5099c1cfa43b
                         </Button>
                         </Grid>
                     {/* </Grid> */}
