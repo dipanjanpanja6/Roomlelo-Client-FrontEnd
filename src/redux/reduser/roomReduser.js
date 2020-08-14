@@ -1,7 +1,7 @@
 import {SET_ROOMS_DATA, SET_ALL_ROOMS_LOADED_COUNT, SET_ROOMS_PAGINATION_LIST_DATA,
     SET_SEARCHED, SET_NOT_SEARCHED,SET_FILTER_WITH_TYPE_DATA_ERROR,
     SET_SEARCH_DATA, SET_SEARCH_DATA_ERROR, SET_FILTER_WITH_TYPE_DATA, SET_FILTERED, SET_NOT_FILTERED,
-    SET_ROOM_DETAILS, SET_LOCATIONS, SET_PAGINATION_LOCATIONS, SET_ROOM_PAGINATION_ERROR, SET_SEARCH_TEXT_AUTO} from '../type'
+    SET_ROOM_DETAILS, SET_LOCATIONS,SET_FILTER_ERROR,SET_FILTER_ERROR_NULL, SET_PAGINATION_LOCATIONS, SET_ROOM_PAGINATION_ERROR, SET_SEARCH_TEXT_AUTO} from '../type'
 
 const initialState = {
     rooms:null,
@@ -14,15 +14,26 @@ const initialState = {
     locations:null,
     error:false,
     number:"",
-    searchText:""
+    searchId:"",
+    filterError:false
 }
 
 export default function (state = initialState, actions) {
     switch (actions.type) {
+        case SET_FILTER_ERROR_NULL:
+            return {
+                ...state,
+                filterError:false
+            }
+        case SET_FILTER_ERROR:
+            return {
+                ...state,
+                filterError:true
+            }
         case SET_SEARCH_TEXT_AUTO:
             return {
                 ...state,
-                searchText:actions.payload
+                searchId:actions.payload
             }
         case SET_NOT_FILTERED:
             return{

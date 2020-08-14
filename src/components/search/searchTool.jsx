@@ -43,6 +43,7 @@ const SearchToolBar = props => {
     let location = useLocation()
     const [priceValue, setPriceValue] = useState("No Limit")
     const [type, setType] = useState("All Types")
+    const [forWhom, setForWhom] = useState("Any")
 
 
     const handleTypeClick = (event) => {
@@ -86,25 +87,28 @@ const SearchToolBar = props => {
         }
 
     }
+    const handleForClick = (event) =>{
+        setForWhom(event.target.id)
+    }
 
     const handleSearch = () => {
-        console.log(props.room.searchText);
-        if (props.room.searchText === "" || props.room.searchText === null) {
+        
+        if (props.room.searchId === "" || props.room.searchId === null) {
             //props.getFiltered(price, typeValue)
             console.log("ll");
-            if (priceValue !== "No Limit" || type !== "All Types") {
-                console.log("ll22");
-                history.push(`/rooms?search=false&filter=true&price=${priceValue}&type=${type}`)
+            if (priceValue !== "No Limit" || type !== "All Types" || forWhom !== "Any") {
+                
+                history.push(`/rooms?search=false&filter=true&price=${priceValue}&type=${type}&forWhom=${forWhom}`)
             } else {
                 history.push('/rooms')
 
             }
 
-        } else if (props.room.searchText !== "" || props.room.searchText !== null) {
-            if (priceValue !== "No Limit" || type !== "All Types") {
-                history.push(`/rooms?search=true&searchId=${props.room.searchText}&filter=true&price=${priceValue}&type=${type}`)
+        } else if (props.room.searchId !== "" || props.room.searchId !== null) {
+            if (priceValue !== "No Limit" || type !== "All Types" || forWhom !== "Any") {
+                history.push(`/rooms?search=true&searchId=${props.room.searchId}&filter=true&price=${priceValue}&type=${type}&forWhom=${forWhom}`)
             } else {
-                history.push(`/rooms?search=true&searchId=${props.room.searchText}&filter=false`)
+                history.push(`/rooms?search=true&searchId=${props.room.searchId}&filter=false`)
             }
             //props.getFilteredSearch(props.room.searchText, price, typeValue)
         }
@@ -134,6 +138,40 @@ const SearchToolBar = props => {
                         <GoogleMapsAutoComplete />
                         </div>
                     </Grid>
+<<<<<<< HEAD
+                    <Grid item xs={6} sm={3}>
+                        <Typography variant='h6' className={sty.title}>Property Type</Typography>
+                        <Select variant='outlined' margin='dense' value={type} className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} >
+                            <MenuItem onClick={handleTypeClick} id="none" value="All Types">All Types</MenuItem>
+                            <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
+                            <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
+                            <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>
+                        </Select>
+                    </Grid>
+                    <Grid item xs={6} sm={3}>
+                        <Typography variant='h6' className={sty.title}>For Whom</Typography>
+                        <Select variant='outlined' margin='dense' className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} value={forWhom} >
+                            <MenuItem onClick={handleForClick} id="none" value="Any">Any</MenuItem>
+                            <MenuItem onClick={handleForClick} id="Boys" value="Boys">Boys</MenuItem>
+                            <MenuItem onClick={handleForClick} id="Girls" value="Girls">Girls</MenuItem>
+                            <MenuItem onClick={handleForClick} id="Family" value="Family">Family</MenuItem>
+                        </Select>
+                    </Grid>
+                    <Grid item xs={6} sm={3}>
+                        <Typography variant='h6' className={sty.title}>Max Price</Typography>
+                        <Select variant='outlined' margin='dense' className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} value={priceValue} >
+                            <MenuItem onClick={handlePiceClick} id="no_limit" value="No Limit">No Limit</MenuItem>
+                            <MenuItem onClick={handlePiceClick} id="option_1" value="Below 5k">Below 5k</MenuItem>
+                            <MenuItem onClick={handlePiceClick} id="option_2" value="5k to 10k">5k to 10k</MenuItem>
+                            <MenuItem onClick={handlePiceClick} id="option_3" value="10k to 20k">10k to 20k</MenuItem>
+                            <MenuItem onClick={handlePiceClick} id="option_4" value="above 20k">above 20k</MenuItem>
+                        </Select>
+                    </Grid>
+
+                    <Grid item xs={6} sm={3} container justify='center' alignItems='center'>
+                        <Button onClick={handleSearch} variant='contained' size='large' color='primary' style={{ paddingLeft: 50, marginTop: 12, paddingRight: 50 }}>
+                            Search
+=======
                     {/* <Grid container xs={12} sm={9} > */}
                         <Grid item xs={6} sm={3}>
                             <Typography variant='h6' className={sty.title}>Property Type</Typography>
@@ -167,6 +205,7 @@ const SearchToolBar = props => {
                         <Grid item xs={6} sm={3} container justify='center' alignItems='center'>
                             <Button onClick={handleSearch} variant='contained' size='large' color='primary' style={{ paddingLeft: 50, marginTop: 12, paddingRight: 50 }}>
                                 Search
+>>>>>>> a05bcffc0a952624d27761b2a3fc5099c1cfa43b
                         </Button>
                         </Grid>
                     {/* </Grid> */}
