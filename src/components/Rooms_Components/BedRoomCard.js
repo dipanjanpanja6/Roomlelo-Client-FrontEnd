@@ -55,7 +55,7 @@ export default function MediaControlCard(props) {
       </div>
       <CardMedia
         className={classes.cover}
-        image="http://material-ui.com/static/images/cards/live-from-space.jpg"
+        image={require('../../static/icons/marker.svg')}
         title="Live from space album cover"
       />
     </Card>
