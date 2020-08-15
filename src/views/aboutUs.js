@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Grid,  makeStyles,  Typography, Toolbar } from '@material-ui/core'
+import { Grid,  makeStyles,  Typography, Toolbar, Divider } from '@material-ui/core'
  
 import PropType from 'prop-types' 
 import Footer from "../components/footer";
 import { bookClear } from "../redux/actions/bookAction";
 import { connect } from "react-redux";
+import Alert from '@material-ui/lab/Alert';
 
 
 
@@ -69,8 +70,16 @@ const RoomsComponents = (props) => {
                     </Grid>
                 </Grid>
 
-                <Grid container item sm={8} style={{ flexDirection: 'column', padding: 40 }}>
+                <Grid container item sm={8} style={{ flexDirection: 'column', padding: 25 }}>
                     <Grid  >
+                        <div style={{width:'100%'}}>
+
+                    <Alert variant="filled" severity="error">
+                        This site is on devolvement state. If you are facing any difficulty please whatsApp/Call on <a href="https://api.whatsapp.com/send?phone=917667651878&fbclid=IwAR0ASfOooEnNvOFx0opGXp8vit72QfSz_tXE-lnCwp7uVqO_mX5sGd0Ja-w" >+91 76676 51878</a> — check it out!
+                    </Alert>
+                    <br/>
+                    <Divider/>
+                        </div>
                         <Typography variant='h4' style={{paddingBottom:20}}>
                             <b> About Us</b>
                         </Typography>

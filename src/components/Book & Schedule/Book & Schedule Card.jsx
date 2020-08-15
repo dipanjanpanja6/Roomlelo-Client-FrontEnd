@@ -43,13 +43,13 @@ const history= useHistory()
 useEffect(()=>{
 if (props.book) {
     if (props.book.booked===true) {
-        toast.success("Room Booked successful. our executive will contact you soon. For more information's please check our about page.")
+        toast.success("Room Booked successful. Our executive will contact you soon. For more information's please check our about page.")
         history.push('/about')
         // setTimeout(window.location='/about', 30000);
 
     }
     if (props.book.schedule_booked===true) {
-        toast.success("Visit scheduled successful. our executive will contact you soon. For more information's please check our about page.")
+        toast.success("Visit scheduled successful. Our executive will contact you soon. For more information's please check our about page.")
         // setTimeout(window.location='/about', 30000);
       
         history.push('/about')
@@ -218,11 +218,12 @@ console.log(props);
 
                     <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
                         <Button mane='submit' onClick={bookClick} type='submit'>Book Now { submitType==="submit" && loading && <CircularProgress size={26} color='secondary'/>}</Button>
-                        <Button mane='schedule' onClick={scheduleClick} type='submit' color='secondary'>Schedule your Visit { submitType==="schedule" && loading && <CircularProgress size={26} color='secondary'/>}</Button>
+                        <Button mane='schedule' onClick={scheduleClick} type='submit' color='secondary'>Schedule your Visit { submitType==="schedule" && loading && <CircularProgress size={26} color='primary'/>}</Button>
                     </ButtonGroup></>}
 
             </form>
-            <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: 99999999999</Typography>
+            <br/>
+            <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: +91 76676 51878</Typography>
         </Paper>
 
     )

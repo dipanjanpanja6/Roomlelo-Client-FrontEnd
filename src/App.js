@@ -69,7 +69,7 @@ const App = (props) => {
 					<Route exact path="/about" component={aboutUs} />
 					{/* <Route exact path="/account/signup" component={Account_SignUp}/> */}
 
-					<Route exact component={E4} />
+					<Route exact render={()=><Redirect to='/rooms'/>} />
 
 
 				</Switch>

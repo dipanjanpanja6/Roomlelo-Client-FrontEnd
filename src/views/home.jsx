@@ -35,7 +35,7 @@ const styles = makeStyles((theme) => ({
   },
   fImg: {
     width: '100%',
-    maxHeight:450,
+    maxHeight: 450,
     [theme.breakpoints.down('xs')]: {
       height: 300,
     }
@@ -208,7 +208,7 @@ const styles = makeStyles((theme) => ({
   differentText: {
     margin: "24px 0", padding: '0 30px'
   },
-  learn:{
+  learn: {
     marginTop: 43, paddingLeft: 50, paddingRight: 50,
     [theme.breakpoints.down('xs')]: {
       display: "none"
@@ -218,17 +218,17 @@ const styles = makeStyles((theme) => ({
 
 const images = [
   {
-    url: 'http://parisdesignagenda.com/wp-content/uploads/2017/08/zana-2.png',
+    url: require("../static/privet-room.svg"),
     title: "Private Room",
     width: "33.33%",
   },
   {
-    url: "https://www.digsdigs.com/photos/cool-shared-teen-boy-rooms-decor-ideas-20.jpg",
+    url: require('../static/Shared-room.webp'),
     title: "Shared Room",
     width: "33.33%",
   },
   {
-    url: "https://trinitypoint.com.au/wp-content/uploads/2019/11/LOT-1306.jpg",
+    url: require('../static/entire-house.webp'),
     title: "Entire House/Flat",
     width: "33.33%",
   },
@@ -238,7 +238,7 @@ const FirstView = (sty, b) => {
   return (
     <Grid
       container
-      justify="center" 
+      justify="center"
       alignItems='center'
       className={sty.FirstView}
     >
@@ -268,18 +268,33 @@ function Home() {
   const history = useHistory();
   const sty = styles();
   useEffect(() => {
-    window.scrollTo(0, 0) 
-   document.title='RoomLelo - Flats, house, rooms for rent without brokerage.'
+    window.scrollTo(0, 0)
+    document.title = 'RoomLelo - Flats, house, rooms for rent without brokerage.'
   }, [])
   var collections = (i) => {
     if (i === "Private Room") {
-      history.push('/rooms?type=private')
+      const data = {
+        search: "", type: "Private Rooms", forWhom: "", sort: ""
+      }
+      const j = JSON.stringify(data)
+      localStorage.setItem('search_data', j)
+      history.push('/rooms')
     }
     if (i === "Shared Room") {
-      history.push('/rooms?type=shared')
+      const data = {
+        search: "", type: "Shared Rooms", forWhom: "", sort: ""
+      }
+      const j = JSON.stringify(data)
+      localStorage.setItem('search_data', j)
+      history.push('/rooms')
     }
     if (i === "Entire House/Flat") {
-      history.push('/rooms?type=entire')
+      const data = {
+        search: "", type: "Entire House", forWhom: "", sort: ""
+      }
+      const j = JSON.stringify(data)
+      localStorage.setItem('search_data', j)
+      history.push('/rooms')
     }
   }
 
@@ -537,7 +552,7 @@ function Home() {
               Our collections
             </Typography>
           </Grid>
-          {images.map((image) => (
+          {images.map((image, i) => (
             <ButtonBase onClick={() => collections(image.title)}
               focusRipple
               key={image.title}
@@ -548,10 +563,10 @@ function Home() {
               }}
             >
               <span
-                className={sty.imageSrc}
                 style={{
-                  backgroundImage: `url(${image.url})`,
+                  backgroundImage: `url(${image.url}`
                 }}
+                className={sty.imageSrc}
               />
               <span className={sty.imageBackdrop} />
               <span className={sty.imageButton}>

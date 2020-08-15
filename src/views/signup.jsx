@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
-import { Grid, makeStyles, Typography, Toolbar, TextField, Divider, Paper, Button, Avatar, Card } from '@material-ui/core'
+import { Grid, makeStyles, Typography, Toolbar, TextField, Divider, Paper, Button, Avatar, Card, InputAdornment, CircularProgress, Menu, MenuItem } from '@material-ui/core'
 
 import PropType from 'prop-types'
 import Footer from "../components/footer";
 import Growth from "../components/ourGroth";
 import Benefit from "../components/benefit";
 import Testo from "../components/testo";
+import { url } from "../config/config";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const style = makeStyles((theme) => ({
     book: {
@@ -35,10 +38,10 @@ const style = makeStyles((theme) => ({
     dashImg: {
         backgroundImage: `url(${require('../static/TenantDashboardUI.svg')})`,
         height: 419,
-        width:'100%',
+        width: '100%',
         backgroundPosition: 'center',
         backgroundRepeat: "no-repeat",
-        backgroundSize:'contain',
+        backgroundSize: 'contain',
         [theme.breakpoints.down('xs')]: {
             height: 218,
             width: 356
@@ -71,9 +74,9 @@ const style = makeStyles((theme) => ({
 }))
 const RoomsComponents = (props) => {
     useEffect(() => {
-        window.scrollTo(0, 0) 
-       document.title='Join with Us | RoomLelo - Flats, house, rooms for rent without brokerage.'
-      }, [])
+        window.scrollTo(0, 0)
+        document.title = 'Join with Us | RoomLelo - Flats, house, rooms for rent without brokerage.'
+    }, [])
     const sty = style()
     var six = Array.apply(null, { length: 1 }).map((e, i) => (
         <>
@@ -161,12 +164,40 @@ const RoomsComponents = (props) => {
         "Step 02",
         "Step 03",
     ]
+    const [state, setState] = useState({ name: "", phoneNumber: "", email: '' ,propertyType:"Others"})
+    const [loading,setLoading] = useState(false)
+
+    const handleChange = (e) => {
+        setState({ ...state, [e.target.name]: e.target.value })
+    }
+    const submit = (e) => {
+        e.preventDefault()
+        setLoading(true)
+        if (state.phoneNumber.match(/^\d{10}$/)) {
+            fetch(`${url}/refer/ownerreq`, {
+                method: 'POST',
+                body: JSON.stringify({data:state}),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then((response) => {
+                setLoading(false)
+                response.json().then((data) => {
+                    data.success && toast.success(data.message)
+                    data.error && toast.error(data.message)
+                })
+            }).catch(r=>toast.error('Something went wrong'))
+        } else {
+            setLoading(false)
+            toast.error("Invalid Phone number")
+        }
+    }
     return (
         <>
             <Toolbar />
             <Grid>
                 <Grid container alignItems='center' style={{ padding: 20 }}>
-                    <Grid container sm={8} className={sty.book}>
+                    <Grid container sm={7} className={sty.book}>
 
                         <Grid container justify='center' alignItems='center' style={{ flexDirection: 'column', }}>
                             {/* <video width="80%" height="300" controls>
@@ -174,11 +205,12 @@ const RoomsComponents = (props) => {
                                 src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
                                 type="application/x-mpegURL"/>
                         </video> */}
-                            <iframe title='video' width="90%" height="315" src="https://www.youtube-nocookie.com/embed/IuX6k-Xf_Qk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <img height='400' src={require('../static/Agreement.svg')}/>
+                            {/* <iframe title='video' width="90%" height="315" src="https://www.youtube-nocookie.com/embed/IuX6k-Xf_Qk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
                         </Grid>
                     </Grid>
 
-                    <Grid container item sm={4} style={{ flexDirection: 'column' }}>
+                    <Grid container item sm={5} style={{ flexDirection: 'column' }}>
                         <Paper className={sty.bookPaper}>
 
                             <Typography variant='body1'>
@@ -186,31 +218,75 @@ const RoomsComponents = (props) => {
                             </Typography>
                             <Divider style={{ margin: '12px 0' }} />
 
+                            <form onSubmit={submit}>
+                                <TextField className={sty.bookPadding}
+                                    fullWidth
+                                    margin='dense'
+                                    type="text"
+                                    required
+                                    name="name"
+                                    value={state.name}
+                                    onChange={handleChange}
+                                    variant='outlined'
+                                    placeholder="Enter Your First and Last Name" />
 
-                            <TextField className={sty.bookPadding}
-                                fullWidth
-                                margin='dense'
-                                type="text"
-                                variant='outlined'
-                                placeholder="Enter Your First and Last Name" />
 
+                                <TextField className={sty.bookPadding}
+                                    margin='dense'
+                                    variant='outlined'
+                                    name="phoneNumber"
+                                    value={state.phoneNumber}
+                                    onChange={handleChange}
+                                    type="number"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                +91
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    required
+                                    placeholder="Contact Number" />
+                                <TextField className={sty.bookPadding}
+                                    margin='dense'
+                                    variant='outlined'
+                                    name="email"
+                                    value={state.email}
+                                    onChange={handleChange}
+                                    type="email"
+                                    placeholder=" Email address" />
+                                <Divider style={{ margin: '12px 0' }} />
+                                <TextField className={sty.bookPadding}
+                                    margin='dense'
+                                    variant='outlined'
+                                    name="propertyType"
+                                    required
+                                    value={state.propertyType}
+                                    onChange={handleChange}
+                                    select>
+                                        <MenuItem value="Others">Others</MenuItem>
+                                        <MenuItem value="Room">Room</MenuItem>
+                                        <MenuItem value="Flat">Flat</MenuItem>
+                                        <MenuItem value="House">House</MenuItem>
+                                    </TextField>
+                                <TextField className={sty.bookPadding}
+                                    margin='dense'
+                                    variant='outlined'
+                                    name="details"
+                                    multiline
+                                    rowsMax={4}
+                                    rows={2}
+                                    placeholder='Brief descriptions ...'
+                                    required
+                                    value={state.details}
+                                    onChange={handleChange}
+                                   />
+                                <Divider style={{ margin: '12px 0' }} />
 
-                            <TextField className={sty.bookPadding}
-                                margin='dense'
-                                variant='outlined'
-                                type="number"
-                                placeholder="Contact Number" />
-                            <TextField className={sty.bookPadding}
-                                margin='dense'
-                                variant='outlined'
-                                type="email"
-                                placeholder=" Email address" />
-                            <Divider style={{ margin: '12px 0' }} />
-
-                            <Button variant='contained' color='secondary'>
-                                Request a Call back for Assistance
+                                <Button disabled={loading} type='submit' variant='contained' color='secondary'>
+                                    Request a Call back for Assistance {loading && <CircularProgress size={26} />}
                             </Button>
-
+                            </form>
                             {/* <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: 99999999999</Typography> */}
                         </Paper>
 
@@ -233,7 +309,7 @@ const RoomsComponents = (props) => {
                         </Typography>
 
                     <Grid container alignItems="center">
-                        <Grid item  sm={5} style={{ paddingLeft: '10%' }}>
+                        <Grid item sm={5} style={{ paddingLeft: '10%' }}>
                             {six}
                         </Grid>
                         <Grid item justify="center" container sm={7}>
