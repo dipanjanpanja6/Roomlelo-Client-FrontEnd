@@ -355,6 +355,7 @@ const Filter = (props) => {
     setSearch("")
     setSort("")
     setType("")
+    history.replace('/rooms')
   }
   const handlePiceClick=()=>{}
   return (
@@ -386,6 +387,10 @@ const Filter = (props) => {
         <div style={{ minWidth: 300, width: '100%' }}>
           <GAutoComplete />
         </div>
+      <IconButton onClick={clear} style={{padding:5}}>
+         {/* <HighlightOffIcon />  */}
+        <ClearAllIcon />
+        </IconButton>
       </div>
       <div style={{ flexGrow: 1 }}></div>
 
@@ -422,14 +427,14 @@ const Filter = (props) => {
         <MenuItem onClick={handlePiceClick} id="option_4" value="above 20k">above 20k</MenuItem>
       </TextField>
 
-      <TextField select className={sty.select} margin='dense'
+      {/* <TextField select className={sty.select} margin='dense'
         defaultValue={"None"}
         placeholder="Sort by"
       >
         <MenuItem onClick={handlePriceChange} id="none" value="None">Recommended Price</MenuItem>
         <MenuItem id="low" onClick={handlePriceChange} value="Price Low to High">Price Low to High</MenuItem>
         <MenuItem id="high" onClick={handlePriceChange} value="Price High to Low">Price High to Low</MenuItem>
-      </TextField>
+      </TextField> */}
 
     </Grid>
   )

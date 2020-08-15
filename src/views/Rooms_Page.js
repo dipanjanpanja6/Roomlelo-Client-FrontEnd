@@ -278,10 +278,10 @@ const RoomsPage = (props) => {
 
         }
     };
-
-    let roomMarkUp = props.room.rooms != null ?
+console.log(props.room.filterError);
+console.log(props.room.rooms);
+    let roomMarkUp = props.room.rooms == null ? "data not found":props.room.rooms.length == 0?<Loading />:
      props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) 
-     : props.room.filterError == true ? "data not found" : <Loading />;
     const onMarkerClick = (id) => {
         history.push(`/rooms/${id}`)
     }
