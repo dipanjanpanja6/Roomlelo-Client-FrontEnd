@@ -106,9 +106,9 @@ const SearchToolBar = props => {
 
         } else if (props.room.searchId !== "" || props.room.searchId !== null) {
             if (priceValue !== "No Limit" || type !== "All Types" || forWhom !== "Any") {
-                history.push(`/rooms?search=true&searchId=${props.room.searchId}&filter=true&price=${priceValue}&type=${type}&forWhom=${forWhom}`)
+                history.push(`/rooms?search=true&searchId=${props.room.searchId}&place=${props.room.placeName}&filter=true&price=${priceValue}&type=${type}&forWhom=${forWhom}`)
             } else {
-                history.push(`/rooms?search=true&searchId=${props.room.searchId}&filter=false`)
+                history.push(`/rooms?search=true&searchId=${props.room.searchId}&place=${props.room.placeName}&filter=false`)
             }
             //props.getFilteredSearch(props.room.searchText, price, typeValue)
         }
