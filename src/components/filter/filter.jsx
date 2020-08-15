@@ -498,7 +498,6 @@ const Filter = (props) => {
     // setSearch("")
     // setSort("")
     // setType("")
-    setSearch('')
     window.location = '/rooms'
   }
   const handlePiceClick=(event)=>{
