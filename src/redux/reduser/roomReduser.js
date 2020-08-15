@@ -1,5 +1,5 @@
 import {SET_ROOMS_DATA, SET_ALL_ROOMS_LOADED_COUNT, SET_ROOMS_PAGINATION_LIST_DATA,
-    SET_SEARCHED, SET_NOT_SEARCHED,SET_FILTER_WITH_TYPE_DATA_ERROR,
+    SET_SEARCHED, SET_NOT_SEARCHED,SET_FILTER_WITH_TYPE_DATA_ERROR,SET_SEARCH_PLACE_NAME,SET_FILTER_URL_DATA,
     SET_SEARCH_DATA, SET_SEARCH_DATA_ERROR, SET_FILTER_WITH_TYPE_DATA, SET_FILTERED, SET_NOT_FILTERED,
     SET_ROOM_DETAILS, SET_LOCATIONS,SET_FILTER_ERROR,SET_FILTER_ERROR_NULL, SET_PAGINATION_LOCATIONS, SET_ROOM_PAGINATION_ERROR, SET_SEARCH_TEXT_AUTO} from '../type'
 
@@ -15,11 +15,23 @@ const initialState = {
     error:false,
     number:"",
     searchId:"",
-    filterError:false
+    filterError:false,
+    placeName:'',
+    filterData:{filtered:false}
 }
 
 export default function (state = initialState, actions) {
     switch (actions.type) {
+        case SET_FILTER_URL_DATA:
+            return{
+                ...state,
+                filterData:actions.payload
+            }
+        case SET_SEARCH_PLACE_NAME:
+            return{
+                ...state,
+                placeName:actions.payload
+            }
         case SET_FILTER_ERROR_NULL:
             return {
                 ...state,

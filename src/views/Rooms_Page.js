@@ -5,7 +5,7 @@ import PropType from 'prop-types'
 import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_Item_Components";
 import AppBarSpace from '../components/appBarSpace';
 import Loading from '../components/loading'
-import { getRooms, getRoomsWithPagination, getRoomWithTypePagination, clearFilter, getFilteredSearch, getFiltered, search, filter } from '../redux/actions/roomActions'
+import { getRooms, getRoomsWithPagination,setFilteredData, getRoomWithTypePagination, clearFilter, getFilteredSearch, getFiltered, search, filter } from '../redux/actions/roomActions'
 import queryString from 'query-string'
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 //M-Ui
@@ -71,7 +71,7 @@ const RoomsPage = (props) => {
     useEffect(() => {
         window.scrollTo(0, 0) 
         document.title='Find Your best Flats, house, rooms | RoomLelo - Flats, house, rooms for rent without brokerage.'
-        const {searchId, search, filter, price, type, forWhom} = queryString.parse(props.location.search)
+        const {searchId, search, filter, price, type, forWhom, place} = queryString.parse(props.location.search)
         if(search || filter){
             
             if(searchId !== "" && searchId && search === 'true'){
@@ -82,80 +82,259 @@ const RoomsPage = (props) => {
                               if(price === "Below 5k"){
                                //  props.getFilteredSearch(searchId, "option_1", type)
                                props.search(searchId, "option_1", type, forWhom)
-                               
+                               const data = {
+                                searchId:searchId, 
+                                price:"Below 5k", 
+                                type:type, 
+                                forWhom:forWhom,
+                                place:place,
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
      
                              }
                              if(price === "5k to 10k"){
                                   props.search(searchId, "option_2", type, forWhom)
+                                  const data = {
+                                    searchId:searchId, 
+                                    price:"5k to 10k", 
+                                    type:type, 
+                                    forWhom:forWhom,
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                              }
                              if(price === "10k to 20k"){
                               props.search(searchId, "option_3", type, forWhom)
+                              const data = {
+                                searchId:searchId, 
+                                price:"10k to 20k", 
+                                type:type, 
+                                forWhom:forWhom,
+                                place:place,
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
                              }
                              if(price === "above 20k"){
                               props.search(searchId, "option_4", type, forWhom)
+                              const data = {
+                                searchId:searchId, 
+                                price:"above 20k", 
+                                type:type, 
+                                forWhom:forWhom,
+                                place:place,
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
                              }
                             
                         }
                         if(price === "No Limit" || type === "All Types" || forWhom === "Any"){
                             if(price === "No Limit" && type !== "All Types" && forWhom === "Any"){
                              props.search(searchId, "", type, "")
+                             const data = {
+                                searchId:searchId, 
+                                price:"", 
+                                type:"", 
+                                forWhom:forWhom,
+                                place:place,
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
                             }
                             if(price !== "No Limit" && type === "All Types" && forWhom === "Any"){
                                 if(price === "Below 5k"){
                                     props.search(searchId, "option_1", "", "")
+                                    const data = {
+                                        searchId:searchId, 
+                                        price:"Below 5k", 
+                                        type:"", 
+                                        forWhom:"",
+                                        place:place,
+                                        filtered:true
+                                       }
+                                       props.setFilteredData(data)
                                  
                                 }
                                 if(price === "5k to 10k"){
                                      props.search(searchId, "option_2", "", "")
+                                     const data = {
+                                        searchId:searchId, 
+                                        price:"5k to 10k", 
+                                        type:"", 
+                                        forWhom:"",
+                                        place:place,
+                                        filtered:true
+                                       }
+                                       props.setFilteredData(data)
                                 }
                                 if(price === "10k to 20k"){
                                  props.search(searchId, "option_3", "", "")
+                                 const data = {
+                                    searchId:searchId, 
+                                    price:"10k to 20k", 
+                                    type:"", 
+                                    forWhom:"",
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                                 }
                                 if(price === "above 20k"){
                                  props.search(searchId, "option_4", "", "")
+                                 const data = {
+                                    searchId:searchId, 
+                                    price:"above 20k", 
+                                    type:"", 
+                                    forWhom:"",
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                                 }
                             }
                             if(price === "No Limit" && type === "All Types" && forWhom !== "Any"){
                                 props.search(searchId, "", "", forWhom)
+                                const data = {
+                                    searchId:searchId, 
+                                    price:"", 
+                                    type:"", 
+                                    forWhom:forWhom,
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                             }
                             if(price !== "No Limit" && type !== "All Types" && forWhom === "Any"){
                                 if(price === "Below 5k"){
                                     props.search(searchId, "option_1", type, "")
+                                    const data = {
+                                        searchId:searchId, 
+                                        price:"Below 5k", 
+                                        type:type, 
+                                        forWhom:"",
+                                        place:place,
+                                        filtered:true
+                                       }
+                                       props.setFilteredData(data)
                                  
                                 }
                                 if(price === "5k to 10k"){
                                      props.search(searchId, "option_2", type, "")
+                                     const data = {
+                                        searchId:searchId, 
+                                        price:"5k to 10k", 
+                                        type:type, 
+                                        forWhom:"",
+                                        place:place,
+                                        filtered:true
+                                       }
+                                       props.setFilteredData(data)
                                 }
                                 if(price === "10k to 20k"){
                                  props.search(searchId, "option_3", type, "")
+                                 const data = {
+                                    searchId:searchId, 
+                                    price:"10k to 20k", 
+                                    type:type, 
+                                    forWhom:"",
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                                 }
                                 if(price === "above 20k"){
                                  props.search(searchId, "option_4", type, "")
+                                 const data = {
+                                    searchId:searchId, 
+                                    price:"above 20k", 
+                                    type:type, 
+                                    forWhom:"",
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                                 }
                             }
                             if(price !== "No Limit" && type === "All Types" && forWhom !== "Any"){
                                 if(price === "Below 5k"){
                                     props.search(searchId, "option_1", "", forWhom)
+                                    const data = {
+                                        searchId:searchId, 
+                                        price:"Below 5k", 
+                                        type:"", 
+                                        forWhom:forWhom,
+                                        place:place,
+                                        filtered:true
+                                       }
+                                       props.setFilteredData(data)
                                  
                                 }
                                 if(price === "5k to 10k"){
                                      props.search(searchId, "option_2", "", forWhom)
+                                     const data = {
+                                        searchId:searchId, 
+                                        price:"5k to 10k", 
+                                        type:"", 
+                                        forWhom:forWhom,
+                                        place:place,
+                                        filtered:true
+                                       }
+                                       props.setFilteredData(data)
                                 }
                                 if(price === "10k to 20k"){
                                  props.search(searchId, "option_3", "", forWhom)
+                                 const data = {
+                                    searchId:searchId, 
+                                    price:"10k to 20k", 
+                                    type:"", 
+                                    forWhom:forWhom,
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                                 }
                                 if(price === "above 20k"){
                                  props.search(searchId, "option_4", "", forWhom)
+                                 const data = {
+                                    searchId:searchId, 
+                                    price:"above 20k", 
+                                    type:"", 
+                                    forWhom:forWhom,
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                                 }
                             }
                             if(price === "No Limit" && type !== "All Types" && forWhom !== "Any"){
                                 props.search(searchId, "", type, forWhom)
+                                const data = {
+                                    searchId:searchId, 
+                                    price:"", 
+                                    type:type, 
+                                    forWhom:forWhom,
+                                    place:place,
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                             }
                              
                         }
                      }
                 }else{
                     props.search(searchId, "", "", "")
+                    const data = {
+                        searchId:searchId, 
+                        price:"", 
+                        type:"", 
+                        forWhom:"",
+                        place:place,
+                        filtered:true
+                       }
+                       props.setFilteredData(data)
                 }
                 
                 
@@ -169,81 +348,256 @@ const RoomsPage = (props) => {
                     if(price !== "No Limit" && type !== "All Types" && forWhom !== "Any"){
                         if(price === "Below 5k"){
                             props.filter( "option_1", type, forWhom)
+                            const data = {
+                                searchId:"", 
+                                price:"Below 5k", 
+                                type:type, 
+                                forWhom:forWhom,
+                                place:"",
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
                        }
                        if(price === "5k to 10k"){
                             props.filter("option_2", type, forWhom)
+                            const data = {
+                                searchId:"", 
+                                price:"5k to 10k", 
+                                type:type, 
+                                forWhom:forWhom,
+                                place:"",
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
                        }
                        if(price === "10k to 20k"){
                         props.filter("option_3", type, forWhom)
+                        const data = {
+                            searchId:"", 
+                            price:"10k to 20k", 
+                            type:type, 
+                            forWhom:forWhom,
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                        }
                        if(price === "above 20k"){
                         props.filter("option_4", type, forWhom)
+                        const data = {
+                            searchId:"", 
+                            price:"above 20k", 
+                            type:type, 
+                            forWhom:forWhom,
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                        }
                       
+                  }
+                  if(price === "No Limit" && type === "All Types" && forWhom === "Any"){
+                    props.getRooms()
                   }
 
                     if(price === "No Limit" || type === "All Types" || forWhom === "Any"){
                         if(price === "No Limit" && type !== "All Types" && forWhom === "Any"){
                             props.filter("", type, "")
+                            const data = {
+                                searchId:"", 
+                                price:"", 
+                                type:type, 
+                                forWhom:"",
+                                place:"",
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
                         }
                         if(price !== "No Limit" && type === "All Types" && forWhom === "Any"){
                             if(price === "Below 5k"){
                                  props.filter("option_1", "", "")
+                                 const data = {
+                                    searchId:"", 
+                                    price:"Below 5k", 
+                                    type:"", 
+                                    forWhom:"",
+                                    place:"",
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                              
                             }
                             if(price === "5k to 10k"){
                                 props.filter("option_2", "", "")
+                                const data = {
+                                    searchId:"", 
+                                    price:"5k to 10k", 
+                                    type:"", 
+                                    forWhom:"",
+                                    place:"",
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                             }
                             if(price === "10k to 20k"){
                                 props.filter("option_3", "", "")
+                                const data = {
+                                    searchId:"", 
+                                    price:"10k to 20k", 
+                                    type:"", 
+                                    forWhom:"",
+                                    place:"",
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                             }
                             if(price === "above 20k"){
                                 props.filter("option_4", "", "")
+                                const data = {
+                                    searchId:"", 
+                                    price:"above 20k", 
+                                    type:"", 
+                                    forWhom:"",
+                                    place:"",
+                                    filtered:true
+                                   }
+                                   props.setFilteredData(data)
                             }
                         }
                         if(forWhom !== "Any" && price === "No Limit" && type === "All Types"){
                             props.filter("", "", forWhom)
+                            const data = {
+                                searchId:"", 
+                                price:"", 
+                                type:"", 
+                                forWhom:forWhom,
+                                place:"",
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
                         }
                          
                     }
                     if(price !== "No Limit" && type !== "All Types" && forWhom === "Any"){
                         if(price === "Below 5k"){
                             props.filter("option_1", type, "")
+                            const data = {
+                                searchId:"", 
+                                price:"Below 5k", 
+                                type:type, 
+                                forWhom:"",
+                                place:"",
+                                filtered:true
+                               }
+                               props.setFilteredData(data)
                         
                        }
                        if(price === "5k to 10k"){
                            props.filter("option_2", type, "")
+                           const data = {
+                            searchId:"", 
+                            price:"5k to 10k", 
+                            type:type, 
+                            forWhom:"",
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                        }
                        if(price === "10k to 20k"){
                            props.filter("option_3", type, "")
+                           const data = {
+                            searchId:"", 
+                            price:"10k to 20k", 
+                            type:type, 
+                            forWhom:"",
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                        }
                        if(price === "above 20k"){
                            props.filter("option_4", type, "")
+                           const data = {
+                            searchId:"", 
+                            price:"above 20k", 
+                            type:type, 
+                            forWhom:"",
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                        }
                     }
                     if(price !== "No Limit" && type === "All Types" && forWhom !== "Any"){
                         if(price === "Below 5k"){
                             props.filter("option_1", "", forWhom)
+                            
+                           const data = {
+                            searchId:"", 
+                            price:"Below 5k", 
+                            type:"", 
+                            forWhom:forWhom,
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                         
                        }
                        if(price === "5k to 10k"){
                            props.filter("option_2", "", forWhom)
+                           const data = {
+                            searchId:"", 
+                            price:"5k to 10k", 
+                            type:"", 
+                            forWhom:forWhom,
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                        }
                        if(price === "10k to 20k"){
                            props.filter("option_3", "", forWhom)
+                           const data = {
+                            searchId:"", 
+                            price:"10k to 20k", 
+                            type:"", 
+                            forWhom:forWhom,
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                        }
                        if(price === "above 20k"){
                            props.filter("option_4", "", forWhom)
+                           const data = {
+                            searchId:"", 
+                            price:"above 20k", 
+                            type:"", 
+                            forWhom:forWhom,
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                        }
                     }
                     if(price === "No Limit" && type !== "All Types" && forWhom !== "Any"){
                         props.filter("", type, forWhom)
+                        const data = {
+                            searchId:"", 
+                            price:"", 
+                            type:type, 
+                            forWhom:forWhom,
+                            place:"",
+                            filtered:true
+                           }
+                           props.setFilteredData(data)
                     }
                 }
             }
         }
-        if(!search && !filter){
-            console.log('geting data')
+        if(!search && !filter || search === "false" && filter === "false"){
+            
             props.getRooms()
         }       
     },[])
@@ -280,8 +634,9 @@ const RoomsPage = (props) => {
     };
 console.log(props.room.filterError);
 console.log(props.room.rooms);
-    let roomMarkUp = props.room.rooms == null ? "data not found":props.room.rooms.length == 0?<Loading />:
+    let roomMarkUp = props.room.filterError == true ? "data not found" : props.room.rooms == null ? "data not found":props.room.rooms.length == 0?<Loading />:
      props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) 
+     
     const onMarkerClick = (id) => {
         history.push(`/rooms/${id}`)
     }
@@ -346,7 +701,8 @@ RoomsPage.PropType = {
     getFilteredSearch:PropType.func.isRequired,
     getFiltered:PropType.func.isRequired,
     search:PropType.func.isRequired,
-    filter:PropType.func.isRequired
+    filter:PropType.func.isRequired,
+    setFilteredData:PropType.func.isRequired
 };
 const mapState = (state) => ({
     room: state.room
@@ -359,6 +715,7 @@ const mapActionsToProps = {
     getFilteredSearch, 
     getFiltered,
     search,
-    filter
+    filter,
+    setFilteredData
 };
 export default connect(mapState, mapActionsToProps)(GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsPage))

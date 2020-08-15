@@ -9,7 +9,7 @@ import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
 import {connect} from 'react-redux'
 import PropType from 'prop-types'
-import {setSearchText} from '../../redux/actions/roomActions'
+import {setSearchText, setPlaceName} from '../../redux/actions/roomActions'
 
 function loadScript(src, position, id) {
   if (!position) {
@@ -44,6 +44,12 @@ function GoogleMapsAutoComplete(props) {
   const [placeId, setPlaceId] = React.useState("")
   const loaded = React.useRef(false);
 
+
+  React.useEffect(() =>{
+    if(props.place && props.place !== ""){
+      setValue(props.place)
+    }
+  })
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
@@ -100,7 +106,7 @@ function GoogleMapsAutoComplete(props) {
   }, [value, inputValue, fetch]);
 
 
-console.log(value);
+
  
 
 
@@ -120,18 +126,28 @@ console.log(value);
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
         
-        setPlaceId(newValue.place_id)
-        props.setSearchText(newValue.place_id)
+        if(props.handleClear){
+          props.handleClear()
+        }
+        if(newValue !== null && newValue.place_id !== null){
+          props.setSearchText(newValue.place_id)
+          if(props.setPlaceIdData){
+            props.setPlaceIdData(newValue.place_id)
+          }
+        }
+          
+       
+        
         
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
-       
+       props.setPlaceName(newInputValue)
        // props.setSearchText(newInputValue)
         
       }}
       renderInput={(params) => (
-        <TextField {...params} variant="outlined" margin='dense'  />
+        <TextField {...params}  variant="outlined" margin='dense'  />
       )}
       renderOption={(option) => {
         const matches = option.structured_formatting.main_text_matched_substrings;
@@ -163,12 +179,14 @@ console.log(value);
   );
 }
 GoogleMapsAutoComplete.PropType = {
-  setSearchText:PropType.func.isRequired
+  setSearchText:PropType.func.isRequired,
+  setPlaceName:PropType.func.isRequired
 }
 const mapState = (state) => ({
 
 })
 const mapActionsToProps = {
-setSearchText
+setSearchText,
+setPlaceName
 }
 export default connect(mapState, mapActionsToProps)(GoogleMapsAutoComplete)

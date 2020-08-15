@@ -1,18 +1,56 @@
-import {
-    SET_ROOMS_DATA, SET_ALL_ROOMS_LOADED_COUNT, SET_ROOMS_PAGINATION_LIST_DATA, SET_SEARCH_DATA_ERROR, SET_ROOM_DETAILS,
-    SET_SEARCH_DATA, SET_NOT_SEARCHED, SET_SEARCHED, SET_SEARCH_DATA_NULL, SET_DATA_WITH_TYPES, SET_NO_DATA_WITH_TYPES,
+import {SET_ROOMS_DATA, SET_ALL_ROOMS_LOADED_COUNT, SET_ROOMS_PAGINATION_LIST_DATA, SET_SEARCH_DATA_ERROR,SET_ROOM_DETAILS,
+    SET_SEARCH_DATA, SET_NOT_SEARCHED, SET_SEARCHED,SET_FILTER_URL_DATA, SET_SEARCH_DATA_NULL, SET_DATA_WITH_TYPES, SET_NO_DATA_WITH_TYPES,
     SET_FILTER_WITH_TYPE_DATA, SET_FILTER_WITH_TYPE_DATA_ERROR, SET_FILTER_FOR_WHOM_DATA_NULL, SET_FILTERED,
-    SET_LOCATIONS, SET_PAGINATION_LOCATIONS, SET_FILTER_ERROR_NULL, SET_FILTER_ERROR, SET_ROOM_PAGINATION_ERROR, SET_NOT_FILTERED, SET_SEARCH_TEXT_AUTO
-} from '../type'
+    SET_LOCATIONS,SET_SEARCH_PLACE_NAME, SET_PAGINATION_LOCATIONS,SET_FILTER_ERROR_NULL,SET_FILTER_ERROR, SET_ROOM_PAGINATION_ERROR, SET_NOT_FILTERED, SET_SEARCH_TEXT_AUTO} from '../type'
 
 import { url } from '../../config/config'
 
-export const setSearchText = (search) => (dispatch) => {
-    dispatch({ type: SET_SEARCH_TEXT_AUTO, payload: search })
+export const setFilteredData = (data) => (dispatch) =>{
+    dispatch({type:SET_FILTER_URL_DATA, payload:data})
 }
 
-export const filter = (price, type, forWhom) => (dispatch) => {
+export const setPlaceName = (text) => (dispatch) =>{
+    dispatch({type:SET_SEARCH_PLACE_NAME, payload:text})
+}
+export const setSearchText = (search) => (dispatch) =>{
+    dispatch({type:SET_SEARCH_TEXT_AUTO, payload:search})
+}
 
+export const filter = (price, type, forWhom) => (dispatch) =>{
+    dispatch({type:SET_FILTER_ERROR_NULL})
+    if(search === "" && price === "" && type === "" && forWhom === ""){
+        dispatch({type:SET_NOT_SEARCHED})
+    }else{
+        dispatch({type:SET_SEARCHED})
+    }
+    const filter = {
+        price:price,
+        type:type,
+        forWhom:forWhom
+    }
+    fetch(`${url}/filter/get`, {
+        method:'POST',
+        body:JSON.stringify(filter),
+        headers:{
+            'Content-Type': 'application/json',
+        }
+    })
+    .then((response) =>{
+        response.json()
+        .then((data) =>{
+            if(data.success){
+                dispatch({type:SET_ROOMS_DATA, payload:data.data})
+                dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload: data.data.length})
+            }
+            if(data.error){
+                dispatch({type:SET_ROOMS_DATA,payload:null})
+                dispatch({type:SET_ALL_ROOMS_LOADED_COUNT, payload: 0})
+            }
+        })
+        .catch((error) =>{
+            
+        })
+    })
 }
 export const search = (search, price, type, forWhom) => (dispatch) => {
     dispatch({ type: SET_FILTER_ERROR_NULL })
