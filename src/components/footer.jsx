@@ -36,7 +36,7 @@ export default function Footer() {
 
         <Grid container justify="center" className={sty.root} >
 
-            <Grid sm={3} justify="center" alignItems='center' container style={{ flexDirection: 'column' }}>
+            <Grid item sm={3} justify="center" alignItems='center' container style={{ flexDirection: 'column' }}>
                 <img src={require('../static/roomlelologo.webp')} height="45px" width='183px' alt="Roomlelo" />
                 <Typography variant='body1' color='textSecondary' style={{ padding: '12px 0 0' }}>Connect with us</Typography>
                 <Grid>
@@ -47,7 +47,7 @@ export default function Footer() {
                 </Grid>
             </Grid>
 
-            <Grid sm={3} container className={sty.content} >
+            <Grid item sm={3} container className={sty.content} >
                 <Typography variant="h5"  color='textPrimary'>
                     About the Company
                 </Typography>
@@ -63,7 +63,7 @@ export default function Footer() {
                 Press
                 </Typography>
         </Grid>
-        <Grid sm={3} container className={sty.content} >
+        <Grid item sm={3} container className={sty.content} >
             <Typography variant="h5" color='textPrimary'>
                 Partner with us
                 </Typography>
@@ -76,7 +76,7 @@ export default function Footer() {
                 For large corporation
                 </Typography>
         </Grid>
-        <Grid sm={3} container className={sty.content} >
+        <Grid item sm={3} container className={sty.content} >
             <Typography variant="h5" color='textPrimary'>
                 More Information
                 </Typography>

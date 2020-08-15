@@ -223,7 +223,7 @@ const RoomsComponents = (props) => {
         }
     }
     var othersCharge = props.room.roomDetails ? props.room.roomDetails.OtherChargesArray ? props.room.roomDetails.OtherChargesArray.map(function (p, index) {
-        return <Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
+        return <Grid key={index} container justify='space-evenly' style={{ padding: '12px 0' }}>
             <Grid item xs={6}>
                 <Typography>{p.key}</Typography>
             </Grid>
@@ -233,7 +233,7 @@ const RoomsComponents = (props) => {
         </Grid >
     }) : "" : ""
     var rentDetails = props.room.roomDetails ? props.room.roomDetails.rentDetailsArray ? props.room.roomDetails.rentDetailsArray.map(function (p, index) {
-        return <Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
+        return <Grid key={index} container justify='space-evenly' style={{ padding: '12px 0' }}>
             <Grid item xs={6}>
                 <Typography>{p.key}</Typography>
             </Grid>
@@ -244,7 +244,7 @@ const RoomsComponents = (props) => {
     }) : "" : ""
     var roomType = props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type == 'Private Rooms' ? "Rooms" : props.room.roomDetails.type == 'Shared Rooms' ? "Beds" : "" : "" : ""
     var RoomCard = Array.apply(null, { length: props.room.roomDetails ? props.room.roomDetails.available_rooms : 0 }).map((e, i) => (
-        <Grid item >
+        <Grid item key={i}>
             <BedRoomCard onBook={handelScroll} price={props.room.roomDetails ? props.room.roomDetails.price : ''} name={`${roomType} Number ${i + 1}`} />
         </Grid>
     ))
@@ -301,7 +301,7 @@ const RoomsComponents = (props) => {
                                 <Typography variant='h4' className={sty.title}>House Features</Typography>
                                 <Grid container alignItems="center" >
                                     {props.room.roomDetails ? props.room.roomDetails.HouseFeature ?
-                                        props.room.roomDetails.HouseFeature.map((data, index) => <div className={sty.box_grid}>
+                                        props.room.roomDetails.HouseFeature.map((data, index) => <div key={index} className={sty.box_grid}>
                                             <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/prize.svg`)})` }}></div>
                                             <Typography variant="caption">
                                                 {data}
@@ -311,11 +311,11 @@ const RoomsComponents = (props) => {
                             </Grid>
 
                         </Grid>
-                        <Grid container ref={BookCardRef} md={4} className={sty.book} justify='center' alignItems='baseline'>
+                      {!matches &&  <Grid item container ref={BookCardRef} md={4} className={sty.book} justify='center' alignItems='baseline'>
 
-                            <BookScheduleCard />
+                            <BookScheduleCard id={props.match.params.id} />
 
-                        </Grid>
+                        </Grid>}
 
                         <Divider />
 
@@ -348,7 +348,7 @@ const RoomsComponents = (props) => {
                             <Divider />
                             {roomType && <><Grid container>
                                 <Typography variant='h4' className={sty.title}>Rent Details</Typography>
-                                <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                <Grid container item xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
                                     <Grid container alignItems="center" className={sty.planRoot}>
                                         {RoomCard}
 
@@ -368,11 +368,11 @@ const RoomsComponents = (props) => {
 
                             <Grid container justify='center'>
                                 <Typography variant='h4' className={sty.title}>What all in covered in our Plan?</Typography>
-                                <Grid container xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                <Grid container item xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
                                     <Grid container alignItems="center" className={sty.planRoot}>
 
                                         {plan.map((p, i) => {
-                                            return <Grid item >
+                                            return <Grid item key={p}>
                                                 <Card key={i} className={sty.plan}>
                                                     <CardMedia style={{ height: '100%', width: "100%", display: 'flex', alignItems: 'center' }} image="https://source.unsplash.com/random/?house">
 
@@ -440,7 +440,7 @@ const RoomsComponents = (props) => {
 
                         </Grid>
                     </Grid>
-                    {<ResponsiveDialog open={dialog}>
+                    {matches && <ResponsiveDialog open={dialog}>
                         <BookScheduleCard id={props.match.params.id} />
                     </ResponsiveDialog>}
                 </Grid>

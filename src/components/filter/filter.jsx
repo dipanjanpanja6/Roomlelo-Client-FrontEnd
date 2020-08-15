@@ -7,7 +7,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 
-import { searchLocation, getFilterSearchRooms,setFilteredData, search, filter } from '../../redux/actions/roomActions'
+import { searchLocation, getFilterSearchRooms,setFilteredData, search, filter, getFilterRooms, getRooms } from '../../redux/actions/roomActions'
 import { useLocation, useHistory } from "react-router-dom";
 import GAutoComplete from "../search/G Auto Complete";
 
@@ -82,7 +82,8 @@ const Filter = (props) => {
   let history = useHistory()
   const [search, setSearch] = useState("")
   const [type, setType] = useState("All Types")
-  const [sort, setSort] = useState("")
+  const [sort, setSort] = useState("Recommended Price")
+  const [sortData, setSortData] = useState("")
   const [forWhom, setForWhom] = useState("Any")
   const [price, setPrice] = useState("No Limit")
   const [place, setPlace] = useState("")
@@ -99,39 +100,48 @@ const Filter = (props) => {
     }
   }
   useEffect(() =>{
-    const f = props.room.filterData
-    
-    if(f.filtered && f.filtered === true){
-      const p = window.location.search
-      setPath(p)
-      if(f.forWhom && f.forWhom !== ""){
-        if(f.forWhom !== ""){
-          setForWhom(f.forWhom)
-        }
-        
-      }
-      if(f.price && f.price !== ""){
-        if(f.price !== ""){
-          setPrice(f.price)
-        }
-        
-      }
-      if(f.type && f.type !== ""){
-        if(f.type !== ""){
-          setType(f.type)
-        }
-        
-      }
-      if(f.place && f.place !== ""){
-        if(f.place !== ""){
-          setPlace(f.place)
-          setSearch(f.place)
-          setPlaceId(f.searchId)
-        }
-        
+   const l = localStorage.getItem('search_data')
+   if(l){
+    const data = JSON.parse(l)
+
+    setSearch(data.search !== "" ? data.search : "")
+    setForWhom(data.forWhom !== "" ? data.forWhom : "Any")
+    setType(data.type !== "" ? data.type : "All Types")
+    setSort(data.sort !== "" ? data.sort === "low" ? "Price Low to High" : data.sort === "high" ? "Price High to Low" : "Recommended Price" :"Recommended Price")
+   
+    if(data.search !== ""){
+     if(data.forWhom !== "" || data.sort !== "" || data.type !== ""){
+       const filter = {
+         type: data.type !== "" ? data.type : "",
+         sort: data.sort !== "" ? data.sort:"",
+         for: data.forWhom !== "" ? data.forWhom : ""
+       }
+       props.getFilterSearchRooms(filter, data.search)
+     }else{
+       props.searchLocation(data.search)
+     }
+     
+    }
+    if(data.search === ""){
+      if(data.forWhom !== "" || data.sort !== "" || data.type !== ""){
+       const filter = {
+         type: data.type !== "" ? data.type : "",
+         sort: data.sort !== "" ? data.sort:"",
+         for: data.forWhom !== "" ? data.forWhom : ""
+       }
+       props.getFilterRooms(filter)
+      }else{
+       props.getRooms()
       }
     }
-  }, [props.room.filterData]);
+    if(data.search === "" && data.forWhom === "" && data.type === "" && data.sort === ""){
+     props.getRooms()
+    }
+   }else{
+    props.getRooms()
+   }
+   
+  }, []);
 
   const handlePlaceClear = () =>{
     window.history.pushState("", "", `/rooms?search=false&filter=true&price=${price}&type=${type}&forWhom=${forWhom}`)
@@ -181,17 +191,36 @@ const Filter = (props) => {
   }
 
   const handleChange = (event) => {
+    const l = localStorage.getItem('search_data')
+   const da = JSON.parse(l)
+   const data = {
+    search:"",
+    type:da.type,
+    forWhom: da.forWhom,
+    sort: da.sort 
+}
+  const j = JSON.stringify(data)
+  localStorage.setItem('search_data', j)
+  console.log({value:event.target.value})
+  if(event.target.value === "" || !event.target.value){
+    props.getRooms()
+  }
     if (sort !== "" || type !== "" || forWhom !== "") {
       setSearch(event.target.value)
       const filter = {
-        type: type,
-        sort: sort,
-        for: forWhom
+        type: typeData,
+        sort: sortData,
+        for: forWhomData
       }
       props.getFilterSearchRooms(filter, event.target.value)
     } else {
-      setSearch(event.target.value)
-      props.searchLocation(event.target.value)
+      if(event.target.value === "" || !event.target.value){
+        props.getRooms()
+      }else{
+        setSearch(event.target.value)
+        props.searchLocation(event.target.value)
+      }
+      
     }
 
   }
@@ -203,65 +232,55 @@ const Filter = (props) => {
 
   const handleForWhomClick = (event) => {
 
-    const f = props.room.filterData
-   
-    const data = {
-      searchId:f.searchId, 
-      price:f.price, 
-      type:f.type, 
-      forWhom:"",
-      place:f.place,
-      filtered:true
-     }
-    props.setFilteredData(data)
-    if(f.filtered === true){
-     
-      if(place !== "" &&  f.type !== "" && f.price !== ""){
-        
-        window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=true&price=${f.price}&type=${type}`)
-      }
-      if(place === "" && f.type !== "" && f.price !== ""){
-        window.history.pushState("", "", `/rooms?search=false&filter=true&price=${f.price}&type=${type}`)
-      }
-      if(place === "" && f.type === "" && f.price !== ""){
-        window.history.pushState("", "", `/rooms?search=false&filter=true&price=${f.price}`)
-      }
-      if(place !== "" && f.type === "" && f.price !== ""){
-        window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=true&price=${f.price}`)
-      }
-      if(place !== "" && f.type === "" && f.price === ""){
-        window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=false`)
-      }
-      if(place === "" && f.type === "" && f.price === ""){
-        window.history.pushState("", "", `/rooms?search=false&filter=false`)
-      }
-      if(place === "" && f.type !== "" && f.price === ""){
-        window.history.pushState("", "", `/rooms?search=false&filter=true&type=${type}`)
-      }
-      if(place !== "" &&  f.type !== "" && f.price === ""){
-        
-        window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=true&type=${type}`)
-      }
-      
-    }
+    const l = localStorage.getItem('search_data')
+   const da = JSON.parse(l)
+   const data = {
+    search:da.search,
+    type:da.type,
+    forWhom: "",
+    sort: da.sort 
+}
+  const j = JSON.stringify(data)
+  localStorage.setItem('search_data', j)
     
     //window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=true&price=${f.price}&type=${type}`)
     if (event.target.id === "boys") {
       setForWhom("Boys")
-      setForWhom("Boys")
-      if (placeId === "") {
-        props.filter(priceData, typeData, "Boys")
+      setForWhomData("Boys")
+      if (search === "") {
+        const filter = {
+          type: typeData,
+          sort: sortData,
+          for: "Boys"
+        }
+        props.getFilterRooms(filter)
       } else {
-        props.search(placeId, priceData, typeData, "Boys")
+        const filter = {
+          type: typeData,
+          sort: sortData,
+          for: "Boys"
+        }
+        props.getFilterSearchRooms(filter, search)
       }
+
     }
     if (event.target.id === "girls") {
       setForWhom("Girls")
       setForWhomData("Girls")
-      if (placeId === "") {
-        props.filter(priceData, typeData, "Girls")
+      if (search === "") {
+        const filter = {
+          type: typeData,
+          sort: sortData,
+          for: "Girls"
+        }
+        props.getFilterRooms(filter)
       } else {
-        props.search(placeId, priceData, typeData, "Girls")
+        const filter = {
+          type: typeData,
+          sort: sortData,
+          for: "Girls"
+        }
+        props.getFilterSearchRooms(filter, search)
       }
 
     }
@@ -270,39 +289,72 @@ const Filter = (props) => {
     if (event.target.id === "family") {
       setForWhom("Family")
       setForWhomData("Family")
-      if (placeId === "") {
-        props.filter(priceData, typeData, "Family")
+      if (search === "") {
+        const filter = {
+          type: typeData,
+          sort: sortData,
+          for: "Family"
+        }
+        props.getFilterRooms(filter)
       } else {
-        props.search(placeId, priceData, typeData, "Family")
+        const filter = {
+          type: typeData,
+          sort: sortData,
+          for: "Family"
+        }
+        props.getFilterSearchRooms(filter, search)
       }
 
     }
     if(event.target.id === "none"){
       setForWhom("Any")
       setForWhomData("")
-      if (placeId === "") {
-        props.filter(priceData, typeData, "")
+
+      if (search === "") {
+        const filter = {
+          type: typeData,
+          sort: sortData,
+          for: ""
+        }
+        props.getFilterRooms(filter)
       } else {
-        props.search(placeId, priceData, typeData, "")
+        const filter = {
+          type: typeData,
+          sort: sortData,
+          for: ""
+        }
+        props.getFilterSearchRooms(filter, search)
       }
     }
   }
 
   const handlePriceChange = (event) => {
+    const l = localStorage.getItem('search_data')
+   const da = JSON.parse(l)
+   const data = {
+    search:da.search,
+    type:da.type,
+    forWhom: da.forWhom,
+    sort: ""
+  }
+
+  const j = JSON.stringify(data)
+  localStorage.setItem('search_data', j)
     if (event.target.id === "low") {
       setSort("Price Low to High")
+      setSortData("low")
       if (search === "") {
         const filter = {
-          type: type,
+          type: typeData,
           sort: "low",
-          for: forWhom
+          for: forWhomData
         }
         props.getFilterRooms(filter)
       } else {
         const filter = {
-          type: type,
+          type: typeData,
           sort: "low",
-          for: forWhom
+          for: forWhomData
         }
         props.getFilterSearchRooms(filter, search)
       }
@@ -310,13 +362,14 @@ const Filter = (props) => {
     }
     if (event.target.id === "high") {
       setSort("Price High to Low")
+      setSortData("high")
       if (search === "") {
         const filter = {
-          type: type,
+          type: typeData,
           sort: "high",
-          for: forWhom
+          for: forWhomData
         }
-        props.getFilterRooms(filter)
+       props.getFilterRooms(filter)
       } else {
         const filter = {
           type: type,
@@ -329,11 +382,12 @@ const Filter = (props) => {
     }
     if (event.target.id === "none") {
       setSort('')
+      setSortData("")
       if (search === "") {
         const filter = {
-          type: type,
+          type: typeData,
           sort: "",
-          for: forWhom
+          for: forWhomData
         }
         props.getFilterRooms(filter)
       } else {
@@ -347,54 +401,34 @@ const Filter = (props) => {
     }
   }
   const handleTypeClick = (event) => {
-    const f = props.room.filterData
-    
+    const l = localStorage.getItem('search_data')
+    const da = JSON.parse(l)
     const data = {
-      searchId:f.searchId, 
-      price:f.price, 
-      type:"", 
-      forWhom:f.forWhom,
-      place:f.place,
-      filtered:true
-     }
-     props.setFilteredData(data)
-    if(f.filtered === true){
-      if(place !== "" &&  f.forWhom !== "" && f.price !== ""){
-        
-        window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=true&price=${f.price}&forWhom=${forWhom}`)
-      }
-      if(place === "" && f.forWhom !== "" && f.price !== ""){
-        window.history.pushState("", "", `/rooms?search=false&filter=true&price=${f.price}&forWhom=${forWhom}`)
-      }
-      if(place === "" && f.forWhom === "" && f.price !== ""){
-        window.history.pushState("", "", `/rooms?search=false&filter=true&price=${f.price}`)
-      }
-      if(place !== "" && f.forWhom === "" && f.price !== ""){
-        window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=true&price=${f.price}`)
-      }
-      if(place !== "" && f.forWhom === "" && f.price === ""){
-        window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=false`)
-      }
-      if(place === "" && f.forWhom === "" && f.price === ""){
-        window.history.pushState("", "", `/rooms?search=false&filter=false`)
-      }
-      if(place === "" && f.forWhom !== "" && f.price === ""){
-        window.history.pushState("", "", `/rooms?search=false&filter=true&forWhom=${forWhom}`)
-      }
-      if(place !== "" &&  f.forWhom !== "" && f.price === ""){
-        
-        window.history.pushState("", "", `/rooms?search=true&searchId=${f.searchId}&place=${f.place}&filter=true&type=${type}`)
-      }
-      
-    }
-
+     search:da.search,
+     type:"",
+     forWhom: da.forWhom,
+     sort: da.sort
+   }
+ 
+   const j = JSON.stringify(data)
+   localStorage.setItem('search_data', j)
     if (event.target.id === "Private_Rooms") {
       setType("Private Rooms")
       setTypeData("Private Rooms")
-      if (placeId === "") {
-        props.filter(priceData, "Private Rooms", forWhomData)
+      if (search === "") {
+        const filter = {
+          type: "Private Rooms",
+          sort: sortData,
+          for: forWhomData
+        }
+        props.getFilterRooms(filter)
       } else {
-        props.search(placeId, priceData, "Private Rooms", forWhomData)
+        const filter = {
+          type: "Private Rooms",
+          sort: sortData,
+          for: forWhomData
+        }
+        props.getFilterSearchRooms(filter, search)
       }
 
 
@@ -402,40 +436,70 @@ const Filter = (props) => {
     if (event.target.id === "Shared_Rooms") {
       setType("Shared Rooms")
       setTypeData("Shared Rooms")
-      if (placeId === "") {
-        
-        props.filter(priceData, "Shared Rooms", forWhomData)
+      if (search === "") {
+        const filter = {
+          type: "Shared Rooms",
+          sort: sortData,
+          for: forWhomData
+        }
+        props.getFilterRooms(filter)
       } else {
-        
-        props.search(placeId, priceData, "Shared Rooms", forWhomData)
+        const filter = {
+          type: "Shared Rooms",
+          sort: sortData,
+          for: forWhomData
+        }
+        props.getFilterSearchRooms(filter, search)
       }
 
     }
     if (event.target.id === "Entire_House") {
       setType("Entire House")
       setTypeData("Entire House")
-      if (placeId === "") {
-        props.filter(priceData, "Entire House", forWhomData)
+      if (search === "") {
+        const filter = {
+          type: "Entire House",
+          sort: sortData,
+          for: forWhomData
+        }
+        props.getFilterRooms(filter)
+      } else {
+        const filter = {
+          type: "Entire House",
+          sort: sortData,
+          for: forWhomData
+        }
+        props.getFilterSearchRooms(filter, search)
       }
-    } else {
-      props.search(placeId, priceData, "Entire House", forWhomData)
-    }
+    } 
     if (event.target.id === "none") {
       setType("All Types")
       setTypeData("")
-      if (placeId === "") {
-        props.filter(priceData, "", forWhomData)
+      if (search === "") {
+        const filter = {
+          type: "",
+          sort: sortData,
+          for: forWhomData
+        }
+        props.getFilterRooms(filter)
       } else {
-        props.search(placeId, priceData, "", forWhomData)
+        const filter = {
+          type: "",
+          sort: sortData,
+          for: forWhomData
+        }
+        props.getFilterSearchRooms(filter, search)
       }
     }
 
   }
   const clear = () => {
-    setForWhom('')
-    setSearch("")
-    setSort("")
-    setType("")
+    // setForWhom('')
+    // setSearch("")
+    // setSort("")
+    // setType("")
+    setSearch('')
+    window.location = '/rooms'
   }
   const handlePiceClick=(event)=>{
     const f = props.room.filterData
@@ -531,7 +595,7 @@ const Filter = (props) => {
     <Grid container justify='space-around' alignItems='center'   >
 
       <div className={sty.search}>
-        {/*  <div className={sty.searchIcon}>
+          <div className={sty.searchIcon}>
           <SearchIcon />
         </div>
         <InputBase
@@ -550,12 +614,12 @@ const Filter = (props) => {
 
 
       <IconButton onClick={clear} style={{padding:5}}>
-         <HighlightOffIcon /> 
+         {/* <HighlightOffIcon />  */}
         <ClearAllIcon />
-        </IconButton>*/}
-        <div style={{ minWidth: 300, width: '100%' }}>
+        </IconButton>
+        {/* <div style={{ minWidth: 300, width: '100%' }}>
           <GAutoComplete setPlaceIdData={setPlaceIdData} handleClear={handlePlaceClear} place={place}/>
-        </div>
+        </div> */}
       </div>
       <div style={{ flexGrow: 1 }}></div>
 
@@ -563,7 +627,7 @@ const Filter = (props) => {
         placeholder="For Whom" className={sty.select} value={forWhom}
 
       >
-        <MenuItem onClick={handleForWhomClick} id="none" value="None">Any</MenuItem>
+        <MenuItem onClick={handleForWhomClick} id="none" value="Any">Any</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="boys" value="Boys">Boys</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="girls" value="Girls">Girls</MenuItem>
         <MenuItem onClick={handleForWhomClick} id="family" value="Family">Family</MenuItem>
@@ -575,13 +639,13 @@ const Filter = (props) => {
         defaultValue={type}
         placeholder="Type" value={type}
       >
-        <MenuItem onClick={handleTypeClick} id="none" value="None">All Types</MenuItem>
+        <MenuItem onClick={handleTypeClick} id="none" value="All Types">All Types</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Private_Rooms" value="Private Rooms">Private rooms</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Shared_Rooms" value="Shared Rooms">Shared Rooms</MenuItem>
         <MenuItem onClick={handleTypeClick} id="Entire_House" value="Entire House">Entire house</MenuItem>
       </TextField>
 
-      <TextField select className={sty.select} margin='dense'
+      {/* <TextField select className={sty.select} margin='dense'
         defaultValue={price} value={price}
         placeholder="Sort by"
       >
@@ -590,13 +654,13 @@ const Filter = (props) => {
         <MenuItem onClick={handlePiceClick} id="option_2" value="5k to 10k">5k to 10k</MenuItem>
         <MenuItem onClick={handlePiceClick} id="option_3" value="10k to 20k">10k to 20k</MenuItem>
         <MenuItem onClick={handlePiceClick} id="option_4" value="above 20k">above 20k</MenuItem>
-      </TextField>
+      </TextField> */}
 
       <TextField select className={sty.select} margin='dense'
-        defaultValue={"None"}
-        placeholder="Sort by"
+        defaultValue={sort}
+        placeholder="Sort by" value={sort}
       >
-        <MenuItem onClick={handlePriceChange} id="none" value="None">Recommended Price</MenuItem>
+        <MenuItem onClick={handlePriceChange} id="none" value="Recommended Price">Recommended Price</MenuItem>
         <MenuItem id="low" onClick={handlePriceChange} value="Price Low to High">Price Low to High</MenuItem>
         <MenuItem id="high" onClick={handlePriceChange} value="Price High to Low">Price High to Low</MenuItem>
       </TextField>
@@ -610,7 +674,9 @@ Filter.propType = {
   getFilterSearchRooms: PropType.func.isRequired,
   setFilteredData:PropType.func.isRequired,
   search:PropType.func.isRequired,
-  filter:PropType.func.isRequired
+  filter:PropType.func.isRequired,
+  getFilterRooms:PropType.func.isRequired,
+  getRooms:PropType.func.isRequired
 
 };
 
@@ -623,6 +689,8 @@ const mapActionToProps = {
   getFilterSearchRooms,
   setFilteredData,
   search,
-  filter
+  filter,
+  getFilterRooms,
+  getRooms
 };
 export default connect(mapState, mapActionToProps)(Filter)

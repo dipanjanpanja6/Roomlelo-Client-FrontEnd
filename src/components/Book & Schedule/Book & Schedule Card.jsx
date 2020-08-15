@@ -1,10 +1,13 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Paper, Typography, Divider, TextField, InputAdornment, Button, ButtonGroup, useMediaQuery, useTheme } from '@material-ui/core'
+import { Paper, Typography, Divider, TextField, InputAdornment, Button, ButtonGroup, useMediaQuery, useTheme, CircularProgress } from '@material-ui/core'
 import { DateTimePicker } from '@material-ui/pickers'
 import { makeStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
 import { signInWithMobile, verifyMobileCode } from '../../redux/actions/userActions'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import { useHistory } from 'react-router-dom'
 
 
 const style = makeStyles((theme) => ({
@@ -25,17 +28,41 @@ const style = makeStyles((theme) => ({
 }))
 
 function BookScheduleCard(props) {
-
+const history= useHistory()
     const sty = style()
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     //  console.log(props);
+
     const [err, setError] = useState({});
     const [state, setState] = useState({});
     const [code, setCode] = useState("");
     const [date, setDate] = useState(new Date());
     const [submitType, setSubmitType] = useState(null);
+    const [loading,setLoading]=useState(false)
+useEffect(()=>{
+if (props.book) {
+    if (props.book.booked===true) {
+        toast.success("Room Booked successful. our executive will contact you soon. For more information's please check our about page.")
+        history.push('/about')
+        // setTimeout(window.location='/about', 30000);
 
+    }
+    if (props.book.schedule_booked===true) {
+        toast.success("Visit scheduled successful. our executive will contact you soon. For more information's please check our about page.")
+        // setTimeout(window.location='/about', 30000);
+      
+        history.push('/about')
+    }
+    if (props.book.schedule_booked==="" || props.book.booked==="") {
+       setLoading(true)
+    }else{
+       setLoading(false)
+
+    }
+}
+},[props.book])
+console.log(props);
     const handleDateChange = (e) => {
 
         const d = new Date(e)
@@ -48,18 +75,7 @@ function BookScheduleCard(props) {
         setDate(e)
     }
 
-    const handleScheduleClick = (e) => {
-        e.preventDefault() 
-        var phoneno = /^\d{10}$/;
-        if (state.number.match(phoneno)) {
-            // props.signInWithMobile(state.number)
-            // return true;
-        } else {
-            // alert("message");
-            setError({ ...err, numberError: true, numberMessage: 'Invalid Mobile Number' })
-            // return false;
-        }
-    }
+
 
     const handleChange = (event) => {
         setError('')
@@ -67,29 +83,43 @@ function BookScheduleCard(props) {
     }
 
     const handleVerifyClick = (e) => {
+        console.log("handleVerifyClick");
         e.preventDefault()
-        const mobile = props.user.number
+        console.log(props.id);
+        const mobile = state.number
         const data = {
-            date: state.date,
-            time: state.time,
+            date: date,
+            time: date,
             id: props.id
-            
+
         }
-        if(submitType === "schedule"){
-            props.verifyMobileCode(mobile, code,state.email, data, 'schedule')
-        }else{
-            props.verifyMobileCode(mobile, code,state.email, props.id, "book")
-        }
-        
+
+        console.log({ code })
+        props.verifyMobileCode(mobile, code, state.email, data, submitType)
+
+
     }
 
-    const scheduleClick = () =>{
-        setSubmitType('schedule')
-        props.signInWithMobile(state.number)
+
+
+    const handleScheduleClick = (e) => {
+        e.preventDefault()
+        var phoneno = /^\d{10}$/;
+        if (state.number.match(phoneno)) {
+            props.signInWithMobile(state.number)
+            console.log(state.number);
+
+        } else {
+            setError({ ...err, numberError: true, numberMessage: 'Invalid Mobile Number' })
+        }
     }
-    const bookClick = () =>{
+    const scheduleClick = () => {
+        setSubmitType('schedule')
+        console.log("sch");
+    }
+    const bookClick = () => {
         setSubmitType('book')
-        props.signInWithMobile(state.number)
+        console.log("book");
     }
 
     return (
@@ -108,25 +138,7 @@ function BookScheduleCard(props) {
 
 
             <form onSubmit={handleScheduleClick} >
-                {/* <div style={{ boxSizing: 'border-box', display: 'flex' }}>
-                <TextField className={sty.bookPadding} style={{ paddingRight: 6 }}
-                    fullWidth
-                    margin='dense'
-                    required
-                    type="datetime-local"
-                    variant='outlined' onChange={(e) => setDate(e.target.value)}
-                    placeholder="Choose your Prefered Date or Week-end" />
 
-                <TimeInput
-                    mode='12h'
-                    required
-                    className={sty.bookPadding} style={{ paddingLeft: 6 }}
-                    onChange={(time) => handleChange(time)}
-                    inputComponent={TextField}
-                    margin='dense'
-                    variant='outlined'
-                    placeholder='Select your time of Visit' />
-            </div> */}
                 <Fragment>
                     <DateTimePicker
                         value={date}
@@ -171,7 +183,7 @@ function BookScheduleCard(props) {
                     disabled={props.user.sended ? true : false}
                     placeholder="Email address" />
                 {props.user.sended &&
-                    <form onSubmit={handleVerifyClick}>
+                    <>
                         <TextField placeholder="Verification Code"
                             required
                             type="number" onChange={(e) => setCode(e.target.value)}
@@ -192,32 +204,23 @@ function BookScheduleCard(props) {
                         <div style={{ display: 'flex', flexGrow: 1 }}></div>
                         <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
 
-                            <Button type='submit' variant='contained' color='primary'>
-                                Verify Mobile
+                            <Button onClick={handleVerifyClick} variant='contained' color='primary'>
+                                Verify Mobile {loading && <CircularProgress size={26} color='secondary'/>}
                             </Button>
-                            <Button variant='contained' color='secondary'>
+                            <Button onClick={()=>history.go(0)} variant='contained' color='secondary'>
                                 Cancel
                             </Button>
                         </ButtonGroup>
-                    </form>}
+                    </>}
                 {!props.user.sended && <>
                     <br />
                     <div style={{ display: 'flex', flexGrow: 1 }}></div>
 
                     <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
-                        <Button mane='submit' onClick={bookClick} type='submit'>Book Now</Button>
-                        <Button mane='schedule' onClick={scheduleClick}  type='submit' color='secondary'>Schedule your Visit</Button>
+                        <Button mane='submit' onClick={bookClick} type='submit'>Book Now { submitType==="submit" && loading && <CircularProgress size={26} color='secondary'/>}</Button>
+                        <Button mane='schedule' onClick={scheduleClick} type='submit' color='secondary'>Schedule your Visit { submitType==="schedule" && loading && <CircularProgress size={26} color='secondary'/>}</Button>
                     </ButtonGroup></>}
 
-                {/* <Button type='submit'
-                    // onClick={handleScheduleClick}
-                    variant='contained' color='secondary'>
-                    Schedule your Visit
-                 </Button>
-                <Typography style={{ textAlign: 'center' }}>OR</Typography>
-                <Button variant='contained' color='primary'>
-                    Book Now
-               </Button> */}
             </form>
             <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: 99999999999</Typography>
         </Paper>
@@ -226,15 +229,17 @@ function BookScheduleCard(props) {
 }
 
 BookScheduleCard.propTypes = {
-    sty: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
     signInWithMobile: PropTypes.func.isRequired,
     verifyMobileCode: PropTypes.func.isRequired,
-    room: PropTypes.object.isRequired
+    room: PropTypes.object.isRequired,
+    book: PropTypes.object.isRequired
 }
 const mapState = (state) => ({
     room: state.room,
-    user: state.user
+    user: state.user,
+    book:state.book,
 });
 const mapActionsToProps = {
     signInWithMobile,

@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Button, Typography, Paper, makeStyles, Select, MenuItem } from '@material-ui/core'
+import { Grid, Button, Typography, Paper, makeStyles, Select, MenuItem, TextField, InputBase } from '@material-ui/core'
 import GoogleMapsAutoComplete from './G Auto Complete'
 import { connect } from 'react-redux'
 import { useHistory, matchPath, useLocation } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
 
 import { getFilteredSearch, getFiltered } from '../../redux/actions/roomActions'
 const style = makeStyles(theme => ({
@@ -35,7 +36,52 @@ const style = makeStyles(theme => ({
 
             borderRadius: 0
         }
-    }
+    },
+    search: {
+        position: 'relative',
+        display: 'flex',
+        // borderRadius: theme.shape.borderRadius,
+        // backgroundColor: fade(theme.palette.common.black, 0.10),
+        // '&:hover': {
+        //   backgroundColor: fade(theme.palette.common.black, 0.20),
+        // },
+        marginLeft: 0,
+        width: '100%',
+    
+        [theme.breakpoints.up('ls')]: {
+          // marginLeft: theme.spacing(1),
+          width: 'auto',
+        },
+        [theme.breakpoints.down('ls')]: {
+          width: '100%'
+        }
+      },
+    
+      searchIcon: {
+        padding: theme.spacing(0, 2),
+        height: "100%",
+        position: "absolute",
+        pointerEvents: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      inputRoot: {
+        color: "inherit",
+      },
+      inputInput: {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+          // width: '30ch',
+          '&:focus': {
+            // width: '35ch',
+          },
+        },
+      },
 }))
 const SearchToolBar = props => {
     const sty = style()
@@ -44,23 +90,37 @@ const SearchToolBar = props => {
     const [priceValue, setPriceValue] = useState("No Limit")
     const [type, setType] = useState("All Types")
     const [forWhom, setForWhom] = useState("Any")
+    const [sort, setSort] = useState("Recommended Price")
+    const [sortData, setSortData] = useState("")
+    const [forWhomData, setForWhomData] = useState("")
+    const [typeData, setTypeData] = useState("")
+    const [search, setSearch] = useState("")
 
+    const handleFocus = () =>{
 
+    }
+    const handleChange = (event) =>{
+        setSearch(event.target.value)
+    }
     const handleTypeClick = (event) => {
         if (event.target.id === "none") {
             setType("All Types")
+            setTypeData("")
 
         }
         if (event.target.id === "Private_Rooms") {
             setType("Private Rooms")
+            setTypeData("Private Rooms")
 
         }
         if (event.target.id === "Shared_Rooms") {
             setType("Shared Rooms")
+            setTypeData("Shared Rooms")
 
         }
         if (event.target.id === 'Entire_House') {
             setType("Entire House")
+            setTypeData("Entire House")
 
         }
     }
@@ -88,30 +148,45 @@ const SearchToolBar = props => {
 
     }
     const handleForClick = (event) =>{
-        setForWhom(event.target.id)
+        
+        if(event.target.id === "none"){
+            setForWhom("Any")
+            setForWhomData("")
+        }else{
+            setForWhom(event.target.id)
+            setForWhomData(event.target.id)
+        }
     }
 
-    const handleSearch = () => {
-        
-        if (props.room.searchId === "" || props.room.searchId === null) {
-            //props.getFiltered(price, typeValue)
-            console.log("ll");
-            if (priceValue !== "No Limit" || type !== "All Types" || forWhom !== "Any") {
-                
-                history.push(`/rooms?search=false&filter=true&price=${priceValue}&type=${type}&forWhom=${forWhom}`)
-            } else {
-                history.push('/rooms')
-
-            }
-
-        } else if (props.room.searchId !== "" || props.room.searchId !== null) {
-            if (priceValue !== "No Limit" || type !== "All Types" || forWhom !== "Any") {
-                history.push(`/rooms?search=true&searchId=${props.room.searchId}&place=${props.room.placeName}&filter=true&price=${priceValue}&type=${type}&forWhom=${forWhom}`)
-            } else {
-                history.push(`/rooms?search=true&searchId=${props.room.searchId}&place=${props.room.placeName}&filter=false`)
-            }
-            //props.getFilteredSearch(props.room.searchText, price, typeValue)
+    const handlePriceChange = (event) =>{
+        if(event.target.id === "none"){
+            setSortData("")
+            setSort("Recommended Price")
         }
+        if(event.target.id === "low"){
+            setSort('Price Low to High')
+            setSortData("low")
+        }
+        if(event.target.id === "high"){
+            setSort("Price High to Low")
+            setSortData("high")
+        }
+    }
+
+    React.useEffect(() =>{
+        localStorage.removeItem('search_data')
+    })
+    const handleSearch = () => {
+        const data = {
+            search:search !== "" ? search : "",
+            type:typeData !== "" ? typeData : "",
+            forWhom: forWhomData !== "" ? forWhomData : "",
+            sort: sortData !== "" ? sortData : "" 
+        }
+        const j = JSON.stringify(data)
+        localStorage.setItem('search_data', j)
+        history.push('/rooms')
+       
     }
     const match = matchPath(location.pathname, {
         path: "/rooms",
@@ -134,9 +209,30 @@ const SearchToolBar = props => {
                 >
                     <Grid item xs={6} sm={3}>
                         <Typography variant={match?"caption":'h6'} className={sty.title}>Location </Typography>
-                        <div style={{width:'90%'}}>
+                        {/* <div style={{width:'90%'}}>
                         <GoogleMapsAutoComplete />
-                        </div>
+                        </div> */}
+                        <div className={sty.search}>
+          <div className={sty.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          autoFocus
+          onChange={handleChange}
+          placeholder="Search…"
+          classes={{
+            root: sty.inputRoot,
+            input: sty.inputInput,
+          }}
+          value={search}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      <div style={{ flexGrow: 1 }}></div>
+
+        {/* <div style={{ minWidth: 300, width: '100%' }}>
+          <GAutoComplete setPlaceIdData={setPlaceIdData} handleClear={handlePlaceClear} place={place}/>
+        </div> */}
+      </div>
                     </Grid>
                     <Grid item xs={6} sm={3}>
                         <Typography variant='h6' className={sty.title}>Property Type</Typography>
@@ -158,13 +254,22 @@ const SearchToolBar = props => {
                     </Grid>
                     <Grid item xs={6} sm={3}>
                         <Typography variant='h6' className={sty.title}>Max Price</Typography>
-                        <Select variant='outlined' margin='dense' className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} value={priceValue} >
+                        {/* <Select variant='outlined' margin='dense' className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} value={priceValue} >
                             <MenuItem onClick={handlePiceClick} id="no_limit" value="No Limit">No Limit</MenuItem>
                             <MenuItem onClick={handlePiceClick} id="option_1" value="Below 5k">Below 5k</MenuItem>
                             <MenuItem onClick={handlePiceClick} id="option_2" value="5k to 10k">5k to 10k</MenuItem>
                             <MenuItem onClick={handlePiceClick} id="option_3" value="10k to 20k">10k to 20k</MenuItem>
-                            <MenuItem onClick={handlePiceClick} id="option_4" value="above 20k">above 20k</MenuItem>
-                        </Select>
+                            <MenuItem onCli
+                            ck={handlePiceClick} id="option_4" value="above 20k">above 20k</MenuItem>
+                        </Select> */}
+                         <TextField select className={sty.select} margin='dense' variant="outlined"
+        defaultValue={"None"} value={sort}
+        placeholder="Sort by"
+      >
+        <MenuItem onClick={handlePriceChange} id="none" value="Recommended Price">Recommended Price</MenuItem>
+        <MenuItem id="low" onClick={handlePriceChange} value="Price Low to High">Price Low to High</MenuItem>
+        <MenuItem id="high" onClick={handlePriceChange} value="Price High to Low">Price High to Low</MenuItem>
+      </TextField>
                     </Grid>
 
                     <Grid item xs={6} sm={3} container justify='center' alignItems='center'>
