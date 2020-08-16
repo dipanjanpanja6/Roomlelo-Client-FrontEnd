@@ -17,7 +17,6 @@ import { MAP_API_KEY } from '../config/config'
 
 import { Toolbar, makeStyles } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import SearchNotFound from '../components/404/searchNotFound';
 // import Marker from '../static/icons/marker_2.svg'
 
 const styles = makeStyles((theme) => ({
@@ -69,97 +68,7 @@ const RoomsPage = (props) => {
     })
     const history = useHistory()
 
-    useEffect(() => {
-        window.scrollTo(0, 0) 
-        document.title='Find Your best Flats, house, rooms | RoomLelo - Flats, house, rooms for rent without brokerage.'
-        const {searchId, search, filter, price, type, forWhom} = queryString.parse(props.location.search)
-        if(search || filter){
-            console.log(searchId)
-            console.log(filter)
-            console.log(price)
-            console.log(type)
-            console.log(forWhom)
-            if(search == true){
-                if(filter === 'true'){
-                    if(price && type && forWhom){
-                        console.log(searchId)
-                        if(price !== "" && type !== "" && forWhom !== ""){
-                            const filter = {
-                                type: type ? type !== ""  ? type : "" : "",
-                                sort: price ? price !== "" ?  price : "" : "",
-                                for: forWhom ? forWhom !== "" ?  forWhom :"" : ""
-                              }
-                              props.getFilterSearchRooms(filter, searchId)
-                              const data = {
-                                price:price ? price !== "" ? price : "" : "",
-                                type:type ? type !== "" ? type : "" : "",
-                                forWhom:forWhom ? forWhom !== "" ? forWhom : "" : "",
-                                place:searchId ? searchId !== "" ? searchId : "" : "",
-                                filtered:true
-                               }
-                               props.setFilteredData(data)
-                        }
-                    
-                     
-                }else{
-                    
-                    const filter = {
-                        type:"",
-                        sort:"",
-                        for:""
-                      }
-                      props.getFilterSearchRooms(filter, searchId)
-                    const data = {
-                        
-                        price:"", 
-                        type:"", 
-                        forWhom:"",
-                        place:searchId ? searchId !== "" ? searchId : "" : "",
-                        filtered:true
-                       }
-                       props.setFilteredData(data)
-                }
-                
-                
-            }
-            }
-                 
 
-
-            if(search === 'false' && filter === "true"){
-                
-                if(price || type || forWhom){
-
-                    if(price !== "" || type !== "" || forWhom !== ""){
-                        const filter = {
-                            type: type ? type !== "" ? type : "" : "",
-                            sort: price ? price !== "" ? price : "" : "",
-                            for: forWhom ? forWhom !== "" ? forWhom : "" : ""
-                          }
-                          props.getFilterRooms(filter)
-                          const data = {
-                            price:price ? price !== "" ? price : "" : "",
-                            type:type ? type !== "" ? type : "" : "",
-                            forWhom:forWhom ? forWhom !== "" ? forWhom : "" : "",
-                            place:"",
-                            filtered:true
-                           }
-                           props.setFilteredData(data)
-                      
-                  }
-                  if(price === "" && type === "" && forWhom === ""){
-                    props.getRooms()
-                  }
-
-                    
-                }
-            }
-        }
-        if(!search && !filter || search === "false" && filter === "false"){
-            
-            props.getRooms()
-        }       
-    },[])
 
     useEffect(() => {
        // props.getRooms()
@@ -192,13 +101,9 @@ const RoomsPage = (props) => {
         }
     };
 
-    let roomMarkUp = props.room.rooms != null ? props.room.rooms == "" ? <SearchNotFound/> :
+    let roomMarkUp = props.room.rooms != null ?
      props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) 
-     
-     : props.room.filterError == true ? <SearchNotFound/> : <Grid style={{textAlign:'center'}}>
-         <CircularProgress/>
-
-     </Grid>
+     : props.room.filterError == true ? "data not found" : "<Loading />";
     const onMarkerClick = (id) => {
         history.push(`/rooms/${id}`)
     }
