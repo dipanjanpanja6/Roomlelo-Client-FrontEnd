@@ -313,7 +313,7 @@ const RoomsComponents = (props) => {
                         </Grid>
                       {!matches &&  <Grid item container ref={BookCardRef} md={4} className={sty.book} justify='center' alignItems='baseline'>
 
-                            <BookScheduleCard id={props.match.params.id} />
+                            <BookScheduleCard id={props.match.params.id} roomData={props.room.roomDetails}/>
 
                         </Grid>}
 
@@ -441,7 +441,7 @@ const RoomsComponents = (props) => {
                         </Grid>
                     </Grid>
                     {matches && <ResponsiveDialog open={dialog}>
-                        <BookScheduleCard id={props.match.params.id} />
+                        <BookScheduleCard id={props.match.params.id} roomData={props.room.roomDetails} />
                     </ResponsiveDialog>}
                 </Grid>
             }
@@ -459,8 +459,9 @@ const RoomsComponents = (props) => {
     )
 };
 RoomsComponents.PropType = {
-    sty: PropTypes.object.isRequired,
     getRoomDetails: PropTypes.func.isRequired,
+    room:PropTypes.object.isRequired,
+    user:PropTypes.object.isRequired,
 }
 const mapState = (state) => ({
     room: state.room,

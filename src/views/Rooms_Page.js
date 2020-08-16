@@ -17,6 +17,7 @@ import { MAP_API_KEY } from '../config/config'
 
 import { Toolbar, makeStyles } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import SearchNotFound from '../components/404/searchNotFound'
 // import Marker from '../static/icons/marker_2.svg'
 
 const styles = makeStyles((theme) => ({
@@ -101,9 +102,13 @@ const RoomsPage = (props) => {
         }
     };
 
-    let roomMarkUp = props.room.rooms != null ?
+    let roomMarkUp = props.room.rooms != null ? props.room.rooms == "" ? <SearchNotFound/> :
      props.room.rooms.map((room, index) => <RoomsListItemComponents key={index} index={index} room={room} />) 
-     : props.room.filterError == true ? "data not found" : "<Loading />";
+     
+     : props.room.filterError == true ? <SearchNotFound/> : <Grid style={{textAlign:'center'}}>
+         <CircularProgress/>
+         </Grid>
+
     const onMarkerClick = (id) => {
         history.push(`/rooms/${id}`)
     }
@@ -120,7 +125,7 @@ const RoomsPage = (props) => {
 
     const poin = props.room.rooms ? props.room.rooms.map((marks, index) =>
 
-        <Marker onClick={()=>onMarkerClick(marks.id)}
+        <Marker key={index} onClick={()=>onMarkerClick(marks.id)}
             name={'Dolores park'}
             zoom={15}
             position={{ lat: marks.lat, lng: marks.lng }} />

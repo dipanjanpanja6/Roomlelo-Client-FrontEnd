@@ -6,7 +6,7 @@ export const bookRoom = (uid, id) => (dispatch) => {
 
     fetch(`${url}/room/book/${id.id}`, {
         method: 'POST',
-        body: JSON.stringify({ uid: uid }),
+        body: JSON.stringify({ uid: uid,data:id }),
         headers: {
             'Content-Type': 'application/json',
         }

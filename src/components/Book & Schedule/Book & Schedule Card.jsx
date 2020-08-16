@@ -28,41 +28,41 @@ const style = makeStyles((theme) => ({
 }))
 
 function BookScheduleCard(props) {
-const history= useHistory()
+    const history = useHistory()
     const sty = style()
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    //  console.log(props);
+     console.log(props);
 
     const [err, setError] = useState({});
     const [state, setState] = useState({});
     const [code, setCode] = useState("");
     const [date, setDate] = useState(new Date());
     const [submitType, setSubmitType] = useState(null);
-    const [loading,setLoading]=useState(false)
-useEffect(()=>{
-if (props.book) {
-    if (props.book.booked===true) {
-        toast.success("Room Booked successful. Our executive will contact you soon. For more information's please check our about page.")
-        history.push('/about')
-        // setTimeout(window.location='/about', 30000);
+    const [loading, setLoading] = useState(false)
+    useEffect(() => {
+        if (props.book) {
+            if (props.book.booked === true) {
+                toast.success("Room Booked successful. Our executive will contact you soon. For more information's please check our about page.")
+                history.push('/about')
+                // setTimeout(window.location='/about', 30000);
 
-    }
-    if (props.book.schedule_booked===true) {
-        toast.success("Visit scheduled successful. Our executive will contact you soon. For more information's please check our about page.")
-        // setTimeout(window.location='/about', 30000);
-      
-        history.push('/about')
-    }
-    if (props.book.schedule_booked==="" || props.book.booked==="") {
-       setLoading(true)
-    }else{
-       setLoading(false)
+            }
+            if (props.book.schedule_booked === true) {
+                toast.success("Visit scheduled successful. Our executive will contact you soon. For more information's please check our about page.")
+                // setTimeout(window.location='/about', 30000);
 
-    }
-}
-},[props.book])
-console.log(props);
+                history.push('/about')
+            }
+            if (props.book.schedule_booked === "" || props.book.booked === "") {
+                setLoading(true)
+            } else {
+                setLoading(false)
+
+            }
+        }
+    }, [props.book])
+
     const handleDateChange = (e) => {
 
         const d = new Date(e)
@@ -89,9 +89,10 @@ console.log(props);
         const mobile = state.number
         const data = {
             date: date,
-            time: date,
-            id: props.id
-
+            id: props.id,
+            mobile: state.number,
+            email: state.email,
+            name: state.name
         }
 
         console.log({ code })
@@ -126,10 +127,10 @@ console.log(props);
 
         <Paper className={sty.bookPaper}>
             <Typography variant='body2'>
-                {props.room.roomDetails ? props.room.roomDetails.type : "Private Rooms"} in Apartment
+                {props.roomData ? props.roomData.type : "Rooms"} at {props.roomData ? props.roomData.propertyAddress : ""} 
          </Typography>
             <Typography variant='body2'>
-                Starting at <b>Rs. {props.room.roomDetails ? props.room.roomDetails.price : "Loading..."} /- </b>Per Month
+                Starting at <b>Rs. {props.roomData ? props.roomData.price : "Loading..."} /- </b>Per Month
         </Typography>
             <Divider style={{ margin: '12px 0' }} />
             <Typography variant='body1'>
@@ -155,6 +156,16 @@ console.log(props);
                 <TextField className={sty.bookPadding}
                     margin='dense'
                     autoFocus
+                    required
+                    variant='outlined'
+                    type="text"
+                    value={state.name}
+                    onChange={handleChange}
+                    disabled={props.user.sended ? true : false}
+                    name='name'
+                    placeholder="Your name" />
+                <TextField className={sty.bookPadding}
+                    margin='dense'
                     required
                     error={err.numberError}
                     helperText={err.numberMessage}
@@ -205,9 +216,9 @@ console.log(props);
                         <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
 
                             <Button onClick={handleVerifyClick} variant='contained' color='primary'>
-                                Verify Mobile {loading && <CircularProgress size={26} color='secondary'/>}
+                                Verify Mobile {loading && <CircularProgress size={26} color='secondary' />}
                             </Button>
-                            <Button onClick={()=>history.go(0)} variant='contained' color='secondary'>
+                            <Button onClick={() => history.go(0)} variant='contained' color='secondary'>
                                 Cancel
                             </Button>
                         </ButtonGroup>
@@ -217,12 +228,12 @@ console.log(props);
                     <div style={{ display: 'flex', flexGrow: 1 }}></div>
 
                     <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
-                        <Button mane='submit' onClick={bookClick} type='submit'>Book Now { submitType==="submit" && loading && <CircularProgress size={26} color='secondary'/>}</Button>
-                        <Button mane='schedule' onClick={scheduleClick} type='submit' color='secondary'>Schedule your Visit { submitType==="schedule" && loading && <CircularProgress size={26} color='primary'/>}</Button>
+                        <Button  onClick={bookClick} type='submit' disabled={submitType === "book" && loading}>Book Now {submitType === "book" && loading && <CircularProgress size={26} color='secondary' />}</Button>
+                        <Button  onClick={scheduleClick} type='submit' color='secondary' disabled={submitType === "schedule" && loading }>Schedule your Visit {submitType === "schedule" && loading && <CircularProgress size={26} color='primary' />}</Button>
                     </ButtonGroup></>}
 
             </form>
-            <br/>
+            <br />
             <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: +91 76676 51878</Typography>
         </Paper>
 
@@ -234,13 +245,13 @@ BookScheduleCard.propTypes = {
     user: PropTypes.object.isRequired,
     signInWithMobile: PropTypes.func.isRequired,
     verifyMobileCode: PropTypes.func.isRequired,
-    room: PropTypes.object.isRequired,
+    roomData: PropTypes.object.isRequired,
     book: PropTypes.object.isRequired
 }
 const mapState = (state) => ({
-    room: state.room,
+   
     user: state.user,
-    book:state.book,
+    book: state.book,
 });
 const mapActionsToProps = {
     signInWithMobile,

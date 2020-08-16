@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Paper, makeStyles, useTheme } from '@material-ui/core'
 import Typography from "@material-ui/core/Typography";
 import Button from '@material-ui/core/Button'
@@ -7,6 +7,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PropType from 'prop-types'
 import ImageSlider from "../ImageSlider";
 import { useHistory } from "react-router-dom";
+import ResponsiveDialog from "../bottom nevigation/dialog";
+import BookScheduleCard from "../Book & Schedule/Book & Schedule Card";
 
 const style = makeStyles((theme) => ({
     root: {
@@ -36,7 +38,7 @@ const style = makeStyles((theme) => ({
     box_class: {
         height: '44px',
         width: '44px',
-        backgroundRepeat:' no-repeat',
+        backgroundRepeat: ' no-repeat',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         // backgroundColor: '#C4C4C4',
@@ -69,9 +71,9 @@ const style = makeStyles((theme) => ({
     title: {
         // height:'75%'
     },
-    icon:{
-        textAlign:'center',
-        textAlign:"-webkit-center"
+    icon: {
+        textAlign: 'center',
+        textAlign: "-webkit-center"
     }
 
 }))
@@ -82,17 +84,21 @@ const RoomsComponents = (props) => {
     const theme = useTheme();
     const history = useHistory();
     const matches = useMediaQuery(theme.breakpoints.down('xs'));
+    const [dialog, setDialog] = useState(false)
+    const roomPageButton = () => {
+        setDialog(!dialog)
+    }
     const roomPage = () => {
 
         history.push(`/rooms/${room.id}`)
     }
-// console.log(room);
+    // console.log(room);
     return (
         <Paper className={classes.root} elevation={3} >
             <Grid container className={classes.room_box}>
 
                 <Grid container item xs={4}>
-                    <ImageSlider text={room.forWhom} images={room.photos?room.photos:[]} />
+                    <ImageSlider text={room.forWhom} images={room.photos ? room.photos : []} />
                 </Grid>
                 <Grid container item xs={8} className={classes.title}>
 
@@ -104,11 +110,11 @@ const RoomsComponents = (props) => {
                     >
                         <div style={{ paddingLeft: 12 }}>
                             <Typography variant="subtitle1" className={classes.room_short_details}>{<b>₹{room.price}/-</b>}</Typography>
-    <Typography variant="subtitle1" className={classes.room_short_details}>{room.type}{" "}{room.available && 'available'}</Typography>
-                            <Typography variant="caption" color='textSecondary' className={classes.room_short_details}>in {room.propertyAddress}</Typography>
+                            <Typography variant="subtitle1" className={classes.room_short_details}>{room.type}{" "}{room.available && 'available'}</Typography>
+                            <Typography variant="caption" color='textSecondary' className={classes.room_short_details}>at {room.propertyAddress}</Typography>
                         </div>
 
-                        <Grid container style={{flexWrap:'nowrap'}} alignItems="center" justify="space-around" >
+                        <Grid container style={{ flexWrap: 'nowrap' }} alignItems="center" justify="space-around" >
                             <Grid className={classes.icon}>
                                 <div style={{ backgroundImage: `url(${require('../../static/icons/024-accident.svg')})` }} className={classes.box_class}></div>
                                 <Typography variant="caption" className={classes.box_info_text_class}>{room.type}</Typography>
@@ -117,8 +123,8 @@ const RoomsComponents = (props) => {
                                 <div style={{ backgroundImage: `url(${require('../../static/icons/card/Fully_Furnished.svg')})` }} className={classes.box_class}></div>
                                 <Typography variant="caption" className={classes.box_info_text_class}>{room.furnished}</Typography>
                             </Grid>
-                            <Grid className={classes.icon}> 
-                                <div style={{ backgroundImage: `url(${require('../../static/icons/card/Apartment.svg', )})` }} className={classes.box_class}></div>
+                            <Grid className={classes.icon}>
+                                <div style={{ backgroundImage: `url(${require('../../static/icons/card/Apartment.svg',)})` }} className={classes.box_class}></div>
                                 <Typography variant="caption" className={classes.box_info_text_class}>Security Deposit</Typography>
                             </Grid>
                             {/* <Grid className={classes.icon}>
@@ -130,18 +136,21 @@ const RoomsComponents = (props) => {
                     </Grid>
 
                     {!matches && <Grid item container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons}  onClick={roomPage} variant='contained' color='primary'>Book Now</Button>
-                        <Button className={classes.box_item_buttons}  onClick={roomPage} variant="contained" color='secondary'>Schedule Our Visit</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant='contained' color='primary'>Book Now</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'>Schedule Our Visit</Button>
 
                     </Grid>}
                 </Grid>
                 {matches &&
                     <Grid item style={{ padding: '12px 0' }} xs={12} container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons}  onClick={roomPage} variant="contained" color='primary'>Book Now</Button>
-                        <Button className={classes.box_item_buttons}  onClick={roomPage} variant="contained" color='secondary'>Schedule Our Visit</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='primary'>Book Now</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'>Schedule Our Visit</Button>
 
                     </Grid>
                 }
+                <ResponsiveDialog open={dialog}>
+                    <BookScheduleCard id={room.id} roomData={room} />
+                </ResponsiveDialog>
             </Grid>
         </Paper>
     )
@@ -149,7 +158,8 @@ const RoomsComponents = (props) => {
 
 
 RoomsComponents.PropType = {
-    classes: PropType.object.isRequired
+    classes: PropType.object.isRequired,
+    room: PropType.object.isRequired
 }
 
 

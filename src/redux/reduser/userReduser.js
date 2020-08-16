@@ -1,4 +1,4 @@
-import {SET_ROOMS_DATA, SET_MOBILE_AUTH_ERROR_DATA,  MOBILE_AUTH_CODE_SENDED,
+import {SET_ROOMS_DATA,MOBILE_AUTH_CODE_SENDED_NULL, SET_MOBILE_AUTH_ERROR_DATA,  MOBILE_AUTH_CODE_SENDED,
      SET_MOBILE_NUMBER} from '../type'
 
 const initialState = {
@@ -24,6 +24,11 @@ export default function (state = initialState, actions) {
             return{
                 ...state,
                 sended:true
+            }
+        case MOBILE_AUTH_CODE_SENDED_NULL:
+            return{
+                ...state,
+                sended:false
             }
 
         default:
