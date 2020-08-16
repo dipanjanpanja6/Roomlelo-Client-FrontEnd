@@ -67,6 +67,7 @@ export const signInWithMobile = (mobile) => (dispatch) => {
                 .then((data) => {
                     console.log(data)
                     if (data.error) {
+                        toast.error(data.message)
                         dispatch({ type: SET_MOBILE_AUTH_ERROR_DATA, payload: data })
                         dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
 

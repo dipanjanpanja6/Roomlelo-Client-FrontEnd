@@ -130,15 +130,15 @@ const RoomsComponents = (props) => {
                     </Grid>
 
                     {!matches && <Grid item container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons} variant='contained' color='primary'>Book Now</Button>
-                        <Button className={classes.box_item_buttons} variant="contained" color='secondary'>Schedule Our Visit</Button>
+                        <Button className={classes.box_item_buttons}  onClick={roomPage} variant='contained' color='primary'>Book Now</Button>
+                        <Button className={classes.box_item_buttons}  onClick={roomPage} variant="contained" color='secondary'>Schedule Our Visit</Button>
 
                     </Grid>}
                 </Grid>
                 {matches &&
                     <Grid item style={{ padding: '12px 0' }} xs={12} container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons} variant="contained" color='primary'>Book Now</Button>
-                        <Button className={classes.box_item_buttons} variant="contained" color='secondary'>Schedule Our Visit</Button>
+                        <Button className={classes.box_item_buttons}  onClick={roomPage} variant="contained" color='primary'>Book Now</Button>
+                        <Button className={classes.box_item_buttons}  onClick={roomPage} variant="contained" color='secondary'>Schedule Our Visit</Button>
 
                     </Grid>
                 }
