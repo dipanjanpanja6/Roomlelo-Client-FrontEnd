@@ -24,7 +24,7 @@ const styles = makeStyles((theme) => ({
     },
     image:{
         height:height ? height : 250,
-        display:'block !important',
+        // display:'block !important',
         width:'100% !important',
         [theme.breakpoints.down('xs')]:{
             height:MHeight ? MHeight : 150, 
@@ -45,11 +45,21 @@ const sty =styles()
             <Carousel slide={true} defaultActiveIndex={0} indicators={true} controls={true} interval={5000}  onSelect={handleSelect}>
 
                 {images.map((image, index) => <Carousel.Item key={index} >
-                   <img 
+                    <Grid className={sty.image}>
+                        <div style={{
+                            backgroundImage:`url(${image})`,
+                            height:'100%',
+                            width:'100%',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'contain'
+                        }}></div>
+                    </Grid>
+                   {/* <img 
                         className={sty.image}
                         src={image}
                         alt="First slide"  
-                    />
+                    /> */}
                     <Carousel.Caption>
                         <Grid container alignItems="flex-end" justify="center" >
                             <div style={{backgroundColor:'rgba(255, 255, 255, 0.8)', borderRadius:'20px', color:'#000',

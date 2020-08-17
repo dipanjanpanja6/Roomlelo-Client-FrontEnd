@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress, InputAdornment, ButtonGroup, useMediaQuery } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropTypes from 'prop-types'
-import { MAP_API_KEY } from '../config/config'
+import { MAP_API_KEY, url } from '../config/config'
 import Footer from "../components/footer";
 import ImageSlider from '../components/ImageSlider'
 // import TimeInput from 'material-ui-time-picker'
@@ -15,6 +15,7 @@ import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import BookScheduleCard from "../components/Book & Schedule/Book & Schedule Card";
 import Loading from '../components/loading';
 import ResponsiveDialog from "../components/bottom nevigation/dialog";
+import { toast } from "react-toastify";
 
 const style = makeStyles((theme) => ({
     tab: {
@@ -134,6 +135,7 @@ const style = makeStyles((theme) => ({
 }))
 
 const RoomsComponents = (props) => {
+    const [RoomDetaisData,setRoomDetaisData]=useState(null)
     useEffect(() => {
 
         window.scrollTo(0, 0)
@@ -142,9 +144,9 @@ const RoomsComponents = (props) => {
     }, [])
 
     useEffect(() => {
-        document.title = `${props.room.roomDetails ?
-            props.room.roomDetails.propertyAddress ? ` ${props.room.roomDetails.type} at ${props.room.roomDetails.propertyAddress} | ` : "" : ""} RoomLelo - Flats, house, rooms for rent without brokerage.`
-    }, [props.room.roomDetails])
+        document.title = `${RoomDetaisData ?
+            RoomDetaisData.propertyAddress ? ` ${RoomDetaisData.type} at ${RoomDetaisData.propertyAddress} | ` : "" : ""} RoomLelo - Flats, house, rooms for rent without brokerage.`
+    }, [RoomDetaisData])
 
     const [dialog, setDialog] = useState(false)
     const sty = style();
@@ -171,7 +173,28 @@ const RoomsComponents = (props) => {
 
     useEffect(() => {
         const id = props.match.params.id
-        props.getRoomDetails(id);
+        // props.getRoomDetails(id);
+        fetch(`${url}/room/details/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then((response) => {
+                response.json().then((data) => {
+                    if(data.success){
+                    setRoomDetaisData(data.data)
+                    // dispatch({ type: SET_ROOM_DETAILS, payload: data.data })
+                    }else{
+                        toast.error(data.message)
+                    }
+                })
+    
+    
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }, [props.match.params.id])
 
     const rating = rate1.map((p, i) => {
@@ -222,17 +245,17 @@ const RoomsComponents = (props) => {
             BookCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
         }
     }
-    var othersCharge = props.room.roomDetails ? props.room.roomDetails.OtherChargesArray ? props.room.roomDetails.OtherChargesArray.map(function (p, index) {
+    var othersCharge = RoomDetaisData ? RoomDetaisData.OtherChargesArray ? RoomDetaisData.OtherChargesArray.map(function (p, index) {
         return <Grid key={index} container justify='space-evenly' style={{ padding: '12px 0' }}>
             <Grid item xs={6}>
                 <Typography>{p.key}</Typography>
             </Grid>
             <Grid item xs={6}>
-                <Typography color='textSecondary'>{p.value ? p.value == 0 ? "Excludes With Rent" : `₹ ${p.value}` : "Excludes With Rent"}</Typography>
+                <Typography color='textSecondary'>{p.value ? p.value == 0 ? "Excludes With Rent" : `₹ ${p.value}${p.key=='Electricity Charges'?' per unit':""}` : "Excludes With Rent"}</Typography>
             </Grid>
         </Grid >
     }) : "" : ""
-    var rentDetails = props.room.roomDetails ? props.room.roomDetails.rentDetailsArray ? props.room.roomDetails.rentDetailsArray.map(function (p, index) {
+    var rentDetails = RoomDetaisData ? RoomDetaisData.rentDetailsArray ? RoomDetaisData.rentDetailsArray.map(function (p, index) {
         return <Grid key={index} container justify='space-evenly' style={{ padding: '12px 0' }}>
             <Grid item xs={6}>
                 <Typography>{p.key}</Typography>
@@ -242,15 +265,15 @@ const RoomsComponents = (props) => {
             </Grid>
         </Grid >
     }) : "" : ""
-    var roomType = props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type == 'Private Rooms' ? "Rooms" : props.room.roomDetails.type == 'Shared Rooms' ? "Beds" : "" : "" : ""
-    var RoomCard = Array.apply(null, { length: props.room.roomDetails ? props.room.roomDetails.available_rooms : 0 }).map((e, i) => (
+    var roomType = RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type == 'Private Rooms' ? "Rooms" : RoomDetaisData.type == 'Shared Rooms' ? "Beds" : "" : "" : ""
+    var RoomCard = Array.apply(null, { length: RoomDetaisData ? RoomDetaisData.available_rooms : 0 }).map((e, i) => (
         <Grid item key={i}>
-            <BedRoomCard onBook={handelScroll} price={props.room.roomDetails ? props.room.roomDetails.price : ''} name={`${roomType} Number ${i + 1}`} />
+            <BedRoomCard onBook={handelScroll} price={RoomDetaisData ? RoomDetaisData.price : ''} name={`${roomType} Number ${i + 1}`} />
         </Grid>
     ))
 
-    var lat = props.room.roomDetails ? props.room.roomDetails.lat : ''
-    var lan = props.room.roomDetails ? props.room.roomDetails.lng : ''
+    var lat = RoomDetaisData ? RoomDetaisData.lat : ''
+    var lan = RoomDetaisData ? RoomDetaisData.lng : ''
 
     console.log(lat, lan);
 
@@ -258,13 +281,13 @@ const RoomsComponents = (props) => {
     return (
         <>
             <Toolbar />
-            {!props.room.roomDetails ?
+            {!RoomDetaisData ?
                 <Loading />
                 :
                 <Grid container >
                     <Grid container className={sty.rootImage} >
-                        {/* {props.room.roomDetails != null ? */}
-                        <ImageSlider images={props.room.roomDetails ? props.room.roomDetails.photos : ""} text={props.room.roomDetails.forWhom} height={600} MHeight={400} />
+                        {/* {RoomDetaisData != null ? */}
+                        <ImageSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom} height={600} MHeight={400} />
                         {/* :
                         <Grid container justify="center" alignItems="center" className={sty.imageSlider} >
                             <CircularProgress />
@@ -283,15 +306,15 @@ const RoomsComponents = (props) => {
                             <Divider />
                             <Grid>
 
-                                <Typography variant='h4' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.name ? props.room.roomDetails.name : <Skeleton /> : <Skeleton />}</Typography>
-                                <Typography variant='h6' >{props.room.roomDetails ? props.room.roomDetails.type ? props.room.roomDetails.type : <Skeleton /> : <Skeleton />}</Typography>
-                                <Typography variant='subtitle1' >{props.room.roomDetails ? props.room.roomDetails.furnished ? props.room.roomDetails.furnished : <Skeleton /> : <Skeleton />}</Typography>
-                                <Typography variant='body2' color='textSecondary'>{props.room.roomDetails ? props.room.roomDetails.propertyAddress ? `at ${props.room.roomDetails.propertyAddress}` : "" : <Skeleton />}</Typography>
+                                <Typography variant='h4' className={sty.title}>{RoomDetaisData ? RoomDetaisData.name ? RoomDetaisData.name : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='h6' >{RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='subtitle1' >{RoomDetaisData ? RoomDetaisData.furnished ? RoomDetaisData.furnished : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='body2' color='textSecondary'>{RoomDetaisData ? RoomDetaisData.propertyAddress ? `at ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}</Typography>
 
-                                <Typography variant='body1' color='textSecondary' className={sty.title}>{props.room.roomDetails ? props.room.roomDetails.forWhom ? props.room.roomDetails.forWhom == "Any" ? "Available for anyone" : `Only for ${props.room.roomDetails.forWhom}` : <Skeleton /> : <Skeleton />} | {props.room.roomDetails ?
-                                    props.room.roomDetails.available_rooms ? `${props.room.roomDetails.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='body1' color='textSecondary' className={sty.title}>{RoomDetaisData ? RoomDetaisData.forWhom ? RoomDetaisData.forWhom == "Any" ? "Available for anyone" : `Only for ${RoomDetaisData.forWhom}` : <Skeleton /> : <Skeleton />} | {RoomDetaisData ?
+                                    RoomDetaisData.available_rooms ? `${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
 
-                                <Typography variant='body1'>{props.room.roomDetails ? props.room.roomDetails.description ? props.room.roomDetails.description : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='body1'>{RoomDetaisData ? RoomDetaisData.description ? RoomDetaisData.description : <Skeleton /> : <Skeleton />}</Typography>
 
 
                             </Grid>
@@ -300,8 +323,8 @@ const RoomsComponents = (props) => {
 
                                 <Typography variant='h4' className={sty.title}>House Features</Typography>
                                 <Grid container alignItems="center" >
-                                    {props.room.roomDetails ? props.room.roomDetails.HouseFeature ?
-                                        props.room.roomDetails.HouseFeature.map((data, index) => <div key={index} className={sty.box_grid}>
+                                    {RoomDetaisData ? RoomDetaisData.HouseFeature ?
+                                        RoomDetaisData.HouseFeature.map((data, index) => <div key={index} className={sty.box_grid}>
                                             <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/prize.svg`)})` }}></div>
                                             <Typography variant="caption">
                                                 {data}
@@ -313,7 +336,7 @@ const RoomsComponents = (props) => {
                         </Grid>
                       {!matches &&  <Grid item container ref={BookCardRef} md={4} className={sty.book} justify='center' alignItems='baseline'>
 
-                            <BookScheduleCard id={props.match.params.id} roomData={props.room.roomDetails}/>
+                            <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData}/>
 
                         </Grid>}
 
@@ -323,11 +346,11 @@ const RoomsComponents = (props) => {
                             <Grid container>
                                 <Typography variant='h4' className={sty.title}>Near By</Typography>
                                 <Grid container alignItems="center" >
-                                    {props.room.roomDetails ? props.room.roomDetails.Nearby ?
-                                        Object.keys(props.room.roomDetails.Nearby).map(key => <div key={key} className={sty.box_grid}>
+                                    {RoomDetaisData ? RoomDetaisData.Nearby ?
+                                        Object.keys(RoomDetaisData.Nearby).map(key => <div key={key} className={sty.box_grid}>
                                             <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/nearby/${key.replace(/ /g, "-")}.svg`)})` }}></div>
                                             <Typography variant="caption">
-                                                {props.room.roomDetails.Nearby[key]}{' '}{key}
+                                                {RoomDetaisData.Nearby[key]}{' '}{key}
                                             </Typography>
                                         </div>) : "" : ""}
                                 </Grid>
@@ -335,8 +358,8 @@ const RoomsComponents = (props) => {
                             <Grid container>
                                 <Typography variant='h4' className={sty.title}>Amenities</Typography>
                                 <Grid container alignItems="center" >
-                                    {props.room.roomDetails ? props.room.roomDetails.amenities ?
-                                        props.room.roomDetails.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
+                                    {RoomDetaisData ? RoomDetaisData.amenities ?
+                                        RoomDetaisData.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
                                             <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/Amenites/${data.replace(/ /g, "-")}.svg`)})` }}></div>
                                             <Typography variant="caption">
                                                 {data}
@@ -441,7 +464,7 @@ const RoomsComponents = (props) => {
                         </Grid>
                     </Grid>
                     {matches && <ResponsiveDialog open={dialog}>
-                        <BookScheduleCard id={props.match.params.id} roomData={props.room.roomDetails} />
+                        <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData} />
                     </ResponsiveDialog>}
                 </Grid>
             }
@@ -453,21 +476,21 @@ const RoomsComponents = (props) => {
                 </ButtonGroup>
             </Grid>
             <div className={sty.footer}>
-            {props.room.roomDetails &&   <Footer />}
+            {RoomDetaisData &&   <Footer />}
             </div>
         </>
     )
 };
 RoomsComponents.PropType = {
     getRoomDetails: PropTypes.func.isRequired,
-    room:PropTypes.object.isRequired,
+    // room:PropTypes.object.isRequired,
     user:PropTypes.object.isRequired,
 }
 const mapState = (state) => ({
-    room: state.room,
+    // room: state.room,
     user: state.user
 });
 const mapActionsToProps = {
-    getRoomDetails,
+    // getRoomDetails,
 };
 export default connect(mapState, mapActionsToProps)((GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsComponents)))

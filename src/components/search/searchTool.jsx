@@ -254,7 +254,7 @@ const SearchToolBar = props => {
                         </Select>
                     </Grid>
                     <Grid item xs={6} sm={3}>
-                        <Typography variant='h6' className={sty.title}>Max Price</Typography>
+                        <Typography variant='h6' className={sty.title}>Sort By</Typography>
                         {/* <Select variant='outlined' margin='dense' className={sty.select} MenuProps={{ classes: { paper: sty.paperRoot } }} value={priceValue} >
                             <MenuItem onClick={handlePiceClick} id="no_limit" value="No Limit">No Limit</MenuItem>
                             <MenuItem onClick={handlePiceClick} id="option_1" value="Below 5k">Below 5k</MenuItem>
@@ -264,7 +264,7 @@ const SearchToolBar = props => {
                             ck={handlePiceClick} id="option_4" value="above 20k">above 20k</MenuItem>
                         </Select> */}
                         <TextField select className={sty.select} margin='dense' variant="outlined"
-                            defaultValue={"None"} value={sort}
+                            defaultValue={"None"} value={sort} MenuProps={{ classes: { paper: sty.paperRoot } }}
                             placeholder="Sort by"
                         >
                             <MenuItem onClick={handlePriceChange} id="none" value="Recommended Price">Recommended Price</MenuItem>
