@@ -32,12 +32,12 @@ function BookScheduleCard(props) {
     const sty = style()
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-     console.log(props);
+    //  console.log(props);
 
     const [err, setError] = useState({});
     const [state, setState] = useState({});
     const [code, setCode] = useState("");
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(new Date().toLocaleString());
     const [submitType, setSubmitType] = useState(null);
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -64,14 +64,6 @@ function BookScheduleCard(props) {
     }, [props.book])
 
     const handleDateChange = (e) => {
-
-        const d = new Date(e)
-        // const hours = d.getHours()
-        // const minutes = d.getMinutes()
-        // const t = `${hours}:${minutes}`
-        var time = d.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3")
-        console.log(time);
-        console.log(e);
         setDate(e)
     }
 
@@ -106,10 +98,17 @@ function BookScheduleCard(props) {
     const handleScheduleClick = (e) => {
         e.preventDefault()
         var phoneno = /^\d{10}$/;
-        if (state.number.match(phoneno)) {
-            props.signInWithMobile(state.number)
-            console.log(state.number);
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      
 
+        if (state.number.match(phoneno)) {
+            console.log(date);
+            if (re.test(state.email)) {
+                props.signInWithMobile(state.number)
+
+            } else {
+                setError({ ...err, emailError: true, emailMessage: 'Invalid Email Address' })
+            }
         } else {
             setError({ ...err, numberError: true, numberMessage: 'Invalid Mobile Number' })
         }
@@ -127,8 +126,8 @@ function BookScheduleCard(props) {
 
         <Paper className={sty.bookPaper}>
             <Typography variant='body2'>
-                {props.roomData ? props.roomData.type : "Rooms"} at {props.roomData ? props.roomData.propertyAddress : ""} 
-         </Typography>
+                {props.roomData ? props.roomData.type : "Rooms"} at {props.roomData ? props.roomData.propertyAddress : ""}
+            </Typography>
             <Typography variant='body2'>
                 Starting at <b>Rs. {props.roomData ? props.roomData.price : "Loading..."} /- </b>Per Month
         </Typography>
@@ -185,6 +184,8 @@ function BookScheduleCard(props) {
                     placeholder="Contact Number" />
                 <TextField className={sty.bookPadding}
                     name='email'
+                    error={err.emailError}
+                    helperText={err.emailMessage}
                     value={state.email}
                     onChange={handleChange}
                     margin='dense'
@@ -228,8 +229,8 @@ function BookScheduleCard(props) {
                     <div style={{ display: 'flex', flexGrow: 1 }}></div>
 
                     <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
-                        <Button  onClick={bookClick} type='submit' disabled={submitType === "book" && loading}>Book Now {submitType === "book" && loading && <CircularProgress size={26} color='secondary' />}</Button>
-                        <Button  onClick={scheduleClick} type='submit' color='secondary' disabled={submitType === "schedule" && loading }>Schedule your Visit {submitType === "schedule" && loading && <CircularProgress size={26} color='primary' />}</Button>
+                        <Button onClick={bookClick} type='submit' disabled={submitType === "book" && loading}>Book Now {submitType === "book" && loading && <CircularProgress size={26} color='secondary' />}</Button>
+                        <Button onClick={scheduleClick} type='submit' color='secondary' disabled={submitType === "schedule" && loading}>Schedule your Visit {submitType === "schedule" && loading && <CircularProgress size={26} color='primary' />}</Button>
                     </ButtonGroup></>}
 
             </form>
@@ -249,7 +250,7 @@ BookScheduleCard.propTypes = {
     book: PropTypes.object.isRequired
 }
 const mapState = (state) => ({
-   
+
     user: state.user,
     book: state.book,
 });

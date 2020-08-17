@@ -27,28 +27,31 @@ export const verifyMobileCode = (mobile, code, email, book, type) => (dispatch) 
         }
     })
         .then((response) => {
-            dispatch({ type: MOBILE_AUTH_CODE_SENDED_NULL })
             response.json()
                 .then((data) => {
                     console.log(data)
 
                     if (data.error) {
                         dispatch({ type: SET_MOBILE_AUTH_ERROR_DATA, payload: data })
+                        dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
+                        toast.error(data.message)
                     }
                     if (data.success) {
                         // if (type === "schedule") {
                         book.uid = data.user_id
                         book.type = type
                         dispatch(visitSchedule(book))
+                        dispatch({ type: MOBILE_AUTH_CODE_SENDED_NULL })
                         // } else {
                         //     dispatch(bookRoom(data.user_id, book))
                         // }
 
-                    } else {
-                        dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
-                        toast.error(data.message)
                     }
-                }).catch(r => console.log(r))
+                }).catch(r => {
+                    dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
+                    toast.error('Internal server Error. Please try again.')
+                    console.log(r)
+                })
         })
 }
 
