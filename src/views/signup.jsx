@@ -164,7 +164,7 @@ const RoomsComponents = (props) => {
         "Step 02",
         "Step 03",
     ]
-    const [state, setState] = useState({ name: "", phoneNumber: "", email: '' ,propertyType:"Others"})
+    const [state, setState] = useState({ name: "", phoneNumber: "", email: '' ,propertyType:"Others",seen:false})
     const [loading,setLoading] = useState(false)
 
     const handleChange = (e) => {
