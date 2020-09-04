@@ -5,7 +5,8 @@ const initialState = {
     number:"",
     sended:false,
     error:{},
-    auth:true
+    auth:true,
+    authType:""
 }
 
 export default function (state = initialState, actions) {

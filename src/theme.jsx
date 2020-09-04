@@ -6,7 +6,8 @@ import { useMediaQuery } from '@material-ui/core';
 
 
 const Theme = () => {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const prefersDarkMode = false;
     const theme = React.useMemo(
         () =>
             createMuiTheme({
@@ -16,14 +17,15 @@ const Theme = () => {
                         // primary: prefersDarkMode ? "#fff" : '#314862',
                         // secondary: prefersDarkMode ? "#ffffff8a" : '#3CB7C6',
                         // secondary: prefersDarkMode ? "#ffffff8a" : '#3CB7C6',
-                        // primary: '#314862',
+                        primary: '#314862',
                         // secondary: '#2289FF'
                     },
                     primary: {
-                        main:prefersDarkMode ? '#dad513' : '#fff900', 
+                        main:prefersDarkMode ? '#00f3ff' : '#3CB7C6', 
                     },
                     secondary:{
-                        main:prefersDarkMode ? '#10b3bb' :'#00f3ff'
+                        main:prefersDarkMode ? '#dad513' :'#ffea00'
+                        // main:prefersDarkMode ? '#10b3bb' :'#00f3ff'
                     },
                     background:{
                         default:prefersDarkMode ? '#303030' : '#fff'
@@ -54,6 +56,10 @@ const Theme = () => {
                         '"Segoe UI Emoji"',
                         '"Segoe UI Symbol"',
                     ].join(','),
+                    // fontSize:
+                    caption:{
+                        fontSize:'0.7rem'
+                    }
                 },
 
             }),

@@ -1,29 +1,24 @@
 import React from "react";
 import {
-  Link,
-  Button,
-  InputBase,
-  fade,
-  makeStyles,
-  Menu,
-  AppBar,
-  MenuItem,
-  Toolbar,
-  IconButton,
-  Badge,
-  Typography,
-  CssBaseline,
-  useScrollTrigger,
-  ButtonGroup,
+  Button, makeStyles, Menu, AppBar, MenuItem, Toolbar, IconButton, Typography, CssBaseline, useScrollTrigger, ButtonGroup,
+  Divider, List, ListItem, ListItemIcon, ListItemText, Hidden, Drawer, useTheme, Avatar, Grid, SvgIcon,
 } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import { Link as RouterLink, useHistory, useLocation, matchPath } from "react-router-dom";
-import Logo from "../static/roomlelologo.png";
-import SearchFilterDialog from '../components/SearchFilterDialog'
+import { useHistory, useLocation, matchPath } from "react-router-dom";
+import Logo from "../static/roomlelologo.webp";
+import SearchFilterDialog from './search/SearchFilterDialog'
 import PropTypes from 'prop-types';
 import Filter from '../components/filter/filter'
-import SearchTool from "./search/searchTool";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { connect } from "react-redux";
+import DashboardMain from "../views/Dashbord/main";
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import HeadsetMicOutlinedIcon from '@material-ui/icons/HeadsetMicOutlined';
+import { ReactComponent as NoticeIcon } from '../static/icons/dashboard/Notice_Board.svg';
+import { ReactComponent as Payment } from '../static/icons/dashboard/Payment.svg';
+import { ReactComponent as Deals } from '../static/icons/dashboard/Deals.svg';
 
+const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   Appbar: {
     background: !theme.palette.text.primary,
@@ -35,38 +30,31 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     padding: 0,
   },
-  title: {
-    display: "block",
-    color: "#fff",
-    fontSize: "x-large",
-    letterSpacing: "1px",
-    fontFamily:
-      "Wallman, -apple-system, BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans- serif,Apple Color Emoji,Segoe UI Emoji, Segoe UI Symbol",
+  menuButtonL: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
 
+
   sectionDesktop: {
+    width: '100%',
     display: "none",
     [theme.breakpoints.up("xm")]: {
       display: "flex",
     },
   },
   sectionMobile: {
+    paddingLeft: 10,
+    width: '100%',
     display: "flex",
     [theme.breakpoints.up("xm")]: {
       display: "none",
     },
   },
-  button: {
-    borderRadius: "50%",
-    padding: 9,
-    // background: Theme.boxColor,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    boxShadow: `4px 4px 5px 1px rgba(00,00,00,0.2),-4px -4px 5px 1px rgba(255,255,255,0.2)`,
-  },
+
   menu: {
-    // background: Theme.boxColor,
     minHeight: '100vh !important',
     right: '0 !important',
     top: '0 !important',
@@ -81,8 +69,18 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     // height: '95vh'
-  }
-
+  },
+  toolbar: theme.mixins.toolbar,
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    background: 'linear-gradient(175.13deg, #3CB7C6 0%, rgba(126,200,209) 121.02%)'
+  },
 }));
 
 function ElevationScroll(props) {
@@ -110,49 +108,38 @@ ElevationScroll.propTypes = {
   window: PropTypes.func,
 };
 
-export default function PrimarySearchAppBar(props) {
+function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const history = useHistory();
   let location = useLocation()
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  const { window } = props;
+  const theme = useTheme();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const container = window !== undefined ? () => window().document.body : undefined;
+
+
   const [show, setShow] = React.useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  // const handleProfileMenuOpen = (event) => {
-  //   if (props.auth === true) {
-  //     setAnchorEl(event.currentTarget);
-  //   }
-  //   if (props.auth === false) {
-  //     history.push("/login");
-  //   }
-  //   if (props.auth === null) {
-  //     setLoading(true);
-  //   }
-  // };
+
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  // const handleMenuClose = () => {
-  //   setAnchorEl(null);
-  //   handleMobileMenuClose();
-  // };
-
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  // const logout = () => {
-  //   props.out();
-  //   handleMenuClose();
-  // };
+  const logout = () => {
+    props.out();
+    handleMobileMenuClose();
+  };
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
-  // const handleFocus = (event) =>{
-  //   console.log(event)
-  // }
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -160,7 +147,6 @@ export default function PrimarySearchAppBar(props) {
       anchorEl={mobileMoreAnchorEl}
       id={mobileMenuId}
       // keepMounted
-      // anchorPosition={{ left: 100, top: 16 }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
@@ -183,8 +169,10 @@ export default function PrimarySearchAppBar(props) {
           Login
 </Button> */}
 
-        <Button variant='contained' color='primary' onClick={() =>{ history.push("/joinus")
-       handleMobileMenuClose()}} >
+        <Button variant='contained' color='primary' onClick={() => {
+          history.push("/joinus")
+          handleMobileMenuClose()
+        }} >
           <Typography color='inherit' variant="button">List with us</Typography>
         </Button>
       </ButtonGroup>
@@ -233,56 +221,117 @@ export default function PrimarySearchAppBar(props) {
     exact: true,
     strict: false
   });
+  const home = matchPath(location.pathname, {
+    path: "/",
+    exact: true,
+    strict: false
+  });
+  const dashboard = matchPath(location.pathname, {
+    path: "/dashboard",
+    exact: true,
+    strict: false
+  });
+  const drawer = (
+    <Grid item style={{ color: '#fff' }}>
+      <div className={classes.toolbar} />
+      <Grid container justify='center' >
+        <Avatar src='' style={{ height: 150, width: 150 }} />
+        <Typography style={{ padding: '20px 0', color: '#fff' }}>Dipanjan Panja</Typography>
+      </Grid>
+      <List>
 
+        <ListItem button >
+          <ListItemIcon >
+            <AccountCircleOutlinedIcon style={{ color: '#fff' }} />
+          </ListItemIcon>
+          <ListItemText primary={'My Profile'} />
+        </ListItem>
+        <ListItem button >
+          <ListItemIcon >
+            <SvgIcon style={{ color: '#fff' }} >
+              <Payment />
+            </SvgIcon>
+          </ListItemIcon>
+          <ListItemText primary={'My Payment'} />
+        </ListItem>
+        <ListItem button >
+          <ListItemIcon >
+            <SvgIcon style={{ color: '#fff' }} >
+              <NoticeIcon />
+            </SvgIcon>
+          </ListItemIcon>
+          <ListItemText primary={'Notice Board'} />
+        </ListItem>
+        <ListItem button >
+          <ListItemIcon >
+            <SvgIcon style={{ color: '#fff' }} >
+              <Deals />
+            </SvgIcon>
+          </ListItemIcon>
+          <ListItemText primary={'Deals'} />
+        </ListItem>
+        <ListItem button >
+          <ListItemIcon >
+            <HeadsetMicOutlinedIcon style={{ color: '#fff' }} />
+          </ListItemIcon>
+          <ListItemText primary={'Support'} />
+        </ListItem>
+      </List>
+    </Grid>
+  );
 
   return (
-    <div className={classes.grow}>
+    <>
       <SearchFilterDialog show={show} handleClose={handleFilterClose} />
       <React.Fragment>
         <CssBaseline />
         <ElevationScroll {...props}>
           <AppBar color='inherit' className={classes.Appbar}>
             <Toolbar variant="regular">
-              <IconButton
-                onClick={() => {
-                  history.push("/");
-                }}
-                edge="start"
-                className={classes.menuButton}
-                disableFocusRipple
-                disableRipple
-                style={{ backgroundColor: "transparent" }}
-              >
 
-                <img src={Logo} height="45px" alt="Roomlelo" />
-              </IconButton>
-
-              <div className={classes.grow} />
-
-
+              {dashboard &&
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  className={classes.menuButtonL}
+                >
+                  <MenuIcon />
+                </IconButton>
+              }
               <div className={classes.sectionDesktop}>
+                <IconButton
+                  onClick={() => {
+                    history.push("/");
+                  }}
+                  edge="start"
+                  className={classes.menuButton}
+                  disableFocusRipple
+                  disableRipple
+                  style={{ backgroundColor: "transparent" }}
+                >
 
-                {/* <Button onClick={() => history.push("/whyus")} color="inherit">
-              <Typography variant="button">Why Prefer us</Typography>
-            </Button> */}
+                  <img src={Logo} height="45px" alt="Roomlelo" />
+                </IconButton>
 
-                {/* <Button color="inherit" onClick={() => history.push("/properties")}>
-              <Typography variant="button">Our Properties</Typography>
-            </Button> 
+                <div className={classes.grow} />
 
-                <Button onClick={() => history.push("/refer")} color="inherit">
-                  <Typography variant="button">Refer & Earn</Typography>
 
-                </Button>*/}
-                {/* {props.auth === true && ""} */}
-                <ButtonGroup variant='contained' color='secondary'>
+                <ButtonGroup variant='contained' size='medium' color='secondary' style={{ margin: 7 }}>
 
-                  {/* <Button onClick={() => history.push("/login")}>
-                  Login
-                </Button> */}
-
-                  <Button variant='contained' color='primary' onClick={() => history.push("/joinus")} >
-                    <Typography color='inherit' variant="button">List with us</Typography>
+                  {/* {props.auth === true ?
+                    <Button onClick={logout}>
+                      Logout
+                </Button> :
+                    <Button onClick={() => history.push("/login")}>
+                      Login
+                </Button>} */}
+                  <Button
+                    // variant='contained' color='primary'
+                    style={{ background: '#ff0' }}
+                    onClick={() => history.push("/joinus")} >
+                    List with us
                   </Button>
                 </ButtonGroup>
 
@@ -290,30 +339,93 @@ export default function PrimarySearchAppBar(props) {
 
               <div className={classes.sectionMobile}>
                 <IconButton
+                  onClick={() => {
+                    history.push("/");
+                  }}
+                  edge="start"
+                  className={classes.menuButton}
+                  disableFocusRipple
+                  disableRipple
+                  style={{ backgroundColor: "transparent" }}
+                >
+
+                  <img src={require('../static/logoMobile.svg')} height="45px" alt="Roomlelo" />
+                </IconButton>
+                {home &&
+                  <Typography onClick={handleFilterClose} variant='subtitle1' style={{ padding: '0 0 0 12px', cursor: 'pointer', alignSelf: 'center' }}>
+                    {props.search.searchWhom ? props.search.searchWhom : 'For Whom'} {<IconButton className={classes.menuButton}>
+                      <ExpandMoreIcon />
+                    </IconButton>}
+                  </Typography>}
+
+                <div className={classes.grow} />
+
+                <IconButton
                   aria-label="show more"
                   aria-controls={mobileMenuId}
+                  className={classes.menuButton}
+
                   aria-haspopup="true"
                   onClick={handleMobileMenuOpen}
                   color="inherit"
                 >
-                  <MenuIcon />
+                  <img alt='menu' src={require('../static/icons/MenuButton.svg')} />
                 </IconButton>
               </div>
             </Toolbar>
 
 
-
             {match ?
-              <Toolbar disableGutters>
-                <Filter />
-                {/* <SearchTool/> */}
+              <Toolbar variant="regular" disableGutters>
+                <Filter onFilter={handleFilterClose} />
+
               </Toolbar> : ''}
 
           </AppBar>
         </ElevationScroll>
+        {dashboard && <nav className={classes.drawer} aria-label="mailbox folders">
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Hidden smUp implementation="css">
+            <Drawer
+              container={container}
+              variant="temporary"
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        }
         {renderMobileMenu}
       </React.Fragment>
 
-    </div>
+    </>
   );
 }
+PrimarySearchAppBar.PropType = {
+  search: PropTypes.object.isRequired,
+}
+const mapState = (state) => ({
+  search: state.search
+})
+
+export default connect(mapState)(PrimarySearchAppBar)

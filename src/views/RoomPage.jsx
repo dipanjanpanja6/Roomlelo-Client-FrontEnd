@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux'
-import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress, InputAdornment, ButtonGroup, useMediaQuery } from '@material-ui/core'
+import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress, InputAdornment, ButtonGroup, useMediaQuery, SvgIcon } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropTypes from 'prop-types'
 import { MAP_API_KEY, url } from '../config/config'
@@ -16,6 +16,13 @@ import BookScheduleCard from "../components/Book & Schedule/Book & Schedule Card
 import Loading from '../components/loading';
 import ResponsiveDialog from "../components/bottom nevigation/dialog";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import CheckIcon from '@material-ui/icons/Check';
+import ScrollDialog from "../components/dialogComponent/Scrollbody";
+import MoneyIcon from '@material-ui/icons/Money';
+import SecurityIcon from '@material-ui/icons/Security';
+import MainSlider from "../components/Slider/Mainslider";
+
 
 const style = makeStyles((theme) => ({
     tab: {
@@ -32,21 +39,22 @@ const style = makeStyles((theme) => ({
         }
     },
     title: {
-        padding: '12px 0'
+        padding: '12px 0',
+
     },
     box_grid: {
-        padding: 12, textAlign: 'center', textAlign: '-webkit-center'
+        padding: 8, textAlign: 'center', textAlign: '-webkit-center'
     },
     box_class: {
-        height: '44px',
-        margin: '0 20px 15px',
-        width: '44px',
+        height: '30px',
+        // margin: '0 20px',
+        width: '30px',
         backgroundRepeat: ' no-repeat',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         [theme.breakpoints.down('xs')]: {
-            height: 22,
-            width: 22,
+            height: 25,
+            width: 25,
         }
     },
     plan: {
@@ -58,7 +66,11 @@ const style = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     planTitle: {
+        color: '#fff',
+        padding: 12,
         textAlign: 'center',
+        fontWeight: 'bold',
+
     },
     planRoot: {
         paddingRight: 12,
@@ -89,7 +101,7 @@ const style = makeStyles((theme) => ({
         },
     },
     side_map_class: {
-        padding: 12,
+        paddingBottom: 12,
         width: '100%',
         height: '80vh',
         [theme.breakpoints.down('xs')]: {
@@ -103,8 +115,12 @@ const style = makeStyles((theme) => ({
         }
     },
     menu: {
+        width: '100%',
+        // display:'flex',
+        // flexWrap:'warp',
+        padding: 12,
         [theme.breakpoints.down('sm')]: {
-            display: 'none'
+            // display: 'none'
         }
     },
     imageSlider: {
@@ -124,7 +140,7 @@ const style = makeStyles((theme) => ({
         background: theme.palette.primary.main,
         [theme.breakpoints.down('sm')]: {
             display: 'flex',
-            height: 50
+            minHeight: 50
         }
     },
     footer: {
@@ -135,7 +151,8 @@ const style = makeStyles((theme) => ({
 }))
 
 const RoomsComponents = (props) => {
-    const [RoomDetaisData,setRoomDetaisData]=useState(null)
+    const history = useHistory()
+    const [RoomDetaisData, setRoomDetaisData] = useState(null)
     useEffect(() => {
 
         window.scrollTo(0, 0)
@@ -149,6 +166,7 @@ const RoomsComponents = (props) => {
     }, [RoomDetaisData])
 
     const [dialog, setDialog] = useState(false)
+    const [truncate, setTruncate] = useState(true)
     const sty = style();
     const BookCardRef = useRef()
     const theme = useTheme();
@@ -174,7 +192,7 @@ const RoomsComponents = (props) => {
     useEffect(() => {
         const id = props.match.params.id
         // props.getRoomDetails(id);
-        fetch(`${url}/room/details/${id}`, {
+        fetch(`${url}/room/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -182,15 +200,16 @@ const RoomsComponents = (props) => {
         })
             .then((response) => {
                 response.json().then((data) => {
-                    if(data.success){
-                    setRoomDetaisData(data.data)
-                    // dispatch({ type: SET_ROOM_DETAILS, payload: data.data })
-                    }else{
+                    if (data.success) {
+                        setRoomDetaisData(data.data)
+                        // dispatch({ type: SET_ROOM_DETAILS, payload: data.data })
+                    } else {
                         toast.error(data.message)
+                        history.push('/roomNotFound')
                     }
                 })
-    
-    
+
+
             })
             .catch((error) => {
                 console.log(error)
@@ -199,17 +218,17 @@ const RoomsComponents = (props) => {
 
     const rating = rate1.map((p, i) => {
         return (
-            <Grid key={i} container alignItems="center" justify='space-evenly' className={sty.rating} style={{ padding: 12 }}>
-                <Grid container alignItems='center' style={{ width: 'auto' }}>
+            <Grid key={i} container alignItems="center" justify='space-evenly' className={sty.rating} style={{ padding: 12, flexWrap: 'nowrap' }}>
+                <Grid container alignItems='center' style={{ width: 'auto', flexWrap: 'nowrap' }}>
                     <Avatar variant='rounded' src={p.img} style={{ margin: 8 }}></Avatar>
-                    <Typography variant='body1'>
+                    <Typography variant='body2'>
                         {p.key}
                     </Typography>
                 </Grid>
-                <Grid container alignItems='center' style={{ width: 'auto' }}>
-                    <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+                <Grid container alignItems='center' style={{ width: 'auto', flexWrap: 'nowrap' }}>
+                    <Rating name="half-rating-read" defaultValue={p.star} precision={0.5} readOnly />
                     {/* <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div> */}
-                    <Typography variant='body1'>
+                    <Typography variant='body2'>
                         {p.star}
                     </Typography>
                 </Grid>
@@ -226,7 +245,7 @@ const RoomsComponents = (props) => {
                     </Typography>
                 </Grid>
                 <Grid container alignItems='center' style={{ width: 'auto' }}>
-                    <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+                    <Rating name="half-rating-read" defaultValue={p.star} precision={0.5} readOnly />
                     {/* <div style={{ width: '30%', height: 12, background: '#0f0', borderRadius: 12, margin: '0 12px' }}></div> */}
                     <Typography variant='body1'>
                         {p.star}
@@ -247,25 +266,36 @@ const RoomsComponents = (props) => {
     }
     var othersCharge = RoomDetaisData ? RoomDetaisData.OtherChargesArray ? RoomDetaisData.OtherChargesArray.map(function (p, index) {
         return <Grid key={index} container justify='space-evenly' style={{ padding: '12px 0' }}>
-            <Grid item xs={6}>
+            <Grid item xs={9}>
                 <Typography>{p.key}</Typography>
             </Grid>
-            <Grid item xs={6}>
-                <Typography color='textSecondary'>{p.value ? p.value == 0 ? "Excludes With Rent" : `₹ ${p.value}${p.key=='Electricity Charges'?' per unit':""}` : "Excludes With Rent"}</Typography>
+            <Grid item xs={3}>
+                <Typography color='textSecondary'>{p.value ? p.value == 0 ? "Excludes With Rent" : `₹ ${p.value}${p.key == 'Electricity Charges' ? '/unit' : ""}` : "Excludes With Rent"}</Typography>
             </Grid>
         </Grid >
     }) : "" : ""
-    var rentDetails = RoomDetaisData ? RoomDetaisData.rentDetailsArray ? RoomDetaisData.rentDetailsArray.map(function (p, index) {
-        return <Grid key={index} container justify='space-evenly' style={{ padding: '12px 0' }}>
-            <Grid item xs={6}>
-                <Typography>{p.key}</Typography>
+    var rentDetails = RoomDetaisData ? RoomDetaisData.price ? <>
+        < Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
+            <Grid item xs={9}>
+                <Typography>Monthly Rent</Typography>
+                <Typography variant='caption' color='textSecondary'>Get services and maintenance at nominal prices</Typography>
             </Grid>
-            <Grid item xs={6}>
-                <Typography color='textSecondary'>₹ {p.value}</Typography>
+            <Grid item xs={3}>
+                <Typography color='textSecondary'>₹ {RoomDetaisData.price}</Typography>
             </Grid>
         </Grid >
-    }) : "" : ""
-    var roomType = RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type == 'Private Rooms' ? "Rooms" : RoomDetaisData.type == 'Shared Rooms' ? "Beds" : "" : "" : ""
+        < Grid container justify='space-evenly' style={{ padding: '12px 0' }}>
+            <Grid item xs={9}>
+                <Typography>Security Deposit</Typography>
+                <Typography variant='caption' color='textSecondary'>Fully refundable if vacated in original condition</Typography>
+                <Typography variant='caption' color='textSecondary'>At the time of move-out RoomLelo will refund your security deposit after deducting cost of damage and early move-out charges, if applicable.</Typography>
+            </Grid>
+            <Grid item xs={3}>
+                <Typography color='textSecondary'>₹ {RoomDetaisData.securityDeposit}</Typography>
+            </Grid>
+        </Grid >
+    </> : "" : ""
+    var roomType = RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type == 'Private Rooms' ? "Room" : RoomDetaisData.type == 'Shared Rooms' ? "Bed" : "" : "" : ""
     var RoomCard = Array.apply(null, { length: RoomDetaisData ? RoomDetaisData.available_rooms : 0 }).map((e, i) => (
         <Grid item key={i}>
             <BedRoomCard onBook={handelScroll} price={RoomDetaisData ? RoomDetaisData.price : ''} name={`${roomType} Number ${i + 1}`} />
@@ -274,54 +304,124 @@ const RoomsComponents = (props) => {
 
     var lat = RoomDetaisData ? RoomDetaisData.lat : ''
     var lan = RoomDetaisData ? RoomDetaisData.lng : ''
+    const truncat = (str) => {
+        return str.length > 150 ? <>{str.substring(0, 143)} <p style={{ color: '#00f', cursor: 'pointer' }}>...Know More</p></> : str;
+    }
+    console.log(RoomDetaisData);
+    const [openD, setOpen] = React.useState(false);
+    const scrollDialog = () => {
+        setOpen(!openD)
+    }
 
-    console.log(lat, lan);
-
-
+    const responsive = {
+        desktop: {
+            breakpoint: {
+                max: 3000,
+                min: 1024
+            },
+            items: 3,
+            partialVisibilityGutter: 40
+        },
+        mobile: {
+            breakpoint: {
+                max: 464,
+                min: 0
+            },
+            items: 1,
+            partialVisibilityGutter: 30
+        },
+        tablet: {
+            breakpoint: {
+                max: 1024,
+                min: 464
+            },
+            items: 2,
+            partialVisibilityGutter: 30
+        }
+    }
     return (
         <>
             <Toolbar />
             {!RoomDetaisData ?
                 <Loading />
-                :
+                :<>
+                  
+
+                    <MainSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom == "" ? "For anyone" : `Only for ${RoomDetaisData.forWhom}`} height='400px' />
+           
+                
                 <Grid container >
-                    <Grid container className={sty.rootImage} >
-                        {/* {RoomDetaisData != null ? */}
-                        <ImageSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom} height={600} MHeight={400} />
-                        {/* :
-                        <Grid container justify="center" alignItems="center" className={sty.imageSlider} >
-                            <CircularProgress />
-                         </Grid>} */}
-                    </Grid>
+                    {/* <Grid container className={sty.rootImage} > */}
 
-                    <Grid container style={{ paddingLeft: 20, paddingRight: 20 }}>
-                        <Grid container item md={8} style={{ flexDirection: 'column', paddingLeft: 12 }}>
-                            <Grid container className={sty.menu}>
+                    {/* <ImageSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom == "" ? "Any" : RoomDetaisData.forWhom} height={450} MHeight={400} /> */}
+                    {/* <Mainslider images={RoomDetaisData ? RoomDetaisData.photos : ""} /> */}
 
-                                <Typography className={sty.tab} variant='subtitle1'>Over-View of the Property</Typography>
-                                <Typography variant='subtitle1' className={sty.tab}>Amenities</Typography>
-                                <Typography variant='subtitle1' className={sty.tab}>Your Room</Typography>
-                                <Typography variant='subtitle1' className={sty.tab}>Your Neighborhood</Typography>
-                            </Grid>
-                            <Divider />
+                    {/* </Grid> */}
+
+                    <Grid container style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
+                        <Grid container item md={8} style={{ flexDirection: 'column', }}>
+
+                            <Paper className={sty.menu}>
+                                <Grid container >
+                                    <div style={{ display: 'inline-flex' }}>
+                                        <SvgIcon style={{ width: 35, height: 'auto', marginRight: 12, color: '#0a0' }}>
+                                            <MoneyIcon />
+                                        </SvgIcon>
+                                        <Typography variant='subtitle2'>Rent from <br /><b>
+                                            <p style={{ fontFamily: 'roboto', margin: 0 }}>₹{RoomDetaisData ? RoomDetaisData.price : ''}</p></b>{roomType ? '/' + roomType : ''}</Typography>
+                                    </div> <Divider orientation="vertical" flexItem style={{ margin: '0 20px' }} />
+                                    <div style={{ display: 'inline-flex' }}>
+                                        <SvgIcon style={{ width: 35, height: 'auto', marginRight: 12, color: '#0a0' }}>
+                                            <SecurityIcon />
+                                        </SvgIcon>
+                                        <Typography variant='subtitle2'>Security deposit <br /><b>
+                                            <p style={{ fontFamily: 'roboto', margin: 0 }}>₹{RoomDetaisData.securityDeposit}</p></b></Typography>
+                                    </div> </Grid>
+                            </Paper>
+
+
                             <Grid>
 
-                                <Typography variant='h4' className={sty.title}>{RoomDetaisData ? RoomDetaisData.name ? RoomDetaisData.name : <Skeleton /> : <Skeleton />}</Typography>
-                                <Typography variant='h6' >{RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type : <Skeleton /> : <Skeleton />}</Typography>
-                                <Typography variant='subtitle1' >{RoomDetaisData ? RoomDetaisData.furnished ? RoomDetaisData.furnished : <Skeleton /> : <Skeleton />}</Typography>
-                                <Typography variant='body2' color='textSecondary'>{RoomDetaisData ? RoomDetaisData.propertyAddress ? `at ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}</Typography>
+                                <Typography variant='h5' className={sty.title}>{RoomDetaisData ? RoomDetaisData.name ? RoomDetaisData.name : <Skeleton /> : <Skeleton />}</Typography>
 
-                                <Typography variant='body1' color='textSecondary' className={sty.title}>{RoomDetaisData ? RoomDetaisData.forWhom ? RoomDetaisData.forWhom == "Any" ? "Available for anyone" : `Only for ${RoomDetaisData.forWhom}` : <Skeleton /> : <Skeleton />} | {RoomDetaisData ?
-                                    RoomDetaisData.available_rooms ? `${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : <Skeleton /> : <Skeleton />}</Typography>
+                                <Typography variant='subtitle1' >
+                                    {RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type == "Entire House" ? RoomDetaisData.totalBhk + 'BHK' : RoomDetaisData.type : <Skeleton /> : <Skeleton />}
+                                    {RoomDetaisData ? RoomDetaisData.forWhom == "" ? " for Everyone" : ` Only for ${RoomDetaisData.forWhom}` : <Skeleton />}
+                                    {RoomDetaisData ? RoomDetaisData.propertyAddress ? ` at ₹ ${RoomDetaisData ? RoomDetaisData.price : ''} Near ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}
+                                </Typography>
+                                <br />
+                                <Typography variant='subtitle1' color='textSecondary'>
+                                    {RoomDetaisData ? RoomDetaisData.furnished ? RoomDetaisData.furnished : <Skeleton /> : <Skeleton />}
+                                    {RoomDetaisData ? RoomDetaisData.forWhom == "" ? " | for Everyone" : ` | Only for ${RoomDetaisData.forWhom}` : <Skeleton />}  {RoomDetaisData ?
+                                        RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : `| ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
+                                        : <Skeleton />}
+                                    {RoomDetaisData ?
+                                        RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : ` | ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
+                                        : <Skeleton />}
+                                </Typography>
+                                <br />
 
-                                <Typography variant='body1'>{RoomDetaisData ? RoomDetaisData.description ? RoomDetaisData.description : <Skeleton /> : <Skeleton />}</Typography>
+                                {/* <Typography variant='body2' color='textSecondary'>{RoomDetaisData ? RoomDetaisData.propertyAddress ? `at ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}</Typography> */}
+
+                                {/* <Typography variant='body1' color='textSecondary' className={sty.title}>{RoomDetaisData ? RoomDetaisData.forWhom == "" ? "for Everyone" : `Only for ${RoomDetaisData.forWhom}` : <Skeleton />}  {RoomDetaisData ?
+                                    RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : `| ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
+                                    : <Skeleton />}</Typography> */}
+                                {/*<Typography variant='body1' color='textSecondary' className={sty.title}>
+                                     {RoomDetaisData ?
+                                        RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : `| ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
+                                        : <Skeleton />}</Typography> */}
+
+                                <Typography variant='subtitle1' color='textSecondary'>Description</Typography>
+                                <Typography variant='subtitle2' style={{ textTransform: 'capitalize' }} onClick={() => setTruncate(!truncate)}>{RoomDetaisData ? RoomDetaisData.description ? truncate ? truncat(RoomDetaisData.description) : RoomDetaisData.description : <Skeleton /> : <Skeleton />}  </Typography>
+
+                                {/* <Typography variant='subtitle2' style={{ textTransform: 'capitalize' }}>{RoomDetaisData ? RoomDetaisData.description ? RoomDetaisData.description : <Skeleton /> : <Skeleton />}</Typography> */}
 
 
                             </Grid>
                             <Divider />
                             <Grid container>
 
-                                <Typography variant='h4' className={sty.title}>House Features</Typography>
+                                <Typography variant='h5' className={sty.title}>House Features</Typography>
                                 <Grid container alignItems="center" >
                                     {RoomDetaisData ? RoomDetaisData.HouseFeature ?
                                         RoomDetaisData.HouseFeature.map((data, index) => <div key={index} className={sty.box_grid}>
@@ -331,20 +431,21 @@ const RoomsComponents = (props) => {
                                             </Typography>
                                         </div>) : "" : ""}
                                 </Grid>
+
                             </Grid>
 
                         </Grid>
-                      {!matches &&  <Grid item container ref={BookCardRef} md={4} className={sty.book} justify='center' alignItems='baseline'>
+                        {!matches && <Grid item container ref={BookCardRef} md={4} justify='center' alignItems='baseline'>
 
-                            <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData}/>
+                            <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData} />
 
                         </Grid>}
 
-                        <Divider />
 
-                        <Grid container style={{ flexDirection: 'column', paddingLeft: 12, paddingRight: 12 }}>
+                        <Grid container style={{ flexDirection: 'column', }}>
                             <Grid container>
-                                <Typography variant='h4' className={sty.title}>Near By</Typography>
+                                <Divider style={{ width: '100%' }} />
+                                <Typography variant='h5' className={sty.title}>Near By</Typography>
                                 <Grid container alignItems="center" >
                                     {RoomDetaisData ? RoomDetaisData.Nearby ?
                                         Object.keys(RoomDetaisData.Nearby).map(key => <div key={key} className={sty.box_grid}>
@@ -356,7 +457,9 @@ const RoomsComponents = (props) => {
                                 </Grid>
                             </Grid>
                             <Grid container>
-                                <Typography variant='h4' className={sty.title}>Amenities</Typography>
+                                <Divider style={{ width: '100%' }} />
+
+                                <Typography variant='h5' className={sty.title}>Amenities</Typography>
                                 <Grid container alignItems="center" >
                                     {RoomDetaisData ? RoomDetaisData.amenities ?
                                         RoomDetaisData.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
@@ -367,69 +470,82 @@ const RoomsComponents = (props) => {
                                         </div>) : "" : ""}
                                 </Grid>
                             </Grid>
+                            <Divider style={{ width: '100%' }} />
 
-                            <Divider />
-                            {roomType && <><Grid container>
-                                <Typography variant='h4' className={sty.title}>Rent Details</Typography>
-                                <Grid container item xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
-                                    <Grid container alignItems="center" className={sty.planRoot}>
-                                        {RoomCard}
+                            <Typography variant='h5' className={sty.title}>Rent Details</Typography>
+                            {roomType && <>
+                                <Divider />
+                                <Grid container>
+                                    <Grid container item xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                        <Grid container alignItems="center" className={sty.planRoot}>
+                                            {RoomCard}
 
+                                        </Grid>
                                     </Grid>
-                                </Grid>
 
-                            </Grid>
-                                <Divider /></>
+                                </Grid>
+                                <Divider />
+                            </>
                             }
 
 
 
                             {rentDetails}
                             {othersCharge}
-
+                            <Typography variant='caption' color='error' >Rent Excludes: Food, Utilities and Other Miscellaneous living expenses</Typography>
                             <Divider />
 
-                            <Grid container justify='center'>
-                                <Typography variant='h4' className={sty.title}>What all in covered in our Plan?</Typography>
-                                <Grid container item xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
-                                    <Grid container alignItems="center" className={sty.planRoot}>
+                            <Grid container >
+                                <Typography variant='h5' className={sty.title}>What all in covered in our Plan?</Typography>
+                                <Grid item xs={12} style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                    {/* <Grid container alignItems="center" className={sty.planRoot}> */}
 
-                                        {plan.map((p, i) => {
-                                            return <Grid item key={p}>
-                                                <Card key={i} className={sty.plan}>
-                                                    <CardMedia style={{ height: '100%', width: "100%", display: 'flex', alignItems: 'center' }} image="https://source.unsplash.com/random/?house">
+                                    {plan.map((p, i) => {
+                                        return <Grid item key={p}>
+                                            <Typography ><CheckIcon style={{ color: '#0f0' }} />{p}</Typography>
+                                        </Grid>
+                                    })}
 
-                                                        <Typography variant='subtitle1' className={sty.planTitle}>
-                                                            {p}
-                                                        </Typography>
-                                                    </CardMedia>
-                                                </Card>
-                                            </Grid>
-                                        })}
-
-                                    </Grid>
+                                    {/* </Grid> */}
                                 </Grid>
                             </Grid>
                             <Divider />
-                            <Grid container justify='center' alignItems='center' className={sty.reviews}>
-                                <Typography variant='h4' className={sty.title}>Cutomer Reviews</Typography>
-                                <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
+                            <Grid container >
+                                <Typography variant='h5' className={sty.title}>Terms of stay</Typography>
                             </Grid>
 
-                            <Grid container justify='center' alignItems="center"  >
+                            <Grid container justify='space-between'>
+                                <Typography>The do's and dont's of staying in RoomLelo home</Typography>
+                                <p style={{ color: '#00f', cursor: 'pointer' }} onClick={scrollDialog}>Learn More</p>
+                                <ScrollDialog handleClose={scrollDialog} openD={openD}>
+                                    {RoomDetaisData ? RoomDetaisData.rules ? RoomDetaisData.rules.map((p, i) => {
+                                        return (
+                                            <Typography variant='body2'>{i + 1}. {p}<br /><br /> </Typography>
+                                        )
+                                    }) : '' : ''}
+
+                                </ScrollDialog>
+                            </Grid>
+                            <Divider />
+                            {/* <Grid container justify='center' alignItems='center' className={sty.reviews}>
+                                <Typography variant='h5' className={sty.title}>Customer Reviews</Typography>
+                                <Typography variant='body2' color='textSecondary' className={sty.title} style={{textAlign: 'center', textAlign: '-webkit-center'}}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
+                            </Grid> */}
+
+                            {/* <Grid container justify='center' alignItems="center"  >
                                 <Grid container item sm={6} alignItems="center" className={sty.ratingPadding} >
                                     {rating}
                                 </Grid>
                                 <Grid container item sm={6} alignItems="center" className={sty.ratingPadding} >
                                     {rating1}
                                 </Grid>
-                            </Grid>
+                            </Grid> */}
 
 
-                            <Grid container justify='center' alignItems='center' className={sty.reviews}>
+                            <Grid container className={sty.reviews}>
 
-                                <Typography variant='h4' className={sty.title}>Your Neighbourhood</Typography>
-                                <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
+                                <Typography variant='h5' className={sty.title}>Your Neighborhood</Typography>
+                                {/* <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography> */}
 
                                 <Grid container alignItems="center" className={sty.side_map_class} >
                                     <Map google={props.google} containerStyle={{
@@ -463,20 +579,21 @@ const RoomsComponents = (props) => {
 
                         </Grid>
                     </Grid>
-                    {matches && <ResponsiveDialog open={dialog}>
+                   
+                    {matches && <ResponsiveDialog open={dialog} handleClose={BookNowMobile}>
                         <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData} />
                     </ResponsiveDialog>}
                 </Grid>
-            }
+           </> }
 
             <Grid container className={sty.bottomNav}>
                 <ButtonGroup disableElevation variant="contained" size='large' fullWidth color="primary">
                     <Button onClick={BookNowMobile}>Book Now</Button>
-                    <Button onClick={BookNowMobile} color='secondary'>Schedule your Visit</Button>
+                    <Button onClick={BookNowMobile} color='secondary'>Schedule Visit</Button>
                 </ButtonGroup>
             </Grid>
             <div className={sty.footer}>
-            {RoomDetaisData &&   <Footer />}
+                {RoomDetaisData && <Footer />}
             </div>
         </>
     )
@@ -484,13 +601,13 @@ const RoomsComponents = (props) => {
 RoomsComponents.PropType = {
     getRoomDetails: PropTypes.func.isRequired,
     // room:PropTypes.object.isRequired,
-    user:PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 }
 const mapState = (state) => ({
-    // room: state.room,
+    room: state.room,
     user: state.user
 });
 const mapActionsToProps = {
-    // getRoomDetails,
+    getRoomDetails,
 };
 export default connect(mapState, mapActionsToProps)((GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsComponents)))

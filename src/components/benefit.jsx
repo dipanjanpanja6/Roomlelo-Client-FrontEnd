@@ -39,7 +39,7 @@ const Benefit = (props) => {
     >
       <Typography
         variant="h4" color='textPrimary' style={{
-          paddingTop: 15, textAlign: 'center', fontWeight: "bold", fontFamily: "Poppins, sans-serif",
+          paddingTop: 15, textAlign: 'center', fontWeight: "bold",
         }}
       >
         Benefits of Listing with Us

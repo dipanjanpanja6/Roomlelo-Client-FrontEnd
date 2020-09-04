@@ -12,7 +12,7 @@ import { useHistory } from "react-router-dom";
 
 const styles = makeStyles((theme) => ({
     root: {
-        paddingBottom: 30, paddingTop: 30,
+        paddingBottom: 0, paddingTop: 20,
         //  background: theme.palette.text.icon ?"#000":theme.palette.secondary.main
          background: theme.palette.text.icon ? "#000": '#00f4fe3d'
     },
@@ -28,7 +28,7 @@ const styles = makeStyles((theme) => ({
 
 
 export default function Footer() {
-    const history = useHistory();
+    // const history = useHistory();
     const sty = styles();
 
 
@@ -36,9 +36,11 @@ export default function Footer() {
 
         <Grid container justify="center" className={sty.root} >
 
-            <Grid item sm={3} justify="center" alignItems='center' container style={{ flexDirection: 'column' }}>
+            <Grid item sm={4} justify="center" alignItems='center' container style={{ flexDirection: 'column' }}>
                 <img src={require('../static/roomlelologo.webp')} height="45px" width='183px' alt="Roomlelo" />
-                <Typography variant='body1' color='textSecondary' style={{ padding: '12px 0 0' }}>Connect with us</Typography>
+                <Typography variant='body2' color='textSecondary' style={{ padding: '12px 0 0' }}>Connect with us on</Typography>
+                <Link variant='body2' color='textSecondary' style={{ padding: 0 }} href='tel: +91 7667651878'>tel: +91 7667651878</Link>
+                <Link variant='body2' color='textSecondary' style={{ padding: '0' }} href='mailto:help@roomlelo.in'>Email: help@roomlelo.in</Link>
                 <Grid>
                     <IconButton onClick={()=>window.open('https://www.facebook.com/roomleloinvaranasi/','_blank')}><FacebookIcon /></IconButton>
                     <IconButton onClick={()=>window.open('https://api.whatsapp.com/send?phone=917667651878&fbclid=IwAR0ASfOooEnNvOFx0opGXp8vit72QfSz_tXE-lnCwp7uVqO_mX5sGd0Ja-w','_blank')}><WhatsAppIcon /></IconButton>
@@ -47,47 +49,47 @@ export default function Footer() {
                 </Grid>
             </Grid>
 
-            <Grid item sm={3} container className={sty.content} >
-                <Typography variant="h5"  color='textPrimary'>
+            <Grid item sm={4} container className={sty.content} >
+                <Typography variant="h6"  color='textPrimary'>
                     About the Company
                 </Typography>
-                <Link color='textSecondary'  variant='body1' to='/about' component={RouterLink}>About us</Link>
+                <Link color='textSecondary'  variant='body2' to='/about' component={RouterLink}>About us</Link>
                 
-            <Typography variant='body1' color="textSecondary">
+            {/* <Typography variant='body2' color="textSecondary">
                 Behind Our new looks
                 </Typography>
-            <Typography variant='body1' color="textSecondary">
+            <Typography variant='body2' color="textSecondary">
                 Work with us
                 </Typography>
-            <Typography variant='body1' color="textSecondary">
+            <Typography variant='body2' color="textSecondary">
                 Press
-                </Typography>
+                </Typography> */}
         </Grid>
-        <Grid item sm={3} container className={sty.content} >
-            <Typography variant="h5" color='textPrimary'>
+        <Grid item sm={4} container className={sty.content} >
+            <Typography variant="h6" color='textPrimary'>
                 Partner with us
                 </Typography>
-                <Link color='textSecondary'  variant='body1' to='/joinus' component={RouterLink}>For house Owner</Link>
+                <Link color='textSecondary'  variant='body2' to='/joinus' component={RouterLink}>For house Owner</Link>
 
-            {/* <Typography variant='body1' color="textSecondary">
+            {/* <Typography variant='body2' color="textSecondary">
                 For house Owner
                 </Typography> */}
-            <Typography variant='body1' color="textSecondary">
+            {/* <Typography variant='body2' color="textSecondary">
                 For large corporation
-                </Typography>
+                </Typography> */}
         </Grid>
-        <Grid item sm={3} container className={sty.content} >
-            <Typography variant="h5" color='textPrimary'>
+        {/* <Grid item sm={3} container className={sty.content} >
+            <Typography variant="h6" color='textPrimary'>
                 More Information
                 </Typography>
-            <Typography variant='body1' color="textSecondary">
+            <Typography variant='body2' color="textSecondary">
                 FAQ
                 </Typography>
-            <Typography variant='body1' color="textSecondary">
+            <Typography variant='body2' color="textSecondary">
                 House shifting service
                 </Typography>
 
-        </Grid>
+        </Grid> */}
 
         </Grid >
     );

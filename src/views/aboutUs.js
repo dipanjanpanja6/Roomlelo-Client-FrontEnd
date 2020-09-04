@@ -11,6 +11,7 @@ import Alert from '@material-ui/lab/Alert';
 
 const style = makeStyles((theme) => ({ 
     book: {
+        border: `solid ${theme.palette.background.paper} 20px`,
         padding: 34,
         // backgroundColor: 'rgba(196, 196, 196, 0.19)',
         backgroundColor: theme.palette.primary.main,
@@ -42,7 +43,7 @@ const RoomsComponents = (props) => {
     return (
         <>
             <Toolbar />
-            <Grid container style={{padding:20}}>
+            <Grid container >
                 <Grid container item sm={4} className={sty.book}>
 
                     <Grid container justify='center' alignItems='center' style={{ flexDirection: 'column', }}>

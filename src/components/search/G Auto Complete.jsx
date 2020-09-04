@@ -179,14 +179,14 @@ function GoogleMapsAutoComplete(props) {
   );
 }
 GoogleMapsAutoComplete.PropType = {
-  setSearchText:PropType.func.isRequired,
-  setPlaceName:PropType.func.isRequired
+  // setSearchText:PropType.func.isRequired,
+  // setPlaceName:PropType.func.isRequired
 }
 const mapState = (state) => ({
 
 })
 const mapActionsToProps = {
-setSearchText,
-setPlaceName
+// setSearchText,
+// setPlaceName
 }
 export default connect(mapState, mapActionsToProps)(GoogleMapsAutoComplete)

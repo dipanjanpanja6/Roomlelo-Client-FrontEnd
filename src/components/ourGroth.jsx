@@ -9,7 +9,7 @@ const styles = makeStyles((theme) => ({
         padding: '25px 20px 0',
         textAlign: 'center',
         // height: 420,
-        background: theme.palette.primary.main,
+        background: theme.palette.secondary.main,
         flexDirection: "column",
     },
     growth: {
@@ -17,7 +17,7 @@ const styles = makeStyles((theme) => ({
         flexDirection: 'column'
     },
     animatedNum: {
-        color: theme.palette.text.primary,
+        // color: theme.palette.text.primary,
         paddingBottom: 12,
         fontSize: '3rem',
         [theme.breakpoints.down('xs')]: {
@@ -54,11 +54,11 @@ const Growth = (props) => {
             className={sty.offer}
         >
             <Typography
-                variant="h4" color='textPrimary'
+                variant="h4"
                 style={{
                     paddingTop: 15,
                     fontWeight: "bold",
-                    fontFamily: "Poppins, sans-serif",
+                   
                 }}
             >
                 Our remarkable growth

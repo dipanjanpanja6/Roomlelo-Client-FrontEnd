@@ -15,7 +15,7 @@ const style = makeStyles((theme) => ({
         flexDirection: 'column',
         display: 'flex',
         padding: 12,
-        background: 'rgba(196, 196, 196, 0.3)',
+        // background: 'rgba(196, 196, 196, 0.3)',
         height: 'inherit'
     },
     bookPadding: {
@@ -64,10 +64,8 @@ function BookScheduleCard(props) {
     }, [props.book])
 
     const handleDateChange = (e) => {
-        setDate(e)
+        setDate(new Date(e).toLocaleString())
     }
-
-
 
     const handleChange = (event) => {
         setError('')
@@ -99,7 +97,7 @@ function BookScheduleCard(props) {
         e.preventDefault()
         var phoneno = /^\d{10}$/;
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      
+
 
         if (state.number.match(phoneno)) {
             console.log(date);
@@ -124,118 +122,121 @@ function BookScheduleCard(props) {
 
     return (
 
-        <Paper className={sty.bookPaper}>
-            <Typography variant='body2'>
+        <Paper elevation={5} className={sty.bookPaper}>
+            {/* <Typography variant='body2'>
                 {props.roomData ? props.roomData.type : "Rooms"} at {props.roomData ? props.roomData.propertyAddress : ""}
-            </Typography>
+            </Typography> */}
             <Typography variant='body2'>
                 Starting at <b>Rs. {props.roomData ? props.roomData.price : "Loading..."} /- </b>Per Month
         </Typography>
-            <Divider style={{ margin: '12px 0' }} />
-            <Typography variant='body1'>
-                <b>Schedule your Visit:</b>
-            </Typography>
+            {props.roomData ? props.roomData.available == 'true' ? <>
+                <Typography variant='body1'>
+                    <b>Schedule your Visit:</b>
+                </Typography>
 
 
-            <form onSubmit={handleScheduleClick} >
+                <form onSubmit={handleScheduleClick} >
 
-                <Fragment>
-                    <DateTimePicker
-                        value={date}
-                        onChange={handleDateChange}
-                        disablePast
-                        inputVariant='outlined'
-                        // label="With Today Button"
+                    <Fragment>
+                        <DateTimePicker
+                            value={date}
+                            onChange={handleDateChange}
+                            disablePast
+                            inputVariant='outlined'
+                            // label="With Today Button"
+                            disabled={props.user.sended ? true : false}
+                            showTodayButton
+                            animateYearScrolling
+                            InputProps={{ margin: 'dense', required: true, className: sty.bookPadding }}
+                        /></Fragment>
+
+                    <TextField className={sty.bookPadding}
+                        margin='dense'
+                        autoFocus
+                        required
+                        variant='outlined'
+                        type="text"
+                        value={state.name}
+                        onChange={handleChange}
                         disabled={props.user.sended ? true : false}
-                        showTodayButton
-                        animateYearScrolling
-                        InputProps={{ margin: 'dense', required: true, className: sty.bookPadding }}
-                    /></Fragment>
+                        name='name'
+                        placeholder="Your name" />
+                    <TextField className={sty.bookPadding}
+                        margin='dense'
+                        required
+                        error={err.numberError}
+                        helperText={err.numberMessage}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    +91
+                                </InputAdornment>
+                            ),
+                        }}
+                        variant='outlined'
+                        type="number"
+                        value={state.number}
+                        onChange={handleChange}
+                        disabled={props.user.sended ? true : false}
+                        name='number'
+                        placeholder="Contact Number" />
+                    <TextField className={sty.bookPadding}
+                        name='email'
+                        error={err.emailError}
+                        helperText={err.emailMessage}
+                        value={state.email}
+                        onChange={handleChange}
+                        margin='dense'
+                        required
+                        variant='outlined'
+                        type="email"
+                        disabled={props.user.sended ? true : false}
+                        placeholder="Email address" />
+                    {props.user.sended &&
+                        <>
+                            <TextField placeholder="Verification Code"
+                                required
+                                type="number" onChange={(e) => setCode(e.target.value)}
+                                margin="dense" variant="outlined" value={code}
+                                className={sty.bookPadding}
 
-                <TextField className={sty.bookPadding}
-                    margin='dense'
-                    autoFocus
-                    required
-                    variant='outlined'
-                    type="text"
-                    value={state.name}
-                    onChange={handleChange}
-                    disabled={props.user.sended ? true : false}
-                    name='name'
-                    placeholder="Your name" />
-                <TextField className={sty.bookPadding}
-                    margin='dense'
-                    required
-                    error={err.numberError}
-                    helperText={err.numberMessage}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                +91
-                            </InputAdornment>
-                        ),
-                    }}
-                    variant='outlined'
-                    type="number"
-                    value={state.number}
-                    onChange={handleChange}
-                    disabled={props.user.sended ? true : false}
-                    name='number'
-                    placeholder="Contact Number" />
-                <TextField className={sty.bookPadding}
-                    name='email'
-                    error={err.emailError}
-                    helperText={err.emailMessage}
-                    value={state.email}
-                    onChange={handleChange}
-                    margin='dense'
-                    required
-                    variant='outlined'
-                    type="email"
-                    disabled={props.user.sended ? true : false}
-                    placeholder="Email address" />
-                {props.user.sended &&
-                    <>
-                        <TextField placeholder="Verification Code"
-                            required
-                            type="number" onChange={(e) => setCode(e.target.value)}
-                            margin="dense" variant="outlined" value={code}
-                            className={sty.bookPadding}
-
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position='end'>
-                                        <Button>
-                                            Resend
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position='end'>
+                                            <Button>
+                                                Resend
                                         </Button>
-                                    </InputAdornment>
-                                ),
-                            }} />
+                                        </InputAdornment>
+                                    ),
+                                }} />
 
+                            <br />
+                            <div style={{ display: 'flex', flexGrow: 1 }}></div>
+                            <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
+
+                                <Button onClick={handleVerifyClick} variant='contained' color='primary'>
+                                    Verify Mobile {loading && <CircularProgress size={26} color='secondary' />}
+                                </Button>
+                                <Button onClick={() => history.go(0)} variant='contained' color='secondary'>
+                                    Cancel
+                            </Button>
+                            </ButtonGroup>
+                        </>}
+                    {!props.user.sended && <>
                         <br />
                         <div style={{ display: 'flex', flexGrow: 1 }}></div>
+
                         <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
+                            <Button onClick={bookClick} type='submit' disabled={submitType === "book" && loading}>Book Now {submitType === "book" && loading && <CircularProgress size={26} color='secondary' />}</Button>
+                            <Button onClick={scheduleClick} type='submit' color='secondary' disabled={submitType === "schedule" && loading}>Schedule Visit {submitType === "schedule" && loading && <CircularProgress size={26} color='primary' />}</Button>
+                        </ButtonGroup></>}
 
-                            <Button onClick={handleVerifyClick} variant='contained' color='primary'>
-                                Verify Mobile {loading && <CircularProgress size={26} color='secondary' />}
-                            </Button>
-                            <Button onClick={() => history.go(0)} variant='contained' color='secondary'>
-                                Cancel
-                            </Button>
-                        </ButtonGroup>
-                    </>}
-                {!props.user.sended && <>
-                    <br />
-                    <div style={{ display: 'flex', flexGrow: 1 }}></div>
-
-                    <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
-                        <Button onClick={bookClick} type='submit' disabled={submitType === "book" && loading}>Book Now {submitType === "book" && loading && <CircularProgress size={26} color='secondary' />}</Button>
-                        <Button onClick={scheduleClick} type='submit' color='secondary' disabled={submitType === "schedule" && loading}>Schedule your Visit {submitType === "schedule" && loading && <CircularProgress size={26} color='primary' />}</Button>
-                    </ButtonGroup></>}
-
-            </form>
+                </form>
+            </> : <Typography style={{
+                height: 300, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center'
+            }} color='error'>Unavailable right now. Contact RoomLelo for more available {props.roomData.type}</Typography> : <CircularProgress />}
             <br />
-            <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: +91 76676 51878</Typography>
+            <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: <a href='tel:+917667651878'>+91 7667651878</a></Typography>
         </Paper>
 
     )

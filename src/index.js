@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie11';
+// import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -6,12 +9,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store'
 import Theme from "./theme";
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-
-// pick a date util library
-// import MomentUtils from '@date-io/moment'; 
 import DateFnsUtils from '@date-io/date-fns'; 
-// import LuxonUtils from '@date-io/luxon';
-
 require('dotenv').config()
 
 ReactDOM.render(

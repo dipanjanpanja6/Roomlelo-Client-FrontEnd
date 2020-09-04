@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Paper, makeStyles, useTheme } from '@material-ui/core'
+import { Grid, Paper, makeStyles, useTheme, SvgIcon } from '@material-ui/core'
 import Typography from "@material-ui/core/Typography";
 import Button from '@material-ui/core/Button'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -9,6 +9,10 @@ import ImageSlider from "../ImageSlider";
 import { useHistory } from "react-router-dom";
 import ResponsiveDialog from "../bottom nevigation/dialog";
 import BookScheduleCard from "../Book & Schedule/Book & Schedule Card";
+import BeenhereIcon from '@material-ui/icons/Beenhere';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 
 const style = makeStyles((theme) => ({
     root: {
@@ -23,53 +27,30 @@ const style = makeStyles((theme) => ({
 
     },
     room_short_details: {
-        // alignItem:'center',
-        fontFamily: 'Poppins',
-        // fontStyle:'normal',
-        // fontWeight:'normal',
-        // letterSpacing:'0.3px',
-        // textAlign: 'center',
-        // color:'#000000',
-        // margin: '3%',
         [theme.breakpoints.down('xs')]: {
             fontSize: 11
         }
     },
     box_class: {
-        height: '44px',
-        width: '44px',
+        height: 35,
+        width: 35,
         backgroundRepeat: ' no-repeat',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         // backgroundColor: '#C4C4C4',
         [theme.breakpoints.down('xs')]: {
-            height: 29,
-            width: 29,
+            height: 25,
+            width: 25,
         }
     },
     box_info_text_class: {
         [theme.breakpoints.down('xs')]: {
             fontSize: 11
         }
-        // fontSize:'13px',
-        // fontStyle:'normal',
-        // fontWeight:'bold',
-        // display: 'flex',
-        // letterSpacing:'0.005em',
-        // color:'#000',
-        // fontFamily:'Roboto'
     },
     box_item_buttons: {
-        // paddingLeft: '23px',
-        // paddingRight: '23px',
-        // paddingTop: '13px',
-        // paddingBottom: '13px',
-        // textTransform: 'capitalize',
-
-
     },
     title: {
-        // height:'75%'
     },
     icon: {
         textAlign: 'center',
@@ -98,7 +79,7 @@ const RoomsComponents = (props) => {
             <Grid container className={classes.room_box}>
 
                 <Grid container item xs={4}>
-                    <ImageSlider text={room.forWhom} images={room.photos ? room.photos : []} />
+                    <ImageSlider text={room.forWhom == "" ? "For anyone" : `Only for ${room.forWhom}`} images={room.photos ? room.photos : []} />
                 </Grid>
                 <Grid container item xs={8} className={classes.title}>
 
@@ -109,9 +90,9 @@ const RoomsComponents = (props) => {
                     // alignItems="center"
                     >
                         <div style={{ paddingLeft: 12 }}>
-                            <Typography variant="subtitle1" className={classes.room_short_details}>{<b>₹{room.price}/-</b>}</Typography>
-                            <Typography variant="subtitle1" className={classes.room_short_details}>{room.type}{" "}{room.available && 'available'}</Typography>
-                            <Typography variant="caption" color='textSecondary' className={classes.room_short_details}>at {room.propertyAddress}</Typography>
+                            <Typography variant='h6' style={{ fontFamily: 'roboto' }}>{<b>₹{room.price}/-</b>}</Typography>
+                            <Typography variant="subtitle2" className={classes.room_short_details}><SvgIcon style={{color:'#b00'}}><LocationOnIcon/></SvgIcon>{room.furnished}{" "}{room.type == "Entire House" ? room.totalBhk?room.totalBhk+'BHK':'' : room.type}{" "}{'for Rent near'} {room.propertyAddress}</Typography>
+                            <Typography variant="caption" color='textSecondary' style={{ fontFamily: 'roboto' }} className={classes.room_short_details}><SvgIcon style={{color:'#0a0'}}><BeenhereIcon/></SvgIcon>{'Deposit ₹'+room.securityDeposit }</Typography>
                         </div>
 
                         <Grid container style={{ flexWrap: 'nowrap' }} alignItems="center" justify="space-around" >
@@ -136,19 +117,19 @@ const RoomsComponents = (props) => {
                     </Grid>
 
                     {!matches && <Grid item container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant='contained' color='primary'>Book Now</Button>
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'>Schedule Our Visit</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant='contained' color='primary'> <SvgIcon><ShoppingBasketIcon/></SvgIcon>{` Book Now`}</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'><SvgIcon><ScheduleIcon/></SvgIcon>{" Schedule Visit"}</Button>
 
                     </Grid>}
                 </Grid>
                 {matches &&
                     <Grid item style={{ padding: '12px 0' }} xs={12} container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='primary'>Book Now</Button>
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'>Schedule Our Visit</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='primary'><SvgIcon><ShoppingBasketIcon/></SvgIcon>{` Book Now`}</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'><SvgIcon><ScheduleIcon/></SvgIcon>{' Schedule Visit'}</Button>
 
                     </Grid>
                 }
-                <ResponsiveDialog open={dialog}>
+                <ResponsiveDialog open={dialog} handleClose={roomPageButton}>
                     <BookScheduleCard id={room.id} roomData={room} />
                 </ResponsiveDialog>
             </Grid>

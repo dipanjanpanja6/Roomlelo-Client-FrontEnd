@@ -9,7 +9,12 @@ import Testo from "../components/testo";
 import { url } from "../config/config";
 import { useState } from "react";
 import { toast } from "react-toastify";
-
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import ImportantDevicesIcon from '@material-ui/icons/ImportantDevices';
+import AddAlertIcon from '@material-ui/icons/AddAlert';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import FindInPageIcon from '@material-ui/icons/FindInPage';
+import PaymentIcon from '@material-ui/icons/Payment';
 const style = makeStyles((theme) => ({
     book: {
         padding: 3,
@@ -53,12 +58,14 @@ const style = makeStyles((theme) => ({
         margin: 12,
         display: 'flex',
         alignItems: 'center',
+        flexDirection:'column',
         justifyContent: 'center',
         backgroundSize: 'cover !important'
     },
     planTitle: {
         textAlign: 'center',
-        color: '#eee'
+        color: '#eee',
+        textShadow: '0px 0px 20px #000000'
     },
     planRoot: {
         paddingRight: 12,
@@ -86,7 +93,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5">A</Avatar>
+    <Avatar sizes="5" style={{background:"#c00"}}><TrendingUpIcon/></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b>Track daily earnings.</b>
                     </Typography>
@@ -99,7 +106,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5">A</Avatar>
+                    <Avatar sizes="5" style={{background:"#aaa"}}><ImportantDevicesIcon/></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b> Regularly monitor tenant requests.</b>
                     </Typography>
@@ -112,7 +119,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5">A</Avatar>
+                    <Avatar sizes="5" style={{background:"#00c"}}><AddAlertIcon/></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b>Sent payment reminders.</b>
                     </Typography>
@@ -125,7 +132,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5">A</Avatar>
+                    <Avatar sizes="5" style={{background:"#00a"}}><NotificationsActiveIcon /></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b> Advanced notifications of lease completion.</b>
                     </Typography>
@@ -138,7 +145,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5">A</Avatar>
+                    <Avatar style={{background:"#000"}} sizes="5"><FindInPageIcon/></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b>Scan the vacancy of properties.</b>
                     </Typography>
@@ -150,7 +157,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5">A</Avatar>
+                    <Avatar style={{background:"#0a0"}} sizes="5"><PaymentIcon/></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b> Keep a check on payment records of tenants.</b>
                     </Typography>
@@ -160,9 +167,9 @@ const RoomsComponents = (props) => {
         </>
     ));
     const plan = [
-        "Step 01",
-        "Step 02",
-        "Step 03",
+        {title:"1. Submit details",details:"Submit your house details & get house inspected"},
+        {title:"2. Sign the agreement",details:'Sign agreement and handover your home keys',},
+        {title:"3. Get tenants",details:'Get tenants within a few days'}
     ]
     const [state, setState] = useState({ name: "", phoneNumber: "", email: '' ,propertyType:"Others",seen:false})
     const [loading,setLoading] = useState(false)
@@ -294,7 +301,7 @@ const RoomsComponents = (props) => {
                 </Grid>
                 <Divider />
                 <Growth />
-                <Benefit />
+                {/* <Benefit /> */}
                 <Grid container justify="center" alignItems="center" className={sty.offer}>
                     <Typography
                         variant="h4"
@@ -305,7 +312,7 @@ const RoomsComponents = (props) => {
                             fontWeight: "bold",
                         }}
                     >
-                        Roomlelo properties Dashboard
+                        RoomLelo properties Dashboard
                         </Typography>
 
                     <Grid container alignItems="center">
@@ -341,9 +348,14 @@ const RoomsComponents = (props) => {
 
                             {plan.map((p, i) => {
                                 return <Grid item >
-                                    <Card key={i} style={{ background: `url(https://source.unsplash.com/random/?step)` }} className={sty.plan}>
+                                    <Card key={i} 
+                                    style={{ background: i%2==0?`#00f3ff`:`#ffea00` }}
+                                     className={sty.plan}>
                                         <Typography variant='h4' color='textSecondary' className={sty.planTitle}>
-                                            {p}
+                                            {p.title}
+                                        </Typography>
+                                        <Typography variant='subtitle2' color='textSecondary' className={sty.planTitle}>
+                                            {p.details}
                                         </Typography>
                                     </Card>
                                 </Grid>

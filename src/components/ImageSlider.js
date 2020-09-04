@@ -9,76 +9,74 @@ import { makeStyles, CircularProgress } from "@material-ui/core";
 
 
 
-const ImageSlider = (props) =>{
-    const {images, height,MHeight, width} = props
-const styles = makeStyles((theme) => ({
-    
-    root:{
-        height:height ? height : 250,
-        width:'100%',
-        [theme.breakpoints.down('xs')]:{
-            height:MHeight ? MHeight : 150, 
-            width:'100%',
+const ImageSlider = (props) => {
+    const { images, height, MHeight, width } = props
+    // console.log(props);
+    const styles = makeStyles((theme) => ({
 
-        }
-    },
-    image:{
-        height:height ? height : 250,
-        // display:'block !important',
-        width:'100% !important',
-        [theme.breakpoints.down('xs')]:{
-            height:MHeight ? MHeight : 150, 
-            width:'100%',
+        root: {
+            height: height ? height : 250,
+            width: '100%',
+            [theme.breakpoints.down('xs')]: {
+                height: MHeight ? MHeight : 165,
+                width: '100%',
 
-        }
-    },
-}))
-const sty =styles()
-    
-    const handleSelect = () =>{
+            }
+        },
+        image: {
+            height: height ? height : 250,
+            backgroundColor:'#ddd',
+            // display:'block !important',
+            width: '100% !important',
+            [theme.breakpoints.down('xs')]: {
+                height: MHeight ? MHeight : 165,
+                width: '100%',
+
+            }
+        },
+    }))
+    const sty = styles()
+
+    const handleSelect = () => {
 
     }
 
-    return(
+    return (
         <div className={sty.root} >
 
-            <Carousel slide={true} defaultActiveIndex={0} indicators={true} controls={true} interval={5000}  onSelect={handleSelect}>
+            <Carousel slide={true} defaultActiveIndex={0} indicators={true} controls={true} interval={5000} onSelect={handleSelect}>
 
                 {images.map((image, index) => <Carousel.Item key={index} >
-                    <Grid className={sty.image}>
-                        <div style={{
-                            backgroundImage:`url(${image})`,
-                            height:'100%',
-                            width:'100%',
-                            backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat',
-                            backgroundSize: 'contain'
-                        }}></div>
-                    </Grid>
-                   {/* <img 
+                    {/* <Grid className={sty.image}>
+                        <div style={{  backgroundImage:`url('${image}')`, height:'100%', width:'100%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',backgroundSize: 'auto'}}></div>
+                    </Grid> */}
+                   <img 
                         className={sty.image}
                         src={image}
                         alt="First slide"  
-                    /> */}
-                    <Carousel.Caption>
-                        <Grid container alignItems="flex-end" justify="center" >
-                            <div style={{backgroundColor:'rgba(255, 255, 255, 0.8)', borderRadius:'20px', color:'#000',
-                                paddingLeft:'14px', paddingRight:'14px',  marginBottom:'5px', fontFamily:'Poppins', letterSpacing:'0.3px',
-                            textTransform:'capitalize',fontWeight:'normal',maxWidth:'180px', overflow:'hidden' }}>
-                                {props.text ? props.text : "Loading..."}
+                    />
+                    < Carousel.Caption >
+                    <Grid container alignItems="flex-end" justify="center" >
+                        <div style={{
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '20px', color: '#000',
+                            paddingLeft: '5px', paddingRight: '5px', marginBottom: '5px', fontFamily: 'Poppins', letterSpacing: '-0.3px',
+                            textTransform: 'capitalize', fontWeight: 'normal', maxWidth: '180px', overflow: 'hidden',fontSize:12
+                        }}>
+                            {props.text ? props.text : ""}
 
-                            </div>
+                        </div>
 
-                        </Grid>
+                    </Grid>
 
                     </Carousel.Caption>
-                </Carousel.Item>)}
+                </Carousel.Item>)
+}
 
-            </Carousel>
-        </div>
+            </Carousel >
+        </div >
     )
 };
 ImageSlider.PropType = {
-    images:PropType.array.isRequired
+    images: PropType.array.isRequired
 }
 export default ImageSlider
