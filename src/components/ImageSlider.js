@@ -4,7 +4,7 @@ import PropType from 'prop-types'
 import Carousel from 'react-bootstrap/Carousel'
 import Grid from '@material-ui/core/Grid'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { makeStyles, CircularProgress } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 
 

@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux'
-import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Card, Avatar, TextField, Button, Toolbar, CardMedia, CircularProgress, InputAdornment, ButtonGroup, useMediaQuery, SvgIcon } from '@material-ui/core'
+import { Grid, Paper, makeStyles, useTheme, Typography, Divider,  Avatar,  Button, Toolbar, ButtonGroup, useMediaQuery, SvgIcon } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropTypes from 'prop-types'
 import { MAP_API_KEY, url } from '../config/config'
 import Footer from "../components/footer";
-import ImageSlider from '../components/ImageSlider'
 // import TimeInput from 'material-ui-time-picker'
 import Rating from '@material-ui/lab/Rating';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -520,7 +519,7 @@ const RoomsComponents = (props) => {
                                 <ScrollDialog handleClose={scrollDialog} openD={openD}>
                                     {RoomDetaisData ? RoomDetaisData.rules ? RoomDetaisData.rules.map((p, i) => {
                                         return (
-                                            <Typography variant='body2'>{i + 1}. {p}<br /><br /> </Typography>
+                                            <Typography key={i} variant='body2'>{i + 1}. {p}<br /><br /> </Typography>
                                         )
                                     }) : '' : ''}
 

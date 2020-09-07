@@ -32,12 +32,10 @@ function BookScheduleCard(props) {
     const sty = style()
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    //  console.log(props);
-
     const [err, setError] = useState({});
     const [state, setState] = useState({});
     const [code, setCode] = useState("");
-    const [date, setDate] = useState(new Date().toLocaleString());
+    const [date, setDate] = useState(new Date());
     const [submitType, setSubmitType] = useState(null);
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -64,7 +62,8 @@ function BookScheduleCard(props) {
     }, [props.book])
 
     const handleDateChange = (e) => {
-        setDate(new Date(e).toLocaleString())
+        console.log(e);
+        setDate(e)
     }
 
     const handleChange = (event) => {

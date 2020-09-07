@@ -87,11 +87,11 @@ function Mainslider(props) {
 
         >
             {images.map((p, i) => {
-                return (<>
+                return (<div style={{display:'unset'}} key={i}>
                     <div className={sty.text}>
                         {props.text ? props.text : ""}
                     </div>
-                    <img key={i} alt=''
+                    <img  alt=''
                         src={p}
                         style={{
                             display: 'block',
@@ -100,7 +100,7 @@ function Mainslider(props) {
                             width: '100%'
                         }}
                     />
-                </>
+                </div>
                 )
             })}
 

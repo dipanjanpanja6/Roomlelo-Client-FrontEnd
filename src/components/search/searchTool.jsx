@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Button, Typography, Paper, makeStyles, Select, MenuItem, TextField, InputBase, fade } from '@material-ui/core'
+import { Grid, Button, Typography, Paper, makeStyles, Select, MenuItem, fade } from '@material-ui/core'
 import { connect } from 'react-redux'
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, } from "react-router-dom";
 import { setSearchType, setSearchWhom, searchInit, setSearchFilterClear } from '../../redux/actions/searchAction';
 import SearchAutoComplete from './searchAutoComplete';
 import SearchIcon from "@material-ui/icons/Search";
@@ -85,7 +85,7 @@ const style = makeStyles(theme => ({
 const SearchToolBar = props => {
     const sty = style()
     const history = useHistory()
-    let location = useLocation()
+    // let location = useLocation()
 
     // const match = matchPath(location.pathname, {
     //     path: "/rooms",
@@ -147,15 +147,7 @@ const SearchToolBar = props => {
                         <SearchAutoComplete className={sty.select} />
                         {/* <GAutoComplete/> */}
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Typography variant='h6' className={sty.title}>Property Type</Typography>
-                        <Select variant='outlined' margin='dense' value={props.search.searchType} onChange={handleTypeChange} className={sty.select}  >
-                            <MenuItem value="">All Types</MenuItem>
-                            <MenuItem value="Private Rooms">Private rooms</MenuItem>
-                            <MenuItem value="Shared Rooms">Shared Rooms</MenuItem>
-                            <MenuItem value="Entire House">Entire house</MenuItem>
-                        </Select>
-                    </Grid>
+
                     <Grid item xs={6} sm={3}>
                         <Typography variant='h6' className={sty.title}>For Whom</Typography>
                         <Select variant='outlined' margin='dense' className={sty.select} onChange={handleWhomChange} value={props.search.searchWhom} >
@@ -166,6 +158,15 @@ const SearchToolBar = props => {
                         </Select>
                     </Grid>
 
+                    <Grid item xs={6} sm={3}>
+                        <Typography variant='h6' className={sty.title}>Property Type</Typography>
+                        <Select variant='outlined' margin='dense' value={props.search.searchType} onChange={handleTypeChange} className={sty.select}  >
+                            <MenuItem value="">All Types</MenuItem>
+                            <MenuItem value="Private Rooms">Private rooms</MenuItem>
+                            <MenuItem value="Shared Rooms">Shared Rooms</MenuItem>
+                            <MenuItem value="Entire House">Entire house</MenuItem>
+                        </Select>
+                    </Grid>
 
                     <Grid item xs={6} sm={3} container justify='center' alignItems='center'>
                         <Button onClick={handleSearch} variant='contained' size='large' color='primary' style={{ paddingLeft: 50, marginTop: 33, paddingRight: 50 }}>

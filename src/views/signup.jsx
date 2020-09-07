@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { Grid, makeStyles, Typography, Toolbar, TextField, Divider, Paper, Button, Avatar, Card, InputAdornment, CircularProgress, Menu, MenuItem } from '@material-ui/core'
+import { Grid, makeStyles, Typography, Toolbar, TextField, Divider, Paper, Button, Avatar, Card, InputAdornment, CircularProgress, MenuItem } from '@material-ui/core'
 
 import PropType from 'prop-types'
 import Footer from "../components/footer";
 import Growth from "../components/ourGroth";
-import Benefit from "../components/benefit";
-import Testo from "../components/testo";
+// import Benefit from "../components/benefit";
+// import Testo from "../components/testo";
 import { url } from "../config/config";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -58,7 +58,7 @@ const style = makeStyles((theme) => ({
         margin: 12,
         display: 'flex',
         alignItems: 'center',
-        flexDirection:'column',
+        flexDirection: 'column',
         justifyContent: 'center',
         backgroundSize: 'cover !important'
     },
@@ -85,15 +85,15 @@ const RoomsComponents = (props) => {
         document.title = 'Join with Us | RoomLelo - Flats, house, rooms for rent without brokerage.'
     }, [])
     const sty = style()
-    var six = Array.apply(null, { length: 1 }).map((e, i) => (
+    var six = 
         <>
             <Grid
                 container
                 alignItems="center"
                 style={{ margin: "24px 0" }}
             >
-                <Grid alignItems="center" style={{ display: "flex" }}>
-    <Avatar sizes="5" style={{background:"#c00"}}><TrendingUpIcon/></Avatar>
+                <Grid  style={{ display: "flex",alignItems:"center" }}>
+                    <Avatar sizes="5" style={{ background: "#c00" }}><TrendingUpIcon /></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b>Track daily earnings.</b>
                     </Typography>
@@ -106,7 +106,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5" style={{background:"#aaa"}}><ImportantDevicesIcon/></Avatar>
+                    <Avatar sizes="5" style={{ background: "#ffea00" }}><ImportantDevicesIcon /></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b> Regularly monitor tenant requests.</b>
                     </Typography>
@@ -119,7 +119,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5" style={{background:"#00c"}}><AddAlertIcon/></Avatar>
+                    <Avatar sizes="5" style={{ background: "#3cb7c6" }}><AddAlertIcon /></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b>Sent payment reminders.</b>
                     </Typography>
@@ -132,7 +132,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar sizes="5" style={{background:"#00a"}}><NotificationsActiveIcon /></Avatar>
+                    <Avatar sizes="5" style={{ background: "#00a" }}><NotificationsActiveIcon /></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b> Advanced notifications of lease completion.</b>
                     </Typography>
@@ -145,7 +145,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar style={{background:"#000"}} sizes="5"><FindInPageIcon/></Avatar>
+                    <Avatar style={{ background: "#000" }} sizes="5"><FindInPageIcon /></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b>Scan the vacancy of properties.</b>
                     </Typography>
@@ -157,7 +157,7 @@ const RoomsComponents = (props) => {
                 style={{ margin: "24px 0" }}
             >
                 <Grid alignItems="center" style={{ display: "flex" }}>
-                    <Avatar style={{background:"#0a0"}} sizes="5"><PaymentIcon/></Avatar>
+                    <Avatar style={{ background: "#0a0" }} sizes="5"><PaymentIcon /></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b> Keep a check on payment records of tenants.</b>
                     </Typography>
@@ -165,14 +165,14 @@ const RoomsComponents = (props) => {
             </Grid>
 
         </>
-    ));
+   
     const plan = [
-        {title:"1. Submit details",details:"Submit your house details & get house inspected"},
-        {title:"2. Sign the agreement",details:'Sign agreement and handover your home keys',},
-        {title:"3. Get tenants",details:'Get tenants within a few days'}
+        { title: "1. Submit details", details: "Submit your house details & get house inspected" },
+        { title: "2. Sign the agreement", details: 'Sign agreement and handover your home keys', },
+        { title: "3. Get tenants", details: 'Get tenants within a few days' }
     ]
-    const [state, setState] = useState({ name: "", phoneNumber: "", email: '' ,propertyType:"Others",seen:false})
-    const [loading,setLoading] = useState(false)
+    const [state, setState] = useState({ name: "", phoneNumber: "", email: '', propertyType: "Others", seen: false })
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
         setState({ ...state, [e.target.name]: e.target.value })
@@ -183,7 +183,7 @@ const RoomsComponents = (props) => {
         if (state.phoneNumber.match(/^\d{10}$/)) {
             fetch(`${url}/refer/ownerreq`, {
                 method: 'POST',
-                body: JSON.stringify({data:state}),
+                body: JSON.stringify({ data: state }),
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -193,7 +193,7 @@ const RoomsComponents = (props) => {
                     data.success && toast.success(data.message)
                     data.error && toast.error(data.message)
                 })
-            }).catch(r=>toast.error('Something went wrong'))
+            }).catch(r => toast.error('Something went wrong'))
         } else {
             setLoading(false)
             toast.error("Invalid Phone number")
@@ -204,7 +204,7 @@ const RoomsComponents = (props) => {
             <Toolbar />
             <Grid>
                 <Grid container alignItems='center' style={{ padding: 20 }}>
-                    <Grid container sm={7} className={sty.book}>
+                    <Grid container item sm={7} className={sty.book}>
 
                         <Grid container justify='center' alignItems='center' style={{ flexDirection: 'column', }}>
                             {/* <video width="80%" height="300" controls>
@@ -212,7 +212,7 @@ const RoomsComponents = (props) => {
                                 src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
                                 type="application/x-mpegURL"/>
                         </video> */}
-                        <img height='400' src={require('../static/Agreement.svg')}/>
+                            <img height='400' src={require('../static/Agreement.svg')} />
                             {/* <iframe title='video' width="90%" height="315" src="https://www.youtube-nocookie.com/embed/IuX6k-Xf_Qk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
                         </Grid>
                     </Grid>
@@ -271,11 +271,11 @@ const RoomsComponents = (props) => {
                                     value={state.propertyType}
                                     onChange={handleChange}
                                     select>
-                                        <MenuItem value="Others">Others</MenuItem>
-                                        <MenuItem value="Room">Room</MenuItem>
-                                        <MenuItem value="Flat">Flat</MenuItem>
-                                        <MenuItem value="House">House</MenuItem>
-                                    </TextField>
+                                    <MenuItem value="Others">Others</MenuItem>
+                                    <MenuItem value="Room">Room</MenuItem>
+                                    <MenuItem value="Flat">Flat</MenuItem>
+                                    <MenuItem value="House">House</MenuItem>
+                                </TextField>
                                 <TextField className={sty.bookPadding}
                                     margin='dense'
                                     variant='outlined'
@@ -287,12 +287,12 @@ const RoomsComponents = (props) => {
                                     required
                                     value={state.details}
                                     onChange={handleChange}
-                                   />
+                                />
                                 <Divider style={{ margin: '12px 0' }} />
 
-                                <Button disabled={loading} type='submit' variant='contained' color='secondary'>
+                                <Button disabled={loading} type='submit' variant='contained' color='primary'>
                                     Request a Call back for Assistance {loading && <CircularProgress size={26} />}
-                            </Button>
+                                </Button>
                             </form>
                             {/* <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: 99999999999</Typography> */}
                         </Paper>
@@ -347,10 +347,10 @@ const RoomsComponents = (props) => {
                         <Grid container alignItems="center" className={sty.planRoot}>
 
                             {plan.map((p, i) => {
-                                return <Grid item >
-                                    <Card key={i} 
-                                    style={{ background: i%2==0?`#00f3ff`:`#ffea00` }}
-                                     className={sty.plan}>
+                                return <Grid item key={i}>
+                                    <Card 
+                                        style={{ background: i % 2 == 0 ? `#00f3ff` : `#ffea00` }}
+                                        className={sty.plan}>
                                         <Typography variant='h4' color='textSecondary' className={sty.planTitle}>
                                             {p.title}
                                         </Typography>
@@ -365,7 +365,7 @@ const RoomsComponents = (props) => {
                     </Grid>
 
                 </Grid>
-                <Testo />
+                {/* <Testo /> */}
             </Grid>
 
             <Footer />

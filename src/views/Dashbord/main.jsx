@@ -59,7 +59,7 @@ function DashboardMain(props) {
                 <Grid container>
                     {["j", 'g', "t", "r"].map(p => {
                         return (
-                            <Grid xs={6} style={{ padding: 6 }}>
+                            <Grid key={p} xs={6} style={{ padding: 6 }}>
                                 <Paper style={{ background: '#F2AA00', color: '#fff', minHeight: 160, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                                     <SvgIcon style={{ height: 75, width: 75 }}>
                                         <HeadsetMicOutlinedIcon style={{ color: '#fff', }} />

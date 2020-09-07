@@ -6,7 +6,7 @@ import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_I
 import {getRoomsWithFilterPagination, getRoomsWithPagination} from '../redux/actions/roomActions'
 import { searchInit } from '../redux/actions/searchAction'
 // import queryString from 'query-string'
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 //M-Ui
 import Grid from '@material-ui/core/Grid'
 import CircularProgress from '@material-ui/core/CircularProgress';

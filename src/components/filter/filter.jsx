@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import PropType from 'prop-types'
 import { connect } from 'react-redux'
 
-import { makeStyles, Grid, TextField, IconButton, Button, Badge, InputAdornment, } from "@material-ui/core";
+import { makeStyles, Grid, IconButton, Button, Badge, SvgIcon } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-
+import {ReactComponent as Filters} from '../../static/icons/filter.svg'
 
 import { setSearchText, searchInit } from '../../redux/actions/searchAction'
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -48,22 +47,20 @@ const Filter = (props) => {
     setCount(i)
   }, [props.search.searchPrice, props.search.searchType, props.search.searchWhom, props.search.searchRoomType, props.search.searchFurnished,]);
 
-  const clear = () => {
-    props.setSearchText('')
-    const data = {
-      keyWord: "",
-      type: props.search.searchType,
-      whom: props.search.searchWhom,
-      price: props.search.searchPrice,
-      room: props.search.searchRoomType,
-      furnished: props.search.searchFurnished,
-    }
-    props.searchInit(data, 0)
-  }
+  // const clear = () => {
+  //   props.setSearchText('')
+  //   const data = {
+  //     keyWord: "",
+  //     type: props.search.searchType,
+  //     whom: props.search.searchWhom,
+  //     price: props.search.searchPrice,
+  //     room: props.search.searchRoomType,
+  //     furnished: props.search.searchFurnished,
+  //   }
+  //   props.searchInit(data, 0)
+  // }
 
-  const handleSearchTextChange = (e) => {
-    props.setSearchText(e.target.value)
-  }
+
 
   const searchInit = () => {
     const data = {
@@ -84,41 +81,19 @@ const Filter = (props) => {
     <Grid container justify='space-around' alignItems='center'   >
 
 
-      {/* <TextField margin='dense' className={sty.select}
-        // autoFocus={!fullScreen}
-        onKeyDown={(e) => {
-          if (e.keyCode === 13) {
-            searchInit()
-          }
-        }}
-        onChange={handleSearchTextChange}
-        placeholder="Search Location"
-        value={props.search.searchText}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position='end'>
-              <IconButton onClick={searchInit}>
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      /> */}
+
       <SearchAutoComplete className={sty.select} />
       <IconButton onClick={searchInit}>
         <SearchIcon />
       </IconButton>
-      {/* <IconButton onClick={clear}>
-        <ClearAllIcon />
-      </IconButton> */}
       <div style={{ flexGrow: 1 }}></div>
-      <Button style={{ marginRight: 12 }} onClick={props.onFilter} startIcon={<FilterListIcon />} >
-        <Badge color='error' badgeContent={count}>
-          Filters
+      <Button style={{ marginRight: 12 }} onClick={props.onFilter} startIcon={<SvgIcon><Filters /></SvgIcon>} >
+        <Badge color='error' badgeContent={count}> 
+            Filters
       </Badge>
       </Button>
 
-    </Grid>
+    </Grid >
   )
 };
 Filter.propType = {

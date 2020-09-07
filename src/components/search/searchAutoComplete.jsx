@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import throttle from 'lodash/throttle';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setSearchText,searchInit } from '../../redux/actions/searchAction'
+import { setSearchText, searchInit } from '../../redux/actions/searchAction'
 import { url } from '../../config/config';
 import { CircularProgress } from '@material-ui/core';
 import { useHistory, useLocation, matchPath } from 'react-router-dom';
@@ -51,7 +51,7 @@ function SearchAutoComplete(props) {
         path: "/rooms",
         exact: true,
         strict: false
-      });
+    });
 
     useEffect(() => {
         setValue(props.search.searchText)
@@ -79,7 +79,7 @@ function SearchAutoComplete(props) {
         }
 
         fet(inputValue, (results) => {
-            console.log(results);
+            // console.log(results);
             if (active) {
 
                 let newOptions = [];
@@ -89,8 +89,9 @@ function SearchAutoComplete(props) {
                 if (results.success) {
                     newOptions = [...newOptions, ...results.data];
                 }
-                console.log(newOptions);
+                // console.log(newOptions);
                 setOptions(newOptions);
+
             }
         });
 
@@ -99,11 +100,14 @@ function SearchAutoComplete(props) {
         };
     }, [value, inputValue, fet]);
 
+    const [open, setOpen] = React.useState(false);
+    const [focused, setFocused] = React.useState(false);
+    const handleOpen = () => {
+        if (focused && inputValue.length > 0) {
+            setOpen(true);
+        }
+    };
 
-
-
-
-    console.log(options);
     return (
         <Autocomplete
             className={props.className}
@@ -118,9 +122,12 @@ function SearchAutoComplete(props) {
             includeInputInList
             filterSelectedOptions
             value={value}
-
+            open={open}
+            onOpen={handleOpen}
+            onClose={() => setOpen(false)}
+            forcePopupIcon={false} 
+            noOptionsText='No Results. Please try a different location.'
             onChange={(event, newValue) => {
-                console.log(newValue);
                 setOptions(newValue ? [newValue, ...options] : options);
                 setValue(newValue);
                 props.setSearchText(newValue ? newValue.address : "")
@@ -131,17 +138,20 @@ function SearchAutoComplete(props) {
                     price: props.search.searchPrice,
                     room: props.search.searchRoomType,
                     furnished: props.search.searchFurnished,
-                  }
-                props.searchInit(data)
-                !rooms && history.push('/rooms')
-
-
+                }
+                newValue && props.searchInit(data)
+                newValue && !rooms && history.push('/rooms')
             }}
             onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
+                if (focused && newInputValue.length > 0) {
+                    setOpen(true);
+                } else {
+                    setOpen(false);
+                }
             }}
             renderInput={(params) => (
-                <TextField {...params} InputProps={{
+                <TextField {...params} onFocus={(e) => setFocused(true)} onBlur={(e) => setFocused(false)} InputProps={{
                     ...params.InputProps,
                     endAdornment: (
                         <React.Fragment>
@@ -149,6 +159,7 @@ function SearchAutoComplete(props) {
                             {params.InputProps.endAdornment}
                         </React.Fragment>
                     ),
+
                 }} variant="outlined" margin='dense' placeholder='Search location,city,locality...' />
             )}
             renderOption={(option) => {
@@ -157,7 +168,7 @@ function SearchAutoComplete(props) {
                 //   option.structured_formatting.main_text,
                 //   matches.map((match) => [match.offset, match.offset + match.length]),
                 // );
-                console.log(option);
+                // console.log(option);
                 return (
                     <Grid container alignItems="center">
                         <Grid item>

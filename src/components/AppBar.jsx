@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Button, makeStyles, Menu, AppBar, MenuItem, Toolbar, IconButton, Typography, CssBaseline, useScrollTrigger, ButtonGroup,
-  Divider, List, ListItem, ListItemIcon, ListItemText, Hidden, Drawer, useTheme, Avatar, Grid, SvgIcon,
+   List, ListItem, ListItemIcon, ListItemText, Hidden, Drawer, useTheme, Avatar, Grid, SvgIcon, Fab, useMediaQuery,
 } from "@material-ui/core";
 import { useHistory, useLocation, matchPath } from "react-router-dom";
 import Logo from "../static/roomlelologo.webp";
@@ -10,8 +10,8 @@ import PropTypes from 'prop-types';
 import Filter from '../components/filter/filter'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from "react-redux";
-import DashboardMain from "../views/Dashbord/main";
 import MenuIcon from '@material-ui/icons/Menu';
+import CallIcon from '@material-ui/icons/Call';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import HeadsetMicOutlinedIcon from '@material-ui/icons/HeadsetMicOutlined';
 import { ReactComponent as NoticeIcon } from '../static/icons/dashboard/Notice_Board.svg';
@@ -216,6 +216,11 @@ function PrimarySearchAppBar(props) {
     setShow(!show)
   }
 
+  const roomsPage = matchPath(location.pathname, {
+    path: "/rooms/:id",
+    exact: true,
+    strict: false
+  });
   const match = matchPath(location.pathname, {
     path: "/rooms",
     exact: true,
@@ -279,7 +284,7 @@ function PrimarySearchAppBar(props) {
       </List>
     </Grid>
   );
-
+  const mobile = useMediaQuery(theme.breakpoints.down('700'));
   return (
     <>
       <SearchFilterDialog show={show} handleClose={handleFilterClose} />
@@ -417,7 +422,16 @@ function PrimarySearchAppBar(props) {
         }
         {renderMobileMenu}
       </React.Fragment>
-
+      {!roomsPage && <a href="tel:7667651878"> <Fab size='small' variant={mobile?'round':'extended'}  style={{
+				position: 'fixed',
+        bottom: 8, right: 8,
+        background:'#0a0',
+        zIndex:100
+			}} >
+        <CallIcon/>
+			{!mobile &&	'call us'}
+          </Fab>
+        </a>}
     </>
   );
 }

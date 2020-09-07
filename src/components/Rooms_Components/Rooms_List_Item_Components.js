@@ -86,13 +86,12 @@ const RoomsComponents = (props) => {
                     <Grid onClick={roomPage} container
                         direction="column"
                         justify="space-around"
-                        style={{ cursor: 'pointer' }}
-                    // alignItems="center"
+                        style={{ cursor: 'pointer' }} 
                     >
                         <div style={{ paddingLeft: 12 }}>
                             <Typography variant='h6' style={{ fontFamily: 'roboto' }}>{<b>₹{room.price}/-</b>}</Typography>
-                            <Typography variant="subtitle2" className={classes.room_short_details}><SvgIcon style={{color:'#b00'}}><LocationOnIcon/></SvgIcon>{room.furnished}{" "}{room.type == "Entire House" ? room.totalBhk?room.totalBhk+'BHK':'' : room.type}{" "}{'for Rent near'} {room.propertyAddress}</Typography>
-                            <Typography variant="caption" color='textSecondary' style={{ fontFamily: 'roboto' }} className={classes.room_short_details}><SvgIcon style={{color:'#0a0'}}><BeenhereIcon/></SvgIcon>{'Deposit ₹'+room.securityDeposit }</Typography>
+                            <Typography variant="subtitle2" className={classes.room_short_details}><SvgIcon style={{ color: '#b00' }}><LocationOnIcon /></SvgIcon>{room.type == "Entire House" ? room.totalBhk ? room.totalBhk + 'BHK' : '' : room.type}{" "}{'for Rent near'} {room.propertyAddress}</Typography>
+                            <Typography variant="caption" color='textSecondary' style={{ fontFamily: 'roboto' }} className={classes.room_short_details}><SvgIcon style={{ color: '#0a0' }}><BeenhereIcon /></SvgIcon>{'Deposit ₹' + room.securityDeposit}</Typography>
                         </div>
 
                         <Grid container style={{ flexWrap: 'nowrap' }} alignItems="center" justify="space-around" >
@@ -117,15 +116,15 @@ const RoomsComponents = (props) => {
                     </Grid>
 
                     {!matches && <Grid item container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant='contained' color='primary'> <SvgIcon><ShoppingBasketIcon/></SvgIcon>{` Book Now`}</Button>
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'><SvgIcon><ScheduleIcon/></SvgIcon>{" Schedule Visit"}</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant='contained' color='primary'> <SvgIcon><ShoppingBasketIcon /></SvgIcon>{` Book Now`}</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'><SvgIcon><ScheduleIcon /></SvgIcon>{" Schedule Visit"}</Button>
 
                     </Grid>}
                 </Grid>
                 {matches &&
                     <Grid item style={{ padding: '12px 0' }} xs={12} container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='primary'><SvgIcon><ShoppingBasketIcon/></SvgIcon>{` Book Now`}</Button>
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'><SvgIcon><ScheduleIcon/></SvgIcon>{' Schedule Visit'}</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='primary'><SvgIcon><ShoppingBasketIcon /></SvgIcon>{` Book Now`}</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'><SvgIcon><ScheduleIcon /></SvgIcon>{' Schedule Visit'}</Button>
 
                     </Grid>
                 }

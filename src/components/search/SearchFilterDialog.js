@@ -83,8 +83,8 @@ const SearchFilterDialog = (props) => {
         path: "/rooms",
         exact: true,
         strict: false
-      });
-    
+    });
+
     const submit = () => {
         const data = {
             keyWord: props.search.searchText,
@@ -122,7 +122,7 @@ const SearchFilterDialog = (props) => {
 
 
                     <FormControl className={sty.formControl}>
-                        <InputLabel>House Types</InputLabel>
+                        <InputLabel>House Type</InputLabel>
                         <Select
                             value={props.search.searchType}
                             onChange={handleTypeChange}
@@ -138,7 +138,7 @@ const SearchFilterDialog = (props) => {
                     </FormControl>
                     {props.search.searchType === 'Entire House' &&
                         <FormControl className={sty.formControl}>
-                            <InputLabel>Room Types</InputLabel>
+                            <InputLabel>Room Type</InputLabel>
                             <Select
                                 value={props.search.searchRoomType}
                                 onChange={handleRoomTypeChange}
@@ -180,7 +180,7 @@ const SearchFilterDialog = (props) => {
                             <MenuItem value="">
                                 <em>Any</em>
                             </MenuItem>
-                            <MenuItem value='Full furnished'>Full Furnished</MenuItem>
+                            <MenuItem value='Full furnished'>Fully Furnished</MenuItem>
                             <MenuItem value='Semi furnished'>Semi Furnished</MenuItem>
                             <MenuItem value='Unfurnished'>Unfurnished</MenuItem>
                         </Select>
@@ -188,7 +188,7 @@ const SearchFilterDialog = (props) => {
 
 
                     <FormControl className={sty.formControl}>
-                        <InputLabel>Max Price</InputLabel>
+                        <InputLabel>Price</InputLabel>
                         <Select
                             value={props.search.searchPrice}
                             onChange={handlePriceChange}
@@ -208,7 +208,7 @@ const SearchFilterDialog = (props) => {
                         Clear
                     </Button>
                     <Button autoFocus onClick={submit} color="primary">
-                        Save changes
+                        Apply
                     </Button>
                 </DialogActions>
             </Dialog>
