@@ -17,7 +17,7 @@ const Theme = () => {
                         // primary: prefersDarkMode ? "#fff" : '#314862',
                         // secondary: prefersDarkMode ? "#ffffff8a" : '#3CB7C6',
                         // secondary: prefersDarkMode ? "#ffffff8a" : '#3CB7C6',
-                        primary: '#314862',
+                        // primary: '#314862',
                         // secondary: '#2289FF'
                     },
                     primary: {

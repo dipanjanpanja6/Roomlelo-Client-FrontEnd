@@ -154,29 +154,35 @@ function PrimaryAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem className={classes.menuItem} onClick={() => {
+      <MenuItem dense className={classes.menuItem} onClick={() => {
+        history.push('/rooms')
+        handleMobileMenuClose()
+      }}><p>Search Rooms</p></MenuItem>
+
+      <MenuItem dense className={classes.menuItem} onClick={() => {
+        history.push('/tenantterms')
+        handleMobileMenuClose()
+      }}><p>Tenant Terms</p></MenuItem>
+
+      <MenuItem dense className={classes.menuItem} onClick={() => {
         history.push('/about')
         handleMobileMenuClose()
       }}><p>About Us</p></MenuItem>
 
-      <MenuItem className={classes.menuItem} onClick={() => {
-        history.push('/rooms')
-        handleMobileMenuClose()
-      }}><p>Search Rooms</p></MenuItem>
 
       <div className={classes.grow} />
 
       <ButtonGroup variant='contained' disableElevation orientation='vertical' fullWidth color='secondary'>
 
-        {/* <Button onClick={() => {
+        {/* <Button  variant='contained' disableElevation disableFocusRipple color='primary' style={{ padding: '12px 0', borderRadius: 0 }} onClick={() => {
           history.push("/login")
           handleMobileMenuClose()
         }}>Login</Button> */}
 
-        <Button variant='contained' disableElevation disableFocusRipple color='primary' style={{padding:'12px 0',borderRadius:0}} onClick={() => {
+        <Button variant='contained' disableElevation disableFocusRipple style={{ padding: '12px 0', borderRadius: 0 }} onClick={() => {
           history.push("/joinus")
           handleMobileMenuClose()
-        }} > List with us</Button>
+        }} > List Your Property</Button>
       </ButtonGroup>
     </Menu>
   );
@@ -274,6 +280,7 @@ function PrimaryAppBar(props) {
                   <MenuIcon />
                 </IconButton>
               }
+              {/* //Desktop// */}
               <div className={classes.sectionDesktop}>
                 <IconButton
                   onClick={() => {
@@ -285,13 +292,12 @@ function PrimaryAppBar(props) {
                   disableRipple
                   style={{ backgroundColor: "transparent" }}
                 >
-
                   <img src={Logo} height="45px" alt="Roomlelo" />
                 </IconButton>
 
                 <div className={classes.grow} />
 
-
+                <Button size='small' color="inherit" onClick={() => history.push("/tenantterms")} style={{ margin: 7 }}>Tenant Terms</Button>
                 <ButtonGroup variant='contained' size='medium' color='secondary' style={{ margin: 7 }}>
 
                   {/* {props.auth === true ?
@@ -302,15 +308,14 @@ function PrimaryAppBar(props) {
                       Login
                     </Button>} */}
                   <Button
-                    // variant='contained' color='primary'
-                    style={{ background: '#ff0' }}
+                    variant='contained' color='secondary'
+                    // style={{ background: '#ff0' }}
                     onClick={() => history.push("/joinus")} >
-                    List with us
+                    List Your Property
                   </Button>
                 </ButtonGroup>
-
               </div>
-
+              {/* //Mobile // */}
               <div className={classes.sectionMobile}>
                 <IconButton
                   onClick={() => {
@@ -352,7 +357,6 @@ function PrimaryAppBar(props) {
             {match ?
               <Toolbar variant="regular" disableGutters>
                 <Filter onFilter={handleFilterClose} />
-
               </Toolbar> : ''}
 
           </AppBar>
