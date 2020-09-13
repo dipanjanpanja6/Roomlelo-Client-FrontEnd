@@ -8,6 +8,7 @@ import { signInWithMobile, verifyMobileCode } from '../../redux/actions/userActi
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
+import { booking_help_no } from '../../config/config'
 
 
 const style = makeStyles((theme) => ({
@@ -42,7 +43,7 @@ function BookScheduleCard(props) {
         if (props.book) {
             if (props.book.booked === true) {
                 toast.success("Room Booked successful. Our executive will contact you soon. For more information's please check our about page.")
-                history.push('/about')
+                history.push('/tenantterms')
                 // setTimeout(window.location='/about', 30000);
 
             }
@@ -50,7 +51,7 @@ function BookScheduleCard(props) {
                 toast.success("Visit scheduled successful. Our executive will contact you soon. For more information's please check our about page.")
                 // setTimeout(window.location='/about', 30000);
 
-                history.push('/about')
+                history.push('/tenantterms')
             }
             if (props.book.schedule_booked === "" || props.book.booked === "") {
                 setLoading(true)
@@ -226,8 +227,8 @@ function BookScheduleCard(props) {
                         <div style={{ display: 'flex', flexGrow: 1 }}></div>
 
                         <ButtonGroup disableElevation variant="contained" size='large' orientation={fullScreen ? "horizontal" : 'vertical'} fullWidth color="primary">
-                            <Button onClick={bookClick} type='submit' disabled={submitType === "book" && loading}>Book Now {submitType === "book" && loading && <CircularProgress size={26} color='secondary' />}</Button>
                             <Button onClick={scheduleClick} type='submit' color='secondary' disabled={submitType === "schedule" && loading}>Schedule Visit {submitType === "schedule" && loading && <CircularProgress size={26} color='primary' />}</Button>
+                            <Button onClick={bookClick} type='submit' disabled={submitType === "book" && loading}>Book Now {submitType === "book" && loading && <CircularProgress size={26} color='secondary' />}</Button>
                         </ButtonGroup></>}
 
                 </form>
@@ -235,7 +236,7 @@ function BookScheduleCard(props) {
                 height: 300, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center'
             }} color='error'>Unavailable right now. Contact RoomLelo for more available {props.roomData.type}</Typography> : <CircularProgress />}
             <br />
-            <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: <a href='tel:+917667651878'>+91 7667651878</a></Typography>
+        <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: <a href={`tel:${booking_help_no}`}>{booking_help_no}</a></Typography>
         </Paper>
 
     )

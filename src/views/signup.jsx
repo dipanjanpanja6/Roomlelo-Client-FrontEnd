@@ -85,14 +85,14 @@ const RoomsComponents = (props) => {
         document.title = 'Join with Us | RoomLelo - Flats, house, rooms for rent without brokerage.'
     }, [])
     const sty = style()
-    var six = 
+    var six =
         <>
             <Grid
                 container
                 alignItems="center"
                 style={{ margin: "24px 0" }}
             >
-                <Grid  style={{ display: "flex",alignItems:"center" }}>
+                <Grid style={{ display: "flex", alignItems: "center" }}>
                     <Avatar sizes="5" style={{ background: "#c00" }}><TrendingUpIcon /></Avatar>
                     <Typography variant="subtitle2" style={{ padding: "0 16px" }}>
                         <b>Track daily earnings.</b>
@@ -165,7 +165,7 @@ const RoomsComponents = (props) => {
             </Grid>
 
         </>
-   
+
     const plan = [
         { title: "1. Submit details", details: "Submit your house details & get house inspected" },
         { title: "2. Sign the agreement", details: 'Sign agreement and handover your home keys', },
@@ -191,9 +191,13 @@ const RoomsComponents = (props) => {
                 setLoading(false)
                 response.json().then((data) => {
                     data.success && toast.success(data.message)
+                    data.error && setLoading(false)
                     data.error && toast.error(data.message)
                 })
-            }).catch(r => toast.error('Something went wrong'))
+            }).catch(r => {
+                setLoading(false)
+                toast.error('Something went wrong')
+            })
         } else {
             setLoading(false)
             toast.error("Invalid Phone number")
@@ -348,7 +352,7 @@ const RoomsComponents = (props) => {
 
                             {plan.map((p, i) => {
                                 return <Grid item key={i}>
-                                    <Card 
+                                    <Card
                                         style={{ background: i % 2 == 0 ? `#00f3ff` : `#ffea00` }}
                                         className={sty.plan}>
                                         <Typography variant='h4' color='textSecondary' className={sty.planTitle}>

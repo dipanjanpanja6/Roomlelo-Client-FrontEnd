@@ -3,15 +3,7 @@ import {
     SET_NOT_SEARCHED, SET_SEARCHED,  SET_NO_DATA_WITH_TYPES, SET_FILTER_FOR_WHOM_DATA_NULL,
      SET_FILTER_ERROR_NULL, SET_FILTER_ERROR, SET_ROOM_PAGINATION_ERROR,
 } from '../type'
-
-
 import { url } from '../../config/config'
-
-
-
-
-
-
 
 
 export const search = (search, price, type, forWhom) => (dispatch) => {
@@ -52,17 +44,11 @@ export const search = (search, price, type, forWhom) => (dispatch) => {
 
         })
 }
-
-
 export const clearFilter = () => (dispatch) => {
     dispatch({ type: SET_NO_DATA_WITH_TYPES })
     dispatch({ type: SET_FILTER_FOR_WHOM_DATA_NULL })
     dispatch(getRooms())
 }
-
-
-
-
 export const getRoomDetails = (id) => (dispatch) => {
     fetch(`${url}/room/details/${id}`, {
         method: 'GET',
@@ -81,9 +67,6 @@ export const getRoomDetails = (id) => (dispatch) => {
             console.log(error)
         })
 }
-
-
-
 export const getRoomWithTypePagination = (type, count) => (dispatch) => {
 
     fetch(`${url}/filter/rooms/type/${type}/pagination/${count}`, {
@@ -106,10 +89,6 @@ export const getRoomWithTypePagination = (type, count) => (dispatch) => {
 
         })
 }
-
-
-
-
 export const getRooms = () => (dispatch) => {
     
     dispatch({ type: SET_ROOM_PAGINATION_ERROR, payload: false })
@@ -132,7 +111,6 @@ export const getRooms = () => (dispatch) => {
                 .catch((error) => { })
         })
 }
-
 export const getRoomsWithPagination = (count) => (dispatch) => {
     fetch(`${url}/room/pagination/${count}/list`, {
         method: 'GET',

@@ -1,7 +1,7 @@
 import React from "react";
 import {
   Button, makeStyles, Menu, AppBar, MenuItem, Toolbar, IconButton, Typography, CssBaseline, useScrollTrigger, ButtonGroup,
-   List, ListItem, ListItemIcon, ListItemText, Hidden, Drawer, useTheme, Avatar, Grid, SvgIcon, Fab, useMediaQuery,
+  List, ListItem, ListItemIcon, ListItemText, Hidden, Drawer, useTheme, Avatar, Grid, SvgIcon, Fab, useMediaQuery,
 } from "@material-ui/core";
 import { useHistory, useLocation, matchPath } from "react-router-dom";
 import Logo from "../static/roomlelologo.webp";
@@ -17,6 +17,7 @@ import HeadsetMicOutlinedIcon from '@material-ui/icons/HeadsetMicOutlined';
 import { ReactComponent as NoticeIcon } from '../static/icons/dashboard/Notice_Board.svg';
 import { ReactComponent as Payment } from '../static/icons/dashboard/Payment.svg';
 import { ReactComponent as Deals } from '../static/icons/dashboard/Deals.svg';
+import { contact_no } from "../config/config";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -64,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
 
     },
   },
+  menuItem: {
+    width: '100%'
+  },
   list: {
     display: 'flex',
     flexDirection: 'column',
@@ -108,7 +112,7 @@ ElevationScroll.propTypes = {
   window: PropTypes.func,
 };
 
-function PrimarySearchAppBar(props) {
+function PrimaryAppBar(props) {
   const classes = useStyles();
   const history = useHistory();
   let location = useLocation()
@@ -150,65 +154,30 @@ function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={() => {
+      <MenuItem className={classes.menuItem} onClick={() => {
         history.push('/about')
         handleMobileMenuClose()
       }}><p>About Us</p></MenuItem>
-      <MenuItem onClick={() => {
+
+      <MenuItem className={classes.menuItem} onClick={() => {
         history.push('/rooms')
         handleMobileMenuClose()
       }}><p>Search Rooms</p></MenuItem>
-      <div className={classes.grow}></div>
-      <ButtonGroup variant='contained' color='secondary'>
+
+      <div className={classes.grow} />
+
+      <ButtonGroup variant='contained' disableElevation orientation='vertical' fullWidth color='secondary'>
 
         {/* <Button onClick={() => {
           history.push("/login")
           handleMobileMenuClose()
-        }}>
+        }}>Login</Button> */}
 
-          Login
-</Button> */}
-
-        <Button variant='contained' color='primary' onClick={() => {
+        <Button variant='contained' disableElevation disableFocusRipple color='primary' style={{padding:'12px 0',borderRadius:0}} onClick={() => {
           history.push("/joinus")
           handleMobileMenuClose()
-        }} >
-          <Typography color='inherit' variant="button">List with us</Typography>
-        </Button>
+        }} > List with us</Button>
       </ButtonGroup>
-
-      {/* <MenuItem onClick={() => {
-        history.push("/whyus")
-        handleMobileMenuClose()
-      }}>
-        <p>Why Prefer us</p>
-      </MenuItem>
-      <MenuItem onClick={() => {
-        history.push("/properties")
-        handleMobileMenuClose()
-      }}> 
-
-        <p>Our Properties</p>
-    </MenuItem>
-      <MenuItem onClick={() => {
-        history.push("/refer")
-        handleMobileMenuClose()
-      }}>
-
-        <p>Refer & Earn</p>
-      </MenuItem>*/}
-      {/* <MenuItem onClick={() => {
-        history.push("/login")
-        handleMobileMenuClose()
-      }}>
-
-        <p>Login</p>
-      </MenuItem>
-      <MenuItem onClick={() => {
-        history.push('/joinus')
-        handleMobileMenuClose()
-      }}><p>List with us</p></MenuItem> */}
-
     </Menu>
   );
 
@@ -328,10 +297,10 @@ function PrimarySearchAppBar(props) {
                   {/* {props.auth === true ?
                     <Button onClick={logout}>
                       Logout
-                </Button> :
+                    </Button> :
                     <Button onClick={() => history.push("/login")}>
                       Login
-                </Button>} */}
+                    </Button>} */}
                   <Button
                     // variant='contained' color='primary'
                     style={{ background: '#ff0' }}
@@ -422,24 +391,24 @@ function PrimarySearchAppBar(props) {
         }
         {renderMobileMenu}
       </React.Fragment>
-      {!roomsPage && <a href="tel:7667651878"> <Fab size='small' variant={mobile?'round':'extended'}  style={{
-				position: 'fixed',
+      {!roomsPage && <a href={`tel:${contact_no}`}> <Fab size='small' variant={mobile ? 'round' : 'extended'} style={{
+        position: 'fixed',
         bottom: 8, right: 8,
-        background:'#0a0',
-        zIndex:100
-			}} >
-        <CallIcon/>
-			{!mobile &&	'call us'}
-          </Fab>
-        </a>}
+        background: 'rgb(0 255 53)',
+        zIndex: 100
+      }} >
+        <CallIcon />
+        {!mobile && 'call us'}
+      </Fab>
+      </a>}
     </>
   );
 }
-PrimarySearchAppBar.PropType = {
+PrimaryAppBar.PropType = {
   search: PropTypes.object.isRequired,
 }
 const mapState = (state) => ({
   search: state.search
 })
 
-export default connect(mapState)(PrimarySearchAppBar)
+export default connect(mapState)(PrimaryAppBar)

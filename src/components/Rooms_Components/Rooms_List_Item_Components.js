@@ -116,15 +116,15 @@ const RoomsComponents = (props) => {
                     </Grid>
 
                     {!matches && <Grid item container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant='contained' color='primary'> <SvgIcon><ShoppingBasketIcon /></SvgIcon>{` Book Now`}</Button>
                         <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'><SvgIcon><ScheduleIcon /></SvgIcon>{" Schedule Visit"}</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant='contained' color='primary'> <SvgIcon><ShoppingBasketIcon /></SvgIcon>{` Book Now`}</Button>
 
                     </Grid>}
                 </Grid>
                 {matches &&
                     <Grid item style={{ padding: '12px 0' }} xs={12} container alignItems="center" justify="space-around">
-                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='primary'><SvgIcon><ShoppingBasketIcon /></SvgIcon>{` Book Now`}</Button>
                         <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='secondary'><SvgIcon><ScheduleIcon /></SvgIcon>{' Schedule Visit'}</Button>
+                        <Button className={classes.box_item_buttons} onClick={roomPageButton} variant="contained" color='primary'><SvgIcon><ShoppingBasketIcon /></SvgIcon>{` Book Now`}</Button>
 
                     </Grid>
                 }

@@ -587,8 +587,8 @@ const RoomsComponents = (props) => {
 
             <Grid container className={sty.bottomNav}>
                 <ButtonGroup disableElevation variant="contained" size='large' fullWidth color="primary">
-                    <Button onClick={BookNowMobile}>Book Now</Button>
                     <Button onClick={BookNowMobile} color='secondary'>Schedule Visit</Button>
+                    <Button onClick={BookNowMobile}>Book Now</Button>
                 </ButtonGroup>
             </Grid>
             <div className={sty.footer}>

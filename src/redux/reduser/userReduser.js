@@ -1,4 +1,4 @@
-import {MOBILE_AUTH_CODE_SENDED_NULL, SET_MOBILE_AUTH_ERROR_DATA,  MOBILE_AUTH_CODE_SENDED,
+import {MOBILE_AUTH_CODE_SENDED_NULL,AUTH, SET_MOBILE_AUTH_ERROR_DATA,  MOBILE_AUTH_CODE_SENDED,
      SET_MOBILE_NUMBER} from '../type'
 
 const initialState = {
@@ -30,6 +30,12 @@ export default function (state = initialState, actions) {
             return{
                 ...state,
                 sended:false
+            }
+        case AUTH:
+            return{
+                ...state,
+                auth:actions.payload.auth,
+                authType:actions.payload.type
             }
 
         default:
