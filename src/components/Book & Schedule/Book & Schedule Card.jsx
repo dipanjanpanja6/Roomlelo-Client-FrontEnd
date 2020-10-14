@@ -4,7 +4,7 @@ import { Paper, Typography, Divider, TextField, InputAdornment, Button, ButtonGr
 import { DateTimePicker } from '@material-ui/pickers'
 import { makeStyles } from '@material-ui/styles'
 import { connect } from 'react-redux'
-import { signInWithMobile, verifyMobileCode } from '../../redux/actions/userActions'
+import { sendOTP, verifyMobileCode } from '../../redux/actions/userActions'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
@@ -102,7 +102,7 @@ function BookScheduleCard(props) {
         if (state.number.match(phoneno)) {
             console.log(date);
             if (re.test(state.email)) {
-                props.signInWithMobile(state.number)
+                props.sendOTP(state.number)
 
             } else {
                 setError({ ...err, emailError: true, emailMessage: 'Invalid Email Address' })
@@ -245,7 +245,7 @@ function BookScheduleCard(props) {
 BookScheduleCard.propTypes = {
     id: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
-    signInWithMobile: PropTypes.func.isRequired,
+    sendOTP: PropTypes.func.isRequired,
     verifyMobileCode: PropTypes.func.isRequired,
     roomData: PropTypes.object.isRequired,
     book: PropTypes.object.isRequired
@@ -256,7 +256,7 @@ const mapState = (state) => ({
     book: state.book,
 });
 const mapActionsToProps = {
-    signInWithMobile,
+    sendOTP,
     verifyMobileCode
 };
 

@@ -19,7 +19,7 @@ export const verifyMobileCode = (mobile, code, email, book, type) => (dispatch) 
 
 
 
-    fetch(`${url}/account/mobile/auth/verification`, {
+    fetch(`${url}/account/mobile/authentication`, {
         method: 'POST',
         body: JSON.stringify(verify),
         headers: { 'Content-Type': 'application/json', }
@@ -52,7 +52,7 @@ export const verifyMobileCode = (mobile, code, email, book, type) => (dispatch) 
     })
 }
 
-export const signInWithMobile = (mobile) => (dispatch) => {
+export const sendOTP = (mobile) => (dispatch) => {
     dispatch({ type: SET_BOOKED_SUCCESS, payload: "" })
     dispatch({ type: SET_SCHEDULE_BOOKED_SUCCESS, payload: "" })
     const auth = {
@@ -60,35 +60,27 @@ export const signInWithMobile = (mobile) => (dispatch) => {
     }
     console.log({ auth })
     dispatch({ type: SET_MOBILE_NUMBER, payload: auth.mobile });
-    fetch(`${url}/account/mobile/auth`, {
+    fetch(`${url}/account/mobile/sendOtp`, {
         method: 'POST',
         body: JSON.stringify(auth),
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-        .then((response) => {
-            response.json()
-                .then((data) => {
-                    console.log(data)
-                    if (data.error) {
-                        toast.error(data.message)
-                        dispatch({ type: SET_MOBILE_AUTH_ERROR_DATA, payload: data })
-                        dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
-
-                    }
-                    if (data.success) {
-                        // console.log(auth)
-                        dispatch({ type: SET_MOBILE_NUMBER, payload: auth.mobile });
-                        dispatch({ type: MOBILE_AUTH_CODE_SENDED })
-                        dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
-                    }
-                })
-        })
-        .catch((error) => {
+        headers: { 'Content-Type': 'application/json', }
+    }).then(res => res.json().then((data) => {
+        console.log(data)
+        if (data.error) {
+            toast.error(data.message)
+            dispatch({ type: SET_MOBILE_AUTH_ERROR_DATA, payload: data })
             dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
-            console.log(error);
-        })
+        }
+        if (data.success) {
+            // console.log(auth)
+            dispatch({ type: SET_MOBILE_NUMBER, payload: auth.mobile });
+            dispatch({ type: MOBILE_AUTH_CODE_SENDED })
+            dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
+        }
+    })).catch((error) => {
+        dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
+        console.log(error);
+    })
 
 }
 

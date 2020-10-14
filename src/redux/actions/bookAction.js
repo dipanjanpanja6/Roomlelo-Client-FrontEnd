@@ -6,7 +6,7 @@ export const bookRoom = (uid, id) => (dispatch) => {
 
     fetch(`${url}/room/book/${id.id}`, {
         method: 'POST',
-        body: JSON.stringify({ uid: uid,data:id }),
+        body: JSON.stringify({ uid: uid, data: id }),
         headers: {
             'Content-Type': 'application/json',
         }
@@ -36,22 +36,19 @@ export const visitSchedule = (data) => (dispatch) => {
         headers: {
             'Content-Type': 'application/json',
         }
+    }).then((response) => {
+        response.json().then((data) => {
+            console.log(data)
+            if (data.success) {
+                dispatch({ type: SET_SCHEDULE_BOOKED_SUCCESS, payload: true })
+            } else {
+                dispatch({ type: SET_SCHEDULE_BOOKED_SUCCESS, payload: false })
+                toast.error(data.message)
+            }
+        })
+    }).catch((error) => {
+        console.log(error)
     })
-        .then((response) => {
-            response.json()
-                .then((data) => {
-                    console.log(data)
-                    if (data.success) {
-                        dispatch({ type: SET_SCHEDULE_BOOKED_SUCCESS, payload: true })
-                    } else {
-                        dispatch({ type: SET_SCHEDULE_BOOKED_SUCCESS, payload: false })
-                        toast.error(data.message)
-                    }
-                })
-        })
-        .catch((error) => {
-            console.log(error)
-        })
 }
 
 

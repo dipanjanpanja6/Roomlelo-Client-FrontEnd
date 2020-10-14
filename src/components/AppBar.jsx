@@ -282,7 +282,7 @@ function PrimaryAppBar(props) {
               }
               {/* //Desktop// */}
               <div className={classes.sectionDesktop}>
-                <IconButton
+                <Button
                   onClick={() => {
                     history.push("/");
                   }}
@@ -290,10 +290,10 @@ function PrimaryAppBar(props) {
                   className={classes.menuButton}
                   disableFocusRipple
                   disableRipple
-                  style={{ backgroundColor: "transparent" }}
+                  style={{ background: "transparent" }}
                 >
                   <img src={Logo} height="45px" alt="Roomlelo" />
-                </IconButton>
+                </Button>
 
                 <div className={classes.grow} />
 

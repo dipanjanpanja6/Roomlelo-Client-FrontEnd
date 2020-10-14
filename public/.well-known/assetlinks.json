@@ -1,0 +1,5 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "in.roomlelo.lite",
+                   "sha256_cert_fingerprints": ["13:FF:B2:D9:C0:D0:27:98:41:43:2F:4E:C6:97:E2:D0:91:60:A2:33:D4:8C:E3:43:00:55:F1:16:18:4C:FC:C2","A9:01:97:50:13:92:BC:3D:75:0A:8A:58:E7:19:BC:C6:73:88:00:85:13:6B:37:1D:C6:24:8D:FA:4B:22:3B:55"] }
+    }]

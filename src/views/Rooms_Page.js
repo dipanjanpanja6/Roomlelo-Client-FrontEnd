@@ -181,11 +181,11 @@ const RoomsPage = (props) => {
 
                 <Grid md={5} item className={classes.side_map_class}>
 
-                    <Map google={props.google} containerStyle={c} zoom={5}
+                    <Map google={props.google} containerStyle={c} zoom={13}
                         style={style}
                         initialCenter={{
-                            lat: 24.510084,
-                            lng: 82.562385
+                            lat: 25.294909, 
+                            lng: 82.982022
                         }}
                     >
                         {poin}

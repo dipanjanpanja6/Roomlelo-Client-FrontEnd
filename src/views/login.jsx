@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import EmailIcon from '@material-ui/icons/Email';
 import { url } from '../config/config'
-import { signInWithMobile, verifyMobileCode } from '../redux/actions/userActions'
+import { sendOTP, verifyMobileCode } from '../redux/actions/userActions'
 import PropTypes from 'prop-types'
 
 const styles = makeStyles(t => ({
@@ -92,7 +92,7 @@ function Login(props) {
                 })
         } else {
             // props.findMobile(state.mobile)
-            props.signInWithMobile(state.number)
+            props.sendOTP(state.number)
 
         }
     }
@@ -223,12 +223,12 @@ function Login(props) {
 }
 Login.prototype = {
     user: PropTypes.object.isRequired,
-    signInWithMobile: PropTypes.func.isRequired,
+    sendOTP: PropTypes.func.isRequired,
     verifyMobileCode: PropTypes.func.isRequired,
     
 }
 const mapToProp = {
-    signInWithMobile,
+    sendOTP,
     verifyMobileCode
 }
 const mapToState = (state) => ({
