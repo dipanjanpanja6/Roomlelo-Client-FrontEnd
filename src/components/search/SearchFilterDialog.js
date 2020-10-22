@@ -207,7 +207,7 @@ const SearchFilterDialog = (props) => {
                     <Button autoFocus onClick={clear} style={{ color: '#f00' }}>
                         Clear
                     </Button>
-                    <Button autoFocus onClick={submit} color="primary">
+                    <Button autoFocus onClick={submit} variant='outlined' color="primary">
                         Apply
                     </Button>
                 </DialogActions>

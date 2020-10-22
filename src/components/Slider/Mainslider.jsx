@@ -20,7 +20,7 @@ function Mainslider(props) {
         },
         text: {
             position: 'absolute',
-             top:  350,
+             top:  520,
              right: '42%',
              backgroundColor: 'rgba(255, 255, 255, 0.8)',
              borderRadius: '20px', color: '#000',

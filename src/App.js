@@ -29,7 +29,8 @@ const Home = loadable(() => import('./views/home'))
 const RoomsPageList = loadable(() => import('./views/Rooms_Page'))
 const RoomPage = loadable(() => import('./views/RoomPage'))
 const SignUp = loadable(() => import('./views/signup'))
-const aboutUs = loadable(() => import('./views/aboutUs'))
+const AboutUs = loadable(() => import('./views/aboutUs'))
+const PrivacyPolicy = loadable(() => import('./views/PrivacyPolicy'))
 
 ReactGA.initialize('G-LE03NVM6JE');
 
@@ -59,7 +60,8 @@ const App = (props) => {
 					<Route exact path='/rooms' component={RoomsPageList} />
 
 
-					<Route exact path="/about" component={aboutUs} />
+					<Route exact path="/privacypolicy" component={PrivacyPolicy} />
+					<Route exact path="/about" component={AboutUs} />
 					<Route exact path="/tenantterms" component={TenantTerms} />
 					{/* <Route exact path="/account/signup" component={Account_SignUp}/> */}
 

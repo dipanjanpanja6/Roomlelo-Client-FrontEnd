@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect } from 'react-redux'
-import { Grid, Paper, makeStyles, useTheme, Typography, Divider,  Avatar,  Button, Toolbar, ButtonGroup, useMediaQuery, SvgIcon } from '@material-ui/core'
+import { Grid, Paper, makeStyles, useTheme, Typography, Divider, Avatar, Button, Toolbar, ButtonGroup, useMediaQuery, SvgIcon } from '@material-ui/core'
 import BedRoomCard from '../components/Rooms_Components/BedRoomCard'
 import PropTypes from 'prop-types'
 import { MAP_API_KEY, url } from '../config/config'
@@ -196,23 +196,19 @@ const RoomsComponents = (props) => {
             headers: {
                 'Content-Type': 'application/json',
             }
+        }).then((response) => {
+            response.json().then((data) => {
+                if (data.success) {
+                    setRoomDetaisData(data.data)
+                    // dispatch({ type: SET_ROOM_DETAILS, payload: data.data })
+                } else {
+                    toast.error(data.message)
+                    history.push('/roomNotFound')
+                }
+            })
+        }).catch((error) => {
+            console.log(error)
         })
-            .then((response) => {
-                response.json().then((data) => {
-                    if (data.success) {
-                        setRoomDetaisData(data.data)
-                        // dispatch({ type: SET_ROOM_DETAILS, payload: data.data })
-                    } else {
-                        toast.error(data.message)
-                        history.push('/roomNotFound')
-                    }
-                })
-
-
-            })
-            .catch((error) => {
-                console.log(error)
-            })
     }, [props.match.params.id])
 
     const rating = rate1.map((p, i) => {
@@ -343,195 +339,195 @@ const RoomsComponents = (props) => {
             <Toolbar />
             {!RoomDetaisData ?
                 <Loading />
-                :<>
-                  
-
-                    <MainSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom == "" ? "For anyone" : `Only for ${RoomDetaisData.forWhom}`} height='400px' />
-           
-                
-                <Grid container >
-                    {/* <Grid container className={sty.rootImage} > */}
-
-                    {/* <ImageSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom == "" ? "Any" : RoomDetaisData.forWhom} height={450} MHeight={400} /> */}
-                    {/* <Mainslider images={RoomDetaisData ? RoomDetaisData.photos : ""} /> */}
-
-                    {/* </Grid> */}
-
-                    <Grid container style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
-                        <Grid container item md={8} style={{ flexDirection: 'column', }}>
-
-                            <Paper className={sty.menu}>
-                                <Grid container >
-                                    <div style={{ display: 'inline-flex' }}>
-                                        <SvgIcon style={{ width: 35, height: 'auto', marginRight: 12, color: '#0a0' }}>
-                                            <MoneyIcon />
-                                        </SvgIcon>
-                                        <Typography variant='subtitle2'>Rent from <br /><b>
-                                            <p style={{ fontFamily: 'roboto', margin: 0 }}>₹{RoomDetaisData ? RoomDetaisData.price : ''}</p></b>{roomType ? '/' + roomType : ''}</Typography>
-                                    </div> <Divider orientation="vertical" flexItem style={{ margin: '0 20px' }} />
-                                    <div style={{ display: 'inline-flex' }}>
-                                        <SvgIcon style={{ width: 35, height: 'auto', marginRight: 12, color: '#0a0' }}>
-                                            <SecurityIcon />
-                                        </SvgIcon>
-                                        <Typography variant='subtitle2'>Security deposit <br /><b>
-                                            <p style={{ fontFamily: 'roboto', margin: 0 }}>₹{RoomDetaisData.securityDeposit}</p></b></Typography>
-                                    </div> </Grid>
-                            </Paper>
+                : <>
 
 
-                            <Grid>
+                    <MainSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom == "" ? "For anyone" : `Only for ${RoomDetaisData.forWhom}`} height='570px' />
 
-                                <Typography variant='h5' className={sty.title}>{RoomDetaisData ? RoomDetaisData.name ? RoomDetaisData.name : <Skeleton /> : <Skeleton />}</Typography>
 
-                                <Typography variant='subtitle1' >
-                                    {RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type == "Entire House" ? RoomDetaisData.totalBhk + 'BHK' : RoomDetaisData.type : <Skeleton /> : <Skeleton />}
-                                    {RoomDetaisData ? RoomDetaisData.forWhom == "" ? " for Everyone" : ` Only for ${RoomDetaisData.forWhom}` : <Skeleton />}
-                                    {RoomDetaisData ? RoomDetaisData.propertyAddress ? ` at ₹ ${RoomDetaisData ? RoomDetaisData.price : ''} Near ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}
-                                </Typography>
-                                <br />
-                                <Typography variant='subtitle1' color='textSecondary'>
-                                    {RoomDetaisData ? RoomDetaisData.furnished ? RoomDetaisData.furnished : <Skeleton /> : <Skeleton />}
-                                    {RoomDetaisData ? RoomDetaisData.forWhom == "" ? " | for Everyone" : ` | Only for ${RoomDetaisData.forWhom}` : <Skeleton />}  {RoomDetaisData ?
-                                        RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : `| ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
-                                        : <Skeleton />}
-                                    {RoomDetaisData ?
-                                        RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : ` | ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
-                                        : <Skeleton />}
-                                </Typography>
-                                <br />
+                    <Grid container >
+                        {/* <Grid container className={sty.rootImage} > */}
 
-                                {/* <Typography variant='body2' color='textSecondary'>{RoomDetaisData ? RoomDetaisData.propertyAddress ? `at ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}</Typography> */}
+                        {/* <ImageSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom == "" ? "Any" : RoomDetaisData.forWhom} height={450} MHeight={400} /> */}
+                        {/* <Mainslider images={RoomDetaisData ? RoomDetaisData.photos : ""} /> */}
 
-                                {/* <Typography variant='body1' color='textSecondary' className={sty.title}>{RoomDetaisData ? RoomDetaisData.forWhom == "" ? "for Everyone" : `Only for ${RoomDetaisData.forWhom}` : <Skeleton />}  {RoomDetaisData ?
+                        {/* </Grid> */}
+
+                        <Grid container style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
+                            <Grid container item md={8} style={{ flexDirection: 'column', }}>
+
+                                <Paper className={sty.menu}>
+                                    <Grid container >
+                                        <div style={{ display: 'inline-flex' }}>
+                                            <SvgIcon style={{ width: 35, height: 'auto', marginRight: 12, color: '#0a0' }}>
+                                                <MoneyIcon />
+                                            </SvgIcon>
+                                            <Typography variant='subtitle2'>Rent from <br /><b>
+                                                <p style={{ fontFamily: 'roboto', margin: 0 }}>₹{RoomDetaisData ? RoomDetaisData.price : ''}</p></b>{roomType ? '/' + roomType : ''}</Typography>
+                                        </div> <Divider orientation="vertical" flexItem style={{ margin: '0 20px' }} />
+                                        <div style={{ display: 'inline-flex' }}>
+                                            <SvgIcon style={{ width: 35, height: 'auto', marginRight: 12, color: '#0a0' }}>
+                                                <SecurityIcon />
+                                            </SvgIcon>
+                                            <Typography variant='subtitle2'>Security deposit <br /><b>
+                                                <p style={{ fontFamily: 'roboto', margin: 0 }}>₹{RoomDetaisData.securityDeposit}</p></b></Typography>
+                                        </div> </Grid>
+                                </Paper>
+
+
+                                <Grid>
+
+                                    <Typography variant='h5' className={sty.title}>{RoomDetaisData ? RoomDetaisData.name ? RoomDetaisData.name : <Skeleton /> : <Skeleton />}</Typography>
+
+                                    <Typography variant='subtitle1' >
+                                        {RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type == "Entire House" ? RoomDetaisData.totalBhk + 'BHK' : RoomDetaisData.type : <Skeleton /> : <Skeleton />}
+                                        {RoomDetaisData ? RoomDetaisData.forWhom == "" ? " for Everyone" : ` Only for ${RoomDetaisData.forWhom}` : <Skeleton />}
+                                        {RoomDetaisData ? RoomDetaisData.propertyAddress ? ` at ₹ ${RoomDetaisData ? RoomDetaisData.price : ''} Near ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}
+                                    </Typography>
+                                    <br />
+                                    <Typography variant='subtitle1' color='textSecondary'>
+                                        {RoomDetaisData ? RoomDetaisData.furnished ? RoomDetaisData.furnished : <Skeleton /> : <Skeleton />}
+                                        {RoomDetaisData ? RoomDetaisData.forWhom == "" ? " | for Everyone" : ` | Only for ${RoomDetaisData.forWhom}` : <Skeleton />}  {RoomDetaisData ?
+                                            RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : `| ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
+                                            : <Skeleton />}
+                                        {RoomDetaisData ?
+                                            RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : ` | ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
+                                            : <Skeleton />}
+                                    </Typography>
+                                    <br />
+
+                                    {/* <Typography variant='body2' color='textSecondary'>{RoomDetaisData ? RoomDetaisData.propertyAddress ? `at ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}</Typography> */}
+
+                                    {/* <Typography variant='body1' color='textSecondary' className={sty.title}>{RoomDetaisData ? RoomDetaisData.forWhom == "" ? "for Everyone" : `Only for ${RoomDetaisData.forWhom}` : <Skeleton />}  {RoomDetaisData ?
                                     RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : `| ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
                                     : <Skeleton />}</Typography> */}
-                                {/*<Typography variant='body1' color='textSecondary' className={sty.title}>
+                                    {/*<Typography variant='body1' color='textSecondary' className={sty.title}>
                                      {RoomDetaisData ?
                                         RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : `| ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
                                         : <Skeleton />}</Typography> */}
 
-                                <Typography variant='subtitle1' color='textSecondary'>Description</Typography>
-                                <Typography variant='subtitle2' style={{ textTransform: 'capitalize' }} onClick={() => setTruncate(!truncate)}>{RoomDetaisData ? RoomDetaisData.description ? truncate ? truncat(RoomDetaisData.description) : RoomDetaisData.description : <Skeleton /> : <Skeleton />}  </Typography>
+                                    <Typography variant='subtitle1' color='textSecondary'>Description</Typography>
+                                    <Typography variant='subtitle2' style={{ textTransform: 'capitalize' }} onClick={() => setTruncate(!truncate)}>{RoomDetaisData ? RoomDetaisData.description ? truncate ? truncat(RoomDetaisData.description) : RoomDetaisData.description : <Skeleton /> : <Skeleton />}  </Typography>
 
-                                {/* <Typography variant='subtitle2' style={{ textTransform: 'capitalize' }}>{RoomDetaisData ? RoomDetaisData.description ? RoomDetaisData.description : <Skeleton /> : <Skeleton />}</Typography> */}
+                                    {/* <Typography variant='subtitle2' style={{ textTransform: 'capitalize' }}>{RoomDetaisData ? RoomDetaisData.description ? RoomDetaisData.description : <Skeleton /> : <Skeleton />}</Typography> */}
 
 
-                            </Grid>
-                            <Divider />
-                            <Grid container>
-
-                                <Typography variant='h5' className={sty.title}>House Features</Typography>
-                                <Grid container alignItems="center" >
-                                    {RoomDetaisData ? RoomDetaisData.HouseFeature ?
-                                        RoomDetaisData.HouseFeature.map((data, index) => <div key={index} className={sty.box_grid}>
-                                            <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/prize.svg`)})` }}></div>
-                                            <Typography variant="caption">
-                                                {data}
-                                            </Typography>
-                                        </div>) : "" : ""}
                                 </Grid>
-
-                            </Grid>
-
-                        </Grid>
-                        {!matches && <Grid item container ref={BookCardRef} md={4} justify='center' alignItems='baseline'>
-
-                            <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData} />
-
-                        </Grid>}
-
-
-                        <Grid container style={{ flexDirection: 'column', }}>
-                            <Grid container>
-                                <Divider style={{ width: '100%' }} />
-                                <Typography variant='h5' className={sty.title}>Near By</Typography>
-                                <Grid container alignItems="center" >
-                                    {RoomDetaisData ? RoomDetaisData.Nearby ?
-                                        Object.keys(RoomDetaisData.Nearby).map(key => <div key={key} className={sty.box_grid}>
-                                            <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/nearby/${key.replace(/ /g, "-")}.svg`)})` }}></div>
-                                            <Typography variant="caption">
-                                                {RoomDetaisData.Nearby[key]}{' '}{key}
-                                            </Typography>
-                                        </div>) : "" : ""}
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Divider style={{ width: '100%' }} />
-
-                                <Typography variant='h5' className={sty.title}>Amenities</Typography>
-                                <Grid container alignItems="center" >
-                                    {RoomDetaisData ? RoomDetaisData.amenities ?
-                                        RoomDetaisData.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
-                                            <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/Amenites/${data.replace(/ /g, "-")}.svg`)})` }}></div>
-                                            <Typography variant="caption">
-                                                {data}
-                                            </Typography>
-                                        </div>) : "" : ""}
-                                </Grid>
-                            </Grid>
-                            <Divider style={{ width: '100%' }} />
-
-                            <Typography variant='h5' className={sty.title}>Rent Details</Typography>
-                            {roomType && <>
                                 <Divider />
                                 <Grid container>
-                                    <Grid container item xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
-                                        <Grid container alignItems="center" className={sty.planRoot}>
-                                            {RoomCard}
 
-                                        </Grid>
+                                    <Typography variant='h5' className={sty.title}>House Features</Typography>
+                                    <Grid container alignItems="center" >
+                                        {RoomDetaisData ? RoomDetaisData.HouseFeature ?
+                                            RoomDetaisData.HouseFeature.map((data, index) => <div key={index} className={sty.box_grid}>
+                                                <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/prize.svg`)})` }}></div>
+                                                <Typography variant="caption">
+                                                    {data}
+                                                </Typography>
+                                            </div>) : "" : ""}
                                     </Grid>
 
                                 </Grid>
-                                <Divider />
-                            </>
-                            }
+
+                            </Grid>
+                            {!matches && <Grid item container ref={BookCardRef} md={4} justify='center' alignItems='baseline'>
+
+                                <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData} />
+
+                            </Grid>}
 
 
-
-                            {rentDetails}
-                            {othersCharge}
-                            <Typography variant='caption' color='error' >Rent Excludes: Food, Utilities and Other Miscellaneous living expenses</Typography>
-                            <Divider />
-
-                            <Grid container >
-                                <Typography variant='h5' className={sty.title}>What all in covered in our Plan?</Typography>
-                                <Grid item xs={12} style={{ overflow: 'hidden', paddingBottom: 20 }}>
-                                    {/* <Grid container alignItems="center" className={sty.planRoot}> */}
-
-                                    {plan.map((p, i) => {
-                                        return <Grid item key={p}>
-                                            <Typography ><CheckIcon style={{ color: '#0f0' }} />{p}</Typography>
-                                        </Grid>
-                                    })}
-
-                                    {/* </Grid> */}
+                            <Grid container style={{ flexDirection: 'column', }}>
+                                <Grid container>
+                                    <Divider style={{ width: '100%' }} />
+                                    <Typography variant='h5' className={sty.title}>Near By</Typography>
+                                    <Grid container alignItems="center" >
+                                        {RoomDetaisData ? RoomDetaisData.Nearby ?
+                                            Object.keys(RoomDetaisData.Nearby).map(key => <div key={key} className={sty.box_grid}>
+                                                <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/nearby/${key.replace(/ /g, "-")}.svg`)})` }}></div>
+                                                <Typography variant="caption">
+                                                    {RoomDetaisData.Nearby[key]}{' '}{key}
+                                                </Typography>
+                                            </div>) : "" : ""}
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                            <Divider />
-                            <Grid container >
-                                <Typography variant='h5' className={sty.title}>Terms of stay</Typography>
-                            </Grid>
+                                <Grid container>
+                                    <Divider style={{ width: '100%' }} />
 
-                            <Grid container justify='space-between'>
-                                <Typography>The do's and dont's of staying in RoomLelo home</Typography>
-                                <p style={{ color: '#00f', cursor: 'pointer' }} onClick={scrollDialog}>Learn More</p>
-                                <ScrollDialog handleClose={scrollDialog} openD={openD}>
-                                    {RoomDetaisData ? RoomDetaisData.rules ? RoomDetaisData.rules.map((p, i) => {
-                                        return (
-                                            <Typography key={i} variant='body2'>{i + 1}. {p}<br /><br /> </Typography>
-                                        )
-                                    }) : '' : ''}
+                                    <Typography variant='h5' className={sty.title}>Amenities</Typography>
+                                    <Grid container alignItems="center" >
+                                        {RoomDetaisData ? RoomDetaisData.amenities ?
+                                            RoomDetaisData.amenities.map((data, index) => <div key={index} className={sty.box_grid}>
+                                                <div className={sty.box_class} style={{ backgroundImage: `url(${require(`../static/icons/Amenites/${data.replace(/ /g, "-")}.svg`)})` }}></div>
+                                                <Typography variant="caption">
+                                                    {data}
+                                                </Typography>
+                                            </div>) : "" : ""}
+                                    </Grid>
+                                </Grid>
+                                <Divider style={{ width: '100%' }} />
 
-                                </ScrollDialog>
-                            </Grid>
-                            <Divider />
-                            {/* <Grid container justify='center' alignItems='center' className={sty.reviews}>
+                                <Typography variant='h5' className={sty.title}>Rent Details</Typography>
+                                {roomType && <>
+                                    <Divider />
+                                    <Grid container>
+                                        <Grid container item xs={12} justify='center' alignItems="center" style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                            <Grid container alignItems="center" className={sty.planRoot}>
+                                                {RoomCard}
+
+                                            </Grid>
+                                        </Grid>
+
+                                    </Grid>
+                                    <Divider />
+                                </>
+                                }
+
+
+
+                                {rentDetails}
+                                {othersCharge}
+                                <Typography variant='caption' color='error' >Rent Excludes: Food, Utilities and Other Miscellaneous living expenses</Typography>
+                                <Divider />
+
+                                <Grid container >
+                                    <Typography variant='h5' className={sty.title}>What all in covered in our Plan?</Typography>
+                                    <Grid item xs={12} style={{ overflow: 'hidden', paddingBottom: 20 }}>
+                                        {/* <Grid container alignItems="center" className={sty.planRoot}> */}
+
+                                        {plan.map((p, i) => {
+                                            return <Grid item key={p}>
+                                                <Typography ><CheckIcon style={{ color: '#0f0' }} />{p}</Typography>
+                                            </Grid>
+                                        })}
+
+                                        {/* </Grid> */}
+                                    </Grid>
+                                </Grid>
+                                <Divider />
+                                <Grid container >
+                                    <Typography variant='h5' className={sty.title}>Terms of stay</Typography>
+                                </Grid>
+
+                                <Grid container justify='space-between'>
+                                    <Typography>The do's and dont's of staying in RoomLelo home</Typography>
+                                    <p style={{ color: '#00f', cursor: 'pointer' }} onClick={scrollDialog}>Learn More</p>
+                                    <ScrollDialog handleClose={scrollDialog} openD={openD}>
+                                        {RoomDetaisData ? RoomDetaisData.rules ? RoomDetaisData.rules.map((p, i) => {
+                                            return (
+                                                <Typography key={i} variant='body2'>{i + 1}. {p}<br /><br /> </Typography>
+                                            )
+                                        }) : '' : ''}
+
+                                    </ScrollDialog>
+                                </Grid>
+                                <Divider />
+                                {/* <Grid container justify='center' alignItems='center' className={sty.reviews}>
                                 <Typography variant='h5' className={sty.title}>Customer Reviews</Typography>
                                 <Typography variant='body2' color='textSecondary' className={sty.title} style={{textAlign: 'center', textAlign: '-webkit-center'}}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography>
                             </Grid> */}
 
-                            {/* <Grid container justify='center' alignItems="center"  >
+                                {/* <Grid container justify='center' alignItems="center"  >
                                 <Grid container item sm={6} alignItems="center" className={sty.ratingPadding} >
                                     {rating}
                                 </Grid>
@@ -541,49 +537,49 @@ const RoomsComponents = (props) => {
                             </Grid> */}
 
 
-                            <Grid container className={sty.reviews}>
+                                <Grid container className={sty.reviews}>
 
-                                <Typography variant='h5' className={sty.title}>Your Neighborhood</Typography>
-                                {/* <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography> */}
+                                    <Typography variant='h5' className={sty.title}>Your Neighborhood</Typography>
+                                    {/* <Typography variant='subtitle1' color='textSecondary' className={sty.title}>This Property has been reviewed by 2,500 Tenants and has been booked 10 times this month</Typography> */}
 
-                                <Grid container alignItems="center" className={sty.side_map_class} >
-                                    <Map google={props.google} containerStyle={{
-                                        position: 'relative',
-                                        width: '100%',
-                                        height: '100%'
-                                    }} zoom={17}
-                                        style={{
+                                    <Grid container alignItems="center" className={sty.side_map_class} >
+                                        <Map google={props.google} containerStyle={{
+                                            position: 'relative',
                                             width: '100%',
                                             height: '100%'
-                                        }}
-                                        initialCenter={{
-                                            lat: lat,
-                                            lng: lan
-                                        }}
-                                        center={{
-                                            lat: lat,
-                                            lng: lan
-                                        }}
-                                    >
-                                        <Marker
-                                            name={'Dolores park'}
-                                            zoom={15}
-                                            position={{ lat: lat, lng: lan }} />
+                                        }} zoom={17}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%'
+                                            }}
+                                            initialCenter={{
+                                                lat: lat,
+                                                lng: lan
+                                            }}
+                                            center={{
+                                                lat: lat,
+                                                lng: lan
+                                            }}
+                                        >
+                                            <Marker
+                                                name={'Dolores park'}
+                                                zoom={15}
+                                                position={{ lat: lat, lng: lan }} />
 
-                                    </Map>
+                                        </Map>
+                                    </Grid>
                                 </Grid>
+
+
+
                             </Grid>
-
-
-
                         </Grid>
+
+                        {matches && <ResponsiveDialog open={dialog} handleClose={BookNowMobile}>
+                            <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData} />
+                        </ResponsiveDialog>}
                     </Grid>
-                   
-                    {matches && <ResponsiveDialog open={dialog} handleClose={BookNowMobile}>
-                        <BookScheduleCard id={props.match.params.id} roomData={RoomDetaisData} />
-                    </ResponsiveDialog>}
-                </Grid>
-           </> }
+                </>}
 
             <Grid container className={sty.bottomNav}>
                 <ButtonGroup disableElevation variant="contained" size='large' fullWidth color="primary">

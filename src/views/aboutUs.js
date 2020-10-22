@@ -47,7 +47,7 @@ const AboutUs = (props) => {
             <Grid container style={{flexGrow:1}}>
                 <Grid container item sm={4} className={sty.book}>
                     <Grid container justify='center' alignItems='center' style={{ flexDirection: 'column', }}>
-                        <Typography color='textPrimary' variant="body1" className={sty.topic}>
+                        <Typography color='textPrimary' variant="h4" className={sty.topic}>
                             About Us
                         </Typography>
                   
