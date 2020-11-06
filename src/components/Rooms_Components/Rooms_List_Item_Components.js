@@ -74,6 +74,7 @@ const RoomsComponents = (props) => {
         history.push(`/rooms/${room.id}`)
     }
     // console.log(room);
+    var details = room.type == "Entire House" ? room.totalBhk ? room.totalBhk + 'BHK' : '' : room.type + ' for Rent near ' + room.propertyAddress
     return (
         <Paper className={classes.root} elevation={3} >
             <Grid container className={classes.room_box}>
@@ -86,11 +87,15 @@ const RoomsComponents = (props) => {
                     <Grid onClick={roomPage} container
                         direction="column"
                         justify="space-around"
-                        style={{ cursor: 'pointer' }} 
+                        style={{ cursor: 'pointer' }}
                     >
                         <div style={{ paddingLeft: 12 }}>
                             <Typography variant='h6' style={{ fontFamily: 'roboto' }}>{<b>₹{room.price}/-</b>}</Typography>
-                            <Typography variant="subtitle2" className={classes.room_short_details}><SvgIcon style={{ color: '#b00' }}><LocationOnIcon /></SvgIcon>{room.type == "Entire House" ? room.totalBhk ? room.totalBhk + 'BHK' : '' : room.type}{" "}{'for Rent near'} {room.propertyAddress}</Typography>
+                            <Typography variant="subtitle2" className={classes.room_short_details}><SvgIcon style={{ color: '#b00' }}><LocationOnIcon /></SvgIcon>
+                                {room.shortDescription ? room.shortDescription :
+                                    (room.type == "Entire House" ? room.totalBhk ? room.totalBhk + 'BHK' : '' : room.type) + ' for Rent near ' + room.propertyAddress
+                                }
+                            </Typography>
                             <Typography variant="caption" color='textSecondary' style={{ fontFamily: 'roboto' }} className={classes.room_short_details}><SvgIcon style={{ color: '#0a0' }}><BeenhereIcon /></SvgIcon>{'Deposit ₹' + room.securityDeposit}</Typography>
                         </div>
 

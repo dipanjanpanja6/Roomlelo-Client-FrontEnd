@@ -297,6 +297,7 @@ function PrimaryAppBar(props) {
 
                 <div className={classes.grow} />
 
+                <Button size='small' color="inherit" onClick={() => history.push("/tenantterms")} style={{ margin: 7 }}>Download app</Button>
                 <Button size='small' color="inherit" onClick={() => history.push("/tenantterms")} style={{ margin: 7 }}>Tenant Terms</Button>
                 <ButtonGroup variant='contained' size='medium' color='secondary' style={{ margin: 7 }}>
 
@@ -395,11 +396,11 @@ function PrimaryAppBar(props) {
         }
         {renderMobileMenu}
       </React.Fragment>
-      {!roomsPage && <a href={`tel:${contact_no}`}> <Fab size='small' variant={mobile ? 'round' : 'extended'} style={{
+      {!roomsPage && <a href={`tel:${contact_no}`}> <Fab size='medium' variant={mobile ? 'round' : 'extended'} style={{
         position: 'fixed',
-        bottom: 8, right: 8,
+        bottom: 18, right: 15,
         background: 'rgb(0 255 53)',
-        zIndex: 100
+        zIndex: 50
       }} >
         <CallIcon />
         {!mobile && 'call us'}

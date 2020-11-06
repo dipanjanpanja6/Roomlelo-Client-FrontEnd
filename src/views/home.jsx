@@ -29,7 +29,7 @@ import PropTypes from "prop-types";
 import { setSearchText, searchInit, setSearchType } from '../redux/actions/searchAction'
 import { getRooms } from '../redux/actions/roomActions'
 import SearchAutoComplete from "../components/search/searchAutoComplete";
-
+import AppDownload from '../components/appDownload'
 
 
 
@@ -38,7 +38,7 @@ const styles = makeStyles((theme) => ({
     background: theme.palette.background.default
   },
   FirstView: {
-    maxHeight: 700,
+    maxHeight: 750,
     minHeight: 450,
     height: 'calc(100vh - 10px)',
     backgroundImage: `url(${require('../static/background.svg')})`,
@@ -83,7 +83,7 @@ const styles = makeStyles((theme) => ({
   heading: {
     textAlign: 'center',
     maxWidth: '90%',
-    paddingBottom: 12,
+    paddingBottom: 30,
     paddingTop: 15, fontWeight: 'bold', paddingRight: 0,
     [theme.breakpoints.down('md')]: {
       maxWidth: '90%',
@@ -149,8 +149,7 @@ const styles = makeStyles((theme) => ({
   },
   imageTitle: {
     position: "relative",
-    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
-      theme.spacing(1) + 6
+    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) + 6
       }px`,
   },
   imageMarked: {
@@ -266,7 +265,7 @@ const FirstView = (sty, b) => {
         marginTop: '7%'
       }} >
         <Typography variant="h3" className={sty.heading} color='textPrimary'>
-            Find Your Next Perfect Place To Live
+          Find Your Next Perfect Place To Live
         </Typography>
 
         <SearchToolBar />
@@ -336,7 +335,7 @@ function Home(props) {
         alignItems="center"
         style={{ margin: "24px 0" }}
       >
-        <Grid  style={{ display: "flex" }}>
+        <Grid style={{ display: "flex" }}>
           <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/esy booking.svg')} />
           <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
             <b>Tenant App</b> - Detailed review and clarity of payments, services request, etc on your personal dashboard               </Typography>
@@ -365,7 +364,7 @@ function Home(props) {
         alignItems="center"
         style={{ margin: "24px 0" }}
       >
-        <Grid  style={{ display: "flex" }}>
+        <Grid style={{ display: "flex" }}>
           <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/No_brokerage 1.svg')} />
           <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
             <b>No Brokerage</b> - Save yourself from high brokerage and hidden charges
@@ -380,7 +379,7 @@ function Home(props) {
         alignItems="center"
         style={{ margin: "24px 0" }}
       >
-        <Grid  style={{ display: "flex" }}>
+        <Grid style={{ display: "flex" }}>
           <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/Safety_icon 1.svg')} />
           <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
             <b>Safety and Security</b> - We filter properties which are in safe zone & healthy neighborhood        </Typography>
@@ -417,7 +416,7 @@ function Home(props) {
         collectStatistics={false}
       >
         <div className="panel">
-          <Grid style={{ display: "flex", flexDirection: 'column', alignItems:'center' }}>
+          <Grid style={{ display: "flex", flexDirection: 'column', alignItems: 'center' }}>
             <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/assisted visits.svg')} />
             <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
               <b>Tenant App</b><br /> Detailed review and clarity of payments, services request, etc on your personal dashboard
@@ -425,7 +424,7 @@ function Home(props) {
           </Grid>
         </div>
         <div className="panel">
-          <Grid style={{ display: "flex", flexDirection: 'column',alignItems:'center' }}>
+          <Grid style={{ display: "flex", flexDirection: 'column', alignItems: 'center' }}>
             <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/esy booking.svg')} />
             <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
               <b>Low Security deposit</b><br />Worried about rocket high deposits ? We offer you home with min. security deposite
@@ -433,7 +432,7 @@ function Home(props) {
           </Grid>
         </div>
         <div className="panel">
-          <Grid style={{ display: "flex", flexDirection: 'column',alignItems:'center' }}>
+          <Grid style={{ display: "flex", flexDirection: 'column', alignItems: 'center' }}>
             <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/Legal_Assistance 1.svg')} />
             <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
               <b>No Brokerage</b><br /> Save yourself from high brokerage and hidden charges
@@ -441,7 +440,7 @@ function Home(props) {
           </Grid>
         </div>
         <div className="panel">
-          <Grid style={{ display: "flex", flexDirection: 'column',alignItems:'center' }}>
+          <Grid style={{ display: "flex", flexDirection: 'column', alignItems: 'center' }}>
             <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/quick check.svg')} />
             <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
               <b>Safety and Security</b><br /> We filter properties which are in safe zone & healthy neighborhood
@@ -572,7 +571,7 @@ function Home(props) {
   //   </Grid>
 
   // </>
-  
+
   const plugin = [new Fade(), new AutoPlay(2000, "NEXT")];
   const pluginBox = [new Fade(), new AutoPlay(2000, "NEXT")];
 
@@ -648,7 +647,7 @@ function Home(props) {
 
   //   </Flicking>
   // </div>
- 
+
 
   const searchInit = () => {
     const data = {
@@ -696,13 +695,13 @@ function Home(props) {
           ),
         }}
       /> */}
-      <Grid container style={{width:'80vw'}}>
-      <SearchAutoComplete style={{width:'60vw'}}/>
+      <Grid container style={{ width: '80vw' }}>
+        <SearchAutoComplete style={{ width: '60vw' }} />
 
-      <IconButton onClick={searchInit}>
-        <SearchIcon />
-      </IconButton>
-    </Grid>
+        <IconButton onClick={searchInit}>
+          <SearchIcon />
+        </IconButton>
+      </Grid>
     </Grid>
 
   </Grid>
@@ -789,15 +788,17 @@ function Home(props) {
         </Grid>
  */}
 
-        <Grid container justify="center" alignItems="center" className={sty.offer} style={{ paddingTop: 0,paddingBottom:65 }} >
+        <Grid container justify="center" alignItems="center" className={sty.offer} style={{ paddingTop: 0, paddingBottom: mobile ? 65 : 0 }} >
           <Grid container alignItems="center">
             {mobile ? mobileDifferent : different}
           </Grid>
         </Grid>
 
+
         {/* <Growth /> */}
         {/* <Benefit /> */}
         {/* <Testo /> */}
+        <AppDownload />
       </Grid>
       <Footer />
     </>
