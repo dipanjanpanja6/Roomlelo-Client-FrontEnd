@@ -339,7 +339,7 @@ const RoomsComponents = (props) => {
                 : <>
 
 
-                    <MainSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom == "" ? "For anyone" : `Only for ${RoomDetaisData.forWhom}`} height='570px' />
+                    <MainSlider images={RoomDetaisData ? RoomDetaisData.photos : ""} text={RoomDetaisData.forWhom == "Any" ? "For anyone" : `Only for ${RoomDetaisData.forWhom}`} height='570px' />
 
 
                     <Grid container >
@@ -378,13 +378,13 @@ const RoomsComponents = (props) => {
 
                                     <Typography variant='subtitle1' >
                                         {RoomDetaisData ? RoomDetaisData.type ? RoomDetaisData.type == "Entire House" ? RoomDetaisData.totalBhk + 'BHK' : RoomDetaisData.type : <Skeleton /> : <Skeleton />}
-                                        {RoomDetaisData ? RoomDetaisData.forWhom == "" ? " for Everyone" : ` Only for ${RoomDetaisData.forWhom}` : <Skeleton />}
+                                        {RoomDetaisData ? RoomDetaisData.forWhom == "Any" ? " for Everyone" : ` Only for ${RoomDetaisData.forWhom}` : <Skeleton />}
                                         {RoomDetaisData ? RoomDetaisData.propertyAddress ? ` at ₹ ${RoomDetaisData ? RoomDetaisData.price : ''} Near ${RoomDetaisData.propertyAddress}` : "" : <Skeleton />}
                                     </Typography>
                                     <br />
                                     <Typography variant='subtitle1' color='textSecondary'>
                                         {RoomDetaisData ? RoomDetaisData.furnished ? RoomDetaisData.furnished : <Skeleton /> : <Skeleton />}
-                                        {RoomDetaisData ? RoomDetaisData.forWhom == "" ? " | for Everyone" : ` | Only for ${RoomDetaisData.forWhom}` : <Skeleton />}  {RoomDetaisData ?
+                                        {RoomDetaisData ? RoomDetaisData.forWhom == "Any" ? " | for Everyone" : ` | Only for ${RoomDetaisData.forWhom}` : <Skeleton />}  {RoomDetaisData ?
                                             RoomDetaisData.type !== 'Entire House' ? RoomDetaisData.available_rooms == "" ? `` : `| ${RoomDetaisData.available_rooms} ${roomType} available only. Hurry Up!` : ""
                                             : <Skeleton />}
                                         {RoomDetaisData ?

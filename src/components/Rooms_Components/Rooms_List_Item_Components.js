@@ -80,7 +80,7 @@ const RoomsComponents = (props) => {
             <Grid container className={classes.room_box}>
 
                 <Grid container item xs={4}>
-                    <ImageSlider text={room.forWhom == "" ? "For anyone" : `Only for ${room.forWhom}`} images={room.photos ? room.photos : []} />
+                    <ImageSlider text={room.forWhom == "Any" ? "For anyone" : `Only for ${room.forWhom}`} images={room.photos ? room.photos : []} />
                 </Grid>
                 <Grid container item xs={8} className={classes.title}>
 
