@@ -171,13 +171,14 @@ function PrimaryAppBar(props) {
 
 
       <div className={classes.grow} />
+      <a href='https://play.google.com/store/apps/details?id=in.roomlelo&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img height='60px' style={{ float: 'right' }} alt='Get it on Google Play' src={require('../static/google-play-badge.png')} /></a>
 
       <ButtonGroup variant='contained' disableElevation orientation='vertical' fullWidth color='secondary'>
 
-        {/* <Button  variant='contained' disableElevation disableFocusRipple color='primary' style={{ padding: '12px 0', borderRadius: 0 }} onClick={() => {
+        <Button variant='contained' disableElevation disableFocusRipple color='primary' style={{ padding: '12px 0', borderRadius: 0 }} onClick={() => {
           history.push("/login")
           handleMobileMenuClose()
-        }}>Login</Button> */}
+        }}>Login</Button>
 
         <Button variant='contained' disableElevation disableFocusRipple style={{ padding: '12px 0', borderRadius: 0 }} onClick={() => {
           history.push("/joinus")
@@ -297,7 +298,9 @@ function PrimaryAppBar(props) {
 
                 <div className={classes.grow} />
 
-                <Button size='small' color="inherit" onClick={() => history.push("/tenantterms")} style={{ margin: 7 }}>Download app</Button>
+                {/* <Button size='small' color="inherit" onClick={() => window.location = ''} style={{ margin: 7 }}>Download app</Button> */}
+                <a href='https://play.google.com/store/apps/details?id=in.roomlelo&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img height='60px' style={{ float: 'right' }} alt='Get it on Google Play' src={require('../static/google-play-badge.png')} /></a>
+
                 <Button size='small' color="inherit" onClick={() => history.push("/tenantterms")} style={{ margin: 7 }}>Tenant Terms</Button>
                 <ButtonGroup variant='contained' size='medium' color='secondary' style={{ margin: 7 }}>
 

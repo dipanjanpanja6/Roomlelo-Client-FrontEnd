@@ -133,7 +133,7 @@ const SearchFilterDialog = (props) => {
                             </MenuItem>
                             <MenuItem value="Private Rooms" >Private rooms</MenuItem>
                             <MenuItem value="Shared Rooms" >Shared Rooms</MenuItem>
-                            <MenuItem value="Entire House" >Entire house</MenuItem>
+                            <MenuItem value="Entire House" >Flat</MenuItem>
                         </Select>
                     </FormControl>
                     {props.search.searchType === 'Entire House' &&

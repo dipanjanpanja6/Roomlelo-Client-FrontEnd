@@ -27,7 +27,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { setSearchText, searchInit, setSearchType } from '../redux/actions/searchAction'
-import { getRooms } from '../redux/actions/roomActions'
 import SearchAutoComplete from "../components/search/searchAutoComplete";
 import AppDownload from '../components/appDownload'
 
@@ -247,7 +246,7 @@ const images = [
   },
   {
     url: require('../static/entire-house.svg'),
-    title: "Entire House",
+    title: "Flat",
     width: "33.33%",
   },
 ];
@@ -286,21 +285,6 @@ function Home(props) {
     props.setSearchText("")
   }, [])
 
-
-  // var collections = (i) => {
-  //   if (i === "Private Rooms") {
-  //     props.setSearchType(i)
-  //     history.push('/rooms')
-  //   }
-  //   if (i === "Shared Rooms") {
-  //     props.setSearchType(i)
-  //     history.push('/rooms')
-  //   }
-  //   if (i === "Entire House") {
-  //     props.setSearchType(i)
-  //     history.push('/rooms')
-  //   }
-  // }
 
   var different = <>
     <Grid item sm={4} style={{ padding: ' 0 12px' }}>
@@ -807,11 +791,10 @@ function Home(props) {
 
 Home.propType = {
 
-  search: PropTypes.object.isRequired,
+  // search: PropTypes.object.isRequired,
   setSearchText: PropTypes.func.isRequired,
-  setSearchType: PropTypes.func.isRequired,
+  // setSearchType: PropTypes.func.isRequired,
 
-  getRooms: PropTypes.func.isRequired,
   searchInit: PropTypes.func.isRequired,
 
 };
@@ -825,8 +808,6 @@ const mapActionToProps = {
 
   setSearchText,
   searchInit,
-  setSearchType,
-  getRooms
 
 };
 export default connect(mapState, mapActionToProps)(Home)

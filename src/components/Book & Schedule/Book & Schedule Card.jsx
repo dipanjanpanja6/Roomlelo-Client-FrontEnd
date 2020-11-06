@@ -16,8 +16,12 @@ const style = makeStyles((theme) => ({
         flexDirection: 'column',
         display: 'flex',
         padding: 12,
+        margin: 12,
         // background: 'rgba(196, 196, 196, 0.3)',
-        height: 'inherit'
+        height: 'inherit',
+        [theme.breakpoints.down('xs')]: {
+            margin: 0
+        }
     },
     bookPadding: {
         // '& :last-child':{
@@ -234,9 +238,9 @@ function BookScheduleCard(props) {
                 </form>
             </> : <Typography style={{
                 height: 300, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center'
-            }} color='error'>Unavailable right now. Contact RoomLelo for more available {props.roomData.type}</Typography> : <CircularProgress />}
+                }} color='error'>Unavailable right now.<br /> Contact RoomLelo for more available {props.roomData.type}</Typography> : <CircularProgress />}
             <br />
-        <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: <a href={`tel:${booking_help_no}`}>{booking_help_no}</a></Typography>
+            <Typography variant='caption' style={{ textAlign: 'center' }}>Need Assistant Contact At: <a href={`tel:${booking_help_no}`}>{booking_help_no}</a></Typography>
         </Paper>
 
     )

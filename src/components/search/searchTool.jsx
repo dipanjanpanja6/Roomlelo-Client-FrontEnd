@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Grid, Button, Typography, Paper, makeStyles, Select, MenuItem, fade } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { useHistory, } from "react-router-dom";
-import { setSearchType, setSearchWhom, searchInit, setSearchFilterClear } from '../../redux/actions/searchAction';
+import { setSearchType, setSearchWhom, searchInit } from '../../redux/actions/searchAction';
 import SearchAutoComplete from './searchAutoComplete';
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -85,21 +85,7 @@ const style = makeStyles(theme => ({
 const SearchToolBar = props => {
     const sty = style()
     const history = useHistory()
-    // let location = useLocation()
 
-    // const match = matchPath(location.pathname, {
-    //     path: "/rooms",
-    //     exact: true,
-    //     strict: false
-    // });
-    useEffect(() => {
-        // !match && props.setSearchText("")
-        // !match && props.setSearchFilterClear()
-    }, [])
-
-    // const handleSearchTextChange = (e) => {
-    //     props.setSearchText(e.target.value)
-    // }
     const handleWhomChange = (e) => {
         props.setSearchWhom(e.target.value)
 
@@ -138,14 +124,7 @@ const SearchToolBar = props => {
                 >
                     <Grid item xs={6} sm={3}>
                         <Typography variant={'h6'} className={sty.title}>Location </Typography>
-                        {/* <TextField variant='outlined' margin='dense' className={sty.select}
-                            autoFocus
-                            onChange={handleSearchTextChange}
-                            placeholder="Search Location"
-                            value={props.search.searchText}
-                        /> */}
                         <SearchAutoComplete className={sty.select} />
-                        {/* <GAutoComplete/> */}
                     </Grid>
 
                     <Grid item xs={6} sm={3}>
@@ -164,7 +143,7 @@ const SearchToolBar = props => {
                             <MenuItem value="">All Types</MenuItem>
                             <MenuItem value="Private Rooms">Private rooms</MenuItem>
                             <MenuItem value="Shared Rooms">Shared Rooms</MenuItem>
-                            <MenuItem value="Entire House">Entire house</MenuItem>
+                            <MenuItem value="Entire House">Flat</MenuItem>
                         </Select>
                     </Grid>
 
@@ -183,8 +162,6 @@ const SearchToolBar = props => {
 
 SearchToolBar.propTypes = {
     search: PropTypes.object.isRequired,
-    // setSearchTextClear: PropTypes.func.isRequired,
-    setSearchFilterClear: PropTypes.func.isRequired,
     setSearchType: PropTypes.func.isRequired,
     setSearchWhom: PropTypes.func.isRequired,
     searchInit: PropTypes.func.isRequired,
@@ -194,9 +171,6 @@ const mapState = (state) => ({
     search: state.search
 })
 const mapActionsToProps = {
-    // setSearchText,
-    // setSearchTextClear,
-    setSearchFilterClear,
     setSearchType,
     setSearchWhom,
     searchInit,

@@ -1,9 +1,9 @@
-import React, {  useEffect, } from 'react'
+import React, { useEffect, } from 'react'
 import { connect } from 'react-redux'
 import PropType from 'prop-types'
 import RoomsListItemComponents from "../components/Rooms_Components/Rooms_List_Item_Components";
 
-import {getRoomsWithFilterPagination, getRoomsWithPagination} from '../redux/actions/roomActions'
+import { getRoomsWithFilterPagination } from '../redux/actions/roomActions'
 import { searchInit } from '../redux/actions/searchAction'
 // import queryString from 'query-string'
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
@@ -92,16 +92,6 @@ const RoomsPage = (props) => {
         props.searchInit(data)
     }, [])
 
-    // componentWillReceiveProps(){
-    //     if(props.room.rooms){
-    //         setState({loading:false})
-    //     }
-    // }
-    const handleApiLoaded = (map, maps) => {
-
-    };
-
-
     const scrollCheck = event => {
 
         const bottom = parseInt(event.target.scrollHeight - event.target.scrollTop) <= event.target.clientHeight + 1;
@@ -110,26 +100,16 @@ const RoomsPage = (props) => {
 
             if (props.room.error === false) {
                 console.log(props.room.roomsCount);
-                if (props.search.searchText === '' &&
-                    props.search.searchType === '' &&
-                    props.search.searchWhom === '' &&
-                    props.search.searchPrice === '' &&
-                    props.search.searchRoomType === '' &&
-                    props.search.searchFurnished === '') {
-                    console.log('trigger N');
-                    props.getRoomsWithPagination(props.room.roomsCount)
-                } else {
-                    console.log('trigger F');
-                    const data = {
-                        keyWord: props.search.searchText,
-                        type: props.search.searchType,
-                        whom: props.search.searchWhom,
-                        price: props.search.searchPrice,
-                        room: props.search.searchRoomType,
-                        furnished: props.search.searchFurnished,
-                    }
-                    props.getRoomsWithFilterPagination(data, props.room.roomsCount)
+
+                const data = {
+                    keyWord: props.search.searchText,
+                    type: props.search.searchType,
+                    whom: props.search.searchWhom,
+                    price: props.search.searchPrice,
+                    room: props.search.searchRoomType,
+                    furnished: props.search.searchFurnished,
                 }
+                props.getRoomsWithFilterPagination(data, props.room.roomsCount)
             }
 
         }
@@ -150,12 +130,7 @@ const RoomsPage = (props) => {
         width: '100%',
         height: '100%'
     }
-    const c = {
 
-        position: 'relative',
-        width: '100%',
-        height: '100%'
-    }
 
     const poin = props.room.rooms ? props.room.rooms.map((marks, index) =>
 
@@ -181,18 +156,20 @@ const RoomsPage = (props) => {
 
                 <Grid md={5} item className={classes.side_map_class}>
 
-                    <Map google={props.google} containerStyle={c} zoom={13}
+                    <Map google={props.google} containerStyle={{
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%'
+                    }} zoom={13}
                         style={style}
                         initialCenter={{
-                            lat: 25.294909, 
+                            lat: 25.294909,
                             lng: 82.982022
                         }}
                     >
                         {poin}
                     </Map>
-
                 </Grid>
-
             </Grid>
         </>
     )
@@ -202,8 +179,6 @@ RoomsPage.PropType = {
     room: PropType.object.isRequired,
     search: PropType.object.isRequired,
     searchInit: PropType.func.isRequired,
-
-    getRoomsWithPagination: PropType.func.isRequired,
     getRoomsWithFilterPagination: PropType.func.isRequired,
 };
 const mapState = (state) => ({
@@ -213,7 +188,6 @@ const mapState = (state) => ({
 const mapActionsToProps = {
 
     searchInit,
-    getRoomsWithPagination,
     getRoomsWithFilterPagination
 };
 export default connect(mapState, mapActionsToProps)(GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsPage))

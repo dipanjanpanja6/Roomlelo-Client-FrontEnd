@@ -1,8 +1,7 @@
-import {SET_SEARCH_ROOM_TYPE,SET_SEARCH_FURNISHED, SET_SEARCH_PRICE, SET_SEARCH_TEXT, SET_SEARCH_WHOM, SET_SEARCH_TYPE, SET_SEARCH_TEXT_CLEAR, SET_SEARCH_FILTER_CLEAR } from '../type'
+import { SET_SEARCH_ROOM_TYPE, SET_SEARCH_FURNISHED, SET_SEARCH_PRICE, SET_SEARCH_TEXT, SET_SEARCH_WHOM, SET_SEARCH_TYPE, SET_SEARCH_TEXT_CLEAR, SET_SEARCH_FILTER_CLEAR } from '../type'
 import { SET_ROOMS_DATA, SET_ALL_ROOMS_LOADED_COUNT, SET_FILTER_ERROR } from '../type'
 
 import { url } from '../../config/config'
-import { getRooms } from './roomActions'
 
 
 
@@ -36,37 +35,25 @@ export const setSearchFilterClear = () => (dispatch) => {
 export const searchInit = (filter, i) => (dispatch) => {
     dispatch({ type: SET_FILTER_ERROR, payload: false })
 
-    if (filter.keyWord === '' &&
-        filter.type === '' &&
-        filter.whom === '' &&
-        filter.price === '' &&
-        filter.room === "" &&
-        filter.furnished === "") {
-
-        dispatch(getRooms())
-    } else {
-
-        fetch(`${url}/search/room/0`, {
-            method: 'POST',
-            body: JSON.stringify(filter),
-            headers: {
-                'Content-Type': 'application/json',
+    fetch(`${url}/search/room/0`, {
+        method: 'POST',
+        body: JSON.stringify(filter),
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then((response) => {
+        response.json().then((data) => {
+            console.log(data)
+            if (data.success) {
+                dispatch({ type: SET_ROOMS_DATA, payload: data.data })
+                dispatch({ type: SET_ALL_ROOMS_LOADED_COUNT, payload: data.data.length })
             }
-        }).then((response) => {
-            response.json()
-                .then((data) => {
-                    console.log(data)
-                    if (data.success) {
-                        dispatch({ type: SET_ROOMS_DATA, payload: data.data })
-                        dispatch({ type: SET_ALL_ROOMS_LOADED_COUNT, payload: data.data.length })
-                    }
-                    if (data.error) {
-                        dispatch({ type: SET_ROOMS_DATA, payload: "" })
-                        dispatch({ type: SET_ALL_ROOMS_LOADED_COUNT, payload: 0 })
-                    }
-                })
-        }).catch((error) => {
-            console.log(error);
+            if (data.error) {
+                dispatch({ type: SET_ROOMS_DATA, payload: "" })
+                dispatch({ type: SET_ALL_ROOMS_LOADED_COUNT, payload: 0 })
+            }
         })
-    }
+    }).catch((error) => {
+        console.log(error);
+    })
 }

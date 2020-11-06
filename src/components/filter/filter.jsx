@@ -6,8 +6,7 @@ import { makeStyles, Grid, IconButton, Button, Badge, SvgIcon } from "@material-
 import SearchIcon from "@material-ui/icons/Search";
 import {ReactComponent as Filters} from '../../static/icons/filter.svg'
 
-import { setSearchText, searchInit } from '../../redux/actions/searchAction'
-import FilterListIcon from '@material-ui/icons/FilterList';
+import { searchInit } from '../../redux/actions/searchAction'
 import SearchAutoComplete from "../search/searchAutoComplete";
 
 const styles = makeStyles((theme) => ({
@@ -47,20 +46,6 @@ const Filter = (props) => {
     setCount(i)
   }, [props.search.searchPrice, props.search.searchType, props.search.searchWhom, props.search.searchRoomType, props.search.searchFurnished,]);
 
-  // const clear = () => {
-  //   props.setSearchText('')
-  //   const data = {
-  //     keyWord: "",
-  //     type: props.search.searchType,
-  //     whom: props.search.searchWhom,
-  //     price: props.search.searchPrice,
-  //     room: props.search.searchRoomType,
-  //     furnished: props.search.searchFurnished,
-  //   }
-  //   props.searchInit(data, 0)
-  // }
-
-
 
   const searchInit = () => {
     const data = {
@@ -98,7 +83,6 @@ const Filter = (props) => {
 };
 Filter.propType = {
   search: PropType.object.isRequired,
-  setSearchText: PropType.func.isRequired,
   searchInit: PropType.func.isRequired,
 
 };
@@ -108,8 +92,6 @@ const mapState = (state) => ({
 
 });
 const mapActionToProps = {
-
-  setSearchText,
   searchInit
 
 };

@@ -7,9 +7,7 @@ import { MAP_API_KEY, url } from '../config/config'
 import Footer from "../components/footer";
 // import TimeInput from 'material-ui-time-picker'
 import Rating from '@material-ui/lab/Rating';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { getRoomDetails } from '../redux/actions/roomActions';
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import Skeleton from '@material-ui/lab/Skeleton'; import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 import BookScheduleCard from "../components/Book & Schedule/Book & Schedule Card";
 import Loading from '../components/loading';
@@ -190,7 +188,6 @@ const RoomsComponents = (props) => {
 
     useEffect(() => {
         const id = props.match.params.id
-        // props.getRoomDetails(id);
         fetch(`${url}/room/${id}`, {
             method: 'GET',
             headers: {
@@ -594,7 +591,7 @@ const RoomsComponents = (props) => {
     )
 };
 RoomsComponents.PropType = {
-    getRoomDetails: PropTypes.func.isRequired,
+
     // room:PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
 }
@@ -603,6 +600,6 @@ const mapState = (state) => ({
     user: state.user
 });
 const mapActionsToProps = {
-    getRoomDetails,
+
 };
 export default connect(mapState, mapActionsToProps)((GoogleApiWrapper({ apiKey: (MAP_API_KEY) })(RoomsComponents)))
