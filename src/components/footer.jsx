@@ -17,7 +17,7 @@ const styles = makeStyles((theme) => ({
         //  background: theme.palette.text.icon ?"#000":theme.palette.secondary.main
         background: theme.palette.text.icon ? "#000" : '#cafcff',
         zIndex: 51,
-        position: 'absolute'
+        // position: 'absolute'
     },
     content: {
         flexDirection: 'column',

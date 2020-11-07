@@ -46,13 +46,13 @@ function BookScheduleCard(props) {
     useEffect(() => {
         if (props.book) {
             if (props.book.booked === true) {
-                toast.success("Room Booked successful. Our executive will contact you soon. For more information's please check our about page.")
+                toast.success("Room Booked successful. Our executive will contact you soon. For more information's please check our Tenant Terms page.")
                 history.push('/tenantterms')
                 // setTimeout(window.location='/about', 30000);
 
             }
             if (props.book.schedule_booked === true) {
-                toast.success("Visit scheduled successful. Our executive will contact you soon. For more information's please check our about page.")
+                toast.success("Visit scheduled successful. Our executive will contact you soon. For more information's please check our Tenant Terms page.")
                 // setTimeout(window.location='/about', 30000);
 
                 history.push('/tenantterms')
@@ -123,9 +123,7 @@ function BookScheduleCard(props) {
         setSubmitType('book')
         console.log("book");
     }
-
     return (
-
         <Paper elevation={5} className={sty.bookPaper}>
             {/* <Typography variant='body2'>
                 {props.roomData ? props.roomData.type : "Rooms"} at {props.roomData ? props.roomData.propertyAddress : ""}
@@ -133,7 +131,7 @@ function BookScheduleCard(props) {
             <Typography variant='body2'>
                 Starting at <b>Rs. {props.roomData ? props.roomData.price : "Loading..."} /- </b>Per Month
         </Typography>
-            {props.roomData ? props.roomData.available == 'true' ? <>
+            {props.roomData ? props.roomData.available == true ? <>
                 <Typography variant='body1'>
                     <b>Schedule your Visit:</b>
                 </Typography>

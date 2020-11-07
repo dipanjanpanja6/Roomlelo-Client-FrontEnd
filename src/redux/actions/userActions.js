@@ -1,7 +1,7 @@
 import { AUTH, SET_MOBILE_NUMBER, SET_MOBILE_AUTH_ERROR_DATA, MOBILE_AUTH_CODE_SENDED_NULL, MOBILE_AUTH_CODE_SENDED, SET_SCHEDULE_BOOKED_SUCCESS, SET_BOOKED_SUCCESS, SET_SCHEDULE_BOOKED_CLEAR } from '../type';
 import { url } from '../../config/config'
 
-import { visitSchedule, bookRoom } from '../actions/bookAction'
+import { visitSchedule } from '../actions/bookAction'
 import { toast } from 'react-toastify';
 
 
@@ -21,6 +21,7 @@ export const verifyMobileCode = (mobile, code, email, book, type) => (dispatch) 
 
     fetch(`${url}/account/mobile/authentication`, {
         method: 'POST',
+        credentials: 'include',
         body: JSON.stringify(verify),
         headers: { 'Content-Type': 'application/json', }
     }).then((response) => {
@@ -34,15 +35,10 @@ export const verifyMobileCode = (mobile, code, email, book, type) => (dispatch) 
             }
             if (data.success) {
                 dispatch({ type: AUTH, payload: { auth: true, type: 'tenant' } });
-                // if (type === "schedule") {
                 book.uid = data.user_id
                 book.type = type
                 dispatch(visitSchedule(book))
                 dispatch({ type: MOBILE_AUTH_CODE_SENDED_NULL })
-                // } else {
-                //     dispatch(bookRoom(data.user_id, book))
-                // }
-
             }
         }).catch(r => {
             dispatch({ type: SET_SCHEDULE_BOOKED_CLEAR })
@@ -62,6 +58,7 @@ export const sendOTP = (mobile) => (dispatch) => {
     dispatch({ type: SET_MOBILE_NUMBER, payload: auth.mobile });
     fetch(`${url}/account/mobile/sendOtp`, {
         method: 'POST',
+        credentials: 'include',
         body: JSON.stringify(auth),
         headers: { 'Content-Type': 'application/json', }
     }).then(res => res.json().then((data) => {

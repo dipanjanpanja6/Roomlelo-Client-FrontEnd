@@ -51,6 +51,7 @@ const AppDownload = (props) => {
         if (subscribe.mobile == '' || !subscribe.mobile.match(/^\d{10}$/)) return toast.warn('Enter valid Phone Number.')
         fetch(`${url}/refer/subscribe`, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(subscribe)
         }).then(res => res.json().then(data => {

@@ -35,12 +35,12 @@ const style = makeStyles((theme) => ({
         display: 'flex',
         padding: 12,
         width: 400,
-        borderRadius:12
+        borderRadius: 12
         // background: 'rgba(196, 196, 196, 0.2)'
     },
     bookPadding: {
         padding: 0,
-        margin:'8px 0'
+        margin: '8px 0'
         // background: '#fff'
     },
     dashImg: {
@@ -80,22 +80,22 @@ const style = makeStyles((theme) => ({
             backgroundColor: ' #F5F5F5'
         },
     },
-    header:{
-        fontWeight:'bold',color:'#fff',textShadow:'9px 10px 5px black',
-        [theme.breakpoints.down('740')]:{
-            display:'none'
+    header: {
+        fontWeight: 'bold', color: '#fff', textShadow: '9px 10px 5px black',
+        [theme.breakpoints.down('740')]: {
+            display: 'none'
         },
-        fontSize:'calc(5vw - 10px)'
+        fontSize: 'calc(5vw - 10px)'
     },
-    flexGrow:{
-        [theme.breakpoints.down('740')]:{
-            display:'none'
+    flexGrow: {
+        [theme.breakpoints.down('740')]: {
+            display: 'none'
         },
-        flexGrow:1 
+        flexGrow: 1
     },
-    showTitle:{
-        [theme.breakpoints.up('740')]:{
-            display:'none'
+    showTitle: {
+        [theme.breakpoints.up('740')]: {
+            display: 'none'
         },
     }
 
@@ -192,7 +192,7 @@ const RoomsComponents = (props) => {
         { title: "2. Sign the agreement", details: 'Sign agreement and handover your home keys', },
         { title: "3. Get tenants", details: 'Get tenants within a few days' }
     ]
-    const [state, setState] = useState({ name: "", phoneNumber: "",details:"", email: '',location:'', propertyType: "Flat", seen: false, })
+    const [state, setState] = useState({ name: "", mobile: "", details: "", email: '', address: '', propertyType: "Flat", })
     const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
@@ -201,19 +201,22 @@ const RoomsComponents = (props) => {
     const submit = (e) => {
         e.preventDefault()
         setLoading(true)
-        if (state.phoneNumber.match(/^\d{10}$/)) {
+        if (state.mobile.match(/^\d{10}$/)) {
             fetch(`${url}/refer/ownerreq`, {
                 method: 'POST',
+                credentials: 'include',
                 body: JSON.stringify({ data: state }),
-                headers: {
-                    'Content-Type': 'application/json',
-                }
+                headers: { 'Content-Type': 'application/json' }
             }).then((response) => {
                 setLoading(false)
                 response.json().then((data) => {
-                    data.success && toast.success(data.message)
+                    if (data.success) {
+                        toast.success(data.message)
+                        setState({ name: "", mobile: "", details: "", email: '', address: '', propertyType: "Flat" })
+                    }
                     data.error && setLoading(false)
                     data.error && toast.error(data.message)
+
                 })
             }).catch(r => {
                 setLoading(false)
@@ -248,7 +251,7 @@ const RoomsComponents = (props) => {
                     {/* </Grid> */}
                     <div className={sty.flexGrow} >
                         <Typography variant="h1" className={sty.header}>
-                        Partner with RoomLelo<br/> and Earn Money
+                            Partner with RoomLelo<br /> and Earn Money
                         </Typography>
                     </div>
                     {/* <Grid container item  > */}
@@ -257,7 +260,7 @@ const RoomsComponents = (props) => {
                         <Typography variant='body1' className={sty.showTitle}>
                             <b>Partner with RoomLelo and Earn Money </b>
                         </Typography>
-                        <Divider style={{ margin: '12px 0' }} className={sty.showTitle}/>
+                        <Divider style={{ margin: '12px 0' }} className={sty.showTitle} />
 
                         <form onSubmit={submit}>
                             <TextField className={sty.bookPadding}
@@ -273,8 +276,8 @@ const RoomsComponents = (props) => {
                             <TextField className={sty.bookPadding}
                                 margin='dense'
                                 variant='outlined'
-                                name="phoneNumber"
-                                value={state.phoneNumber}
+                                name="mobile"
+                                value={state.mobile}
                                 onChange={handleChange}
                                 type="number"
                                 InputProps={{
@@ -307,14 +310,15 @@ const RoomsComponents = (props) => {
                                 <MenuItem value="Room">Room</MenuItem>
                                 <MenuItem value="Flat">Flat</MenuItem>
                                 <MenuItem value="House">House</MenuItem>
+                                <MenuItem value="PG">PG</MenuItem>
                             </TextField>
                             <TextField className={sty.bookPadding}
                                 margin='dense'
                                 variant='outlined'
-                                name="location"
+                                name="address"
                                 required
                                 label='Location'
-                                value={state.location}
+                                value={state.address}
                                 onChange={handleChange}
                             />
                             <TextField className={sty.bookPadding}

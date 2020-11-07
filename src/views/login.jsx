@@ -70,6 +70,7 @@ function Login(props) {
             // props.findEmail(state.email)
             fetch(`${url}/account/findEmail`, {
                 method: 'POST',
+                credentials: 'include',
                 body: JSON.stringify({ email: state.email }),
                 headers: {
                     'Content-Type': 'application/json',
