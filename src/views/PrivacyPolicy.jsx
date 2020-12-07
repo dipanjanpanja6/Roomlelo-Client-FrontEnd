@@ -2,9 +2,7 @@ import React, { useEffect } from "react";
 import { Grid, makeStyles, Typography, Toolbar, Divider, Chip } from '@material-ui/core'
 
 import PropType from 'prop-types'
-import Footer from "../components/footer";
-import { bookClear } from "../redux/actions/bookAction";
-import { connect } from "react-redux";
+import Footer from "../components/footer"; 
 import Alert from '@material-ui/lab/Alert';
 
 
@@ -32,10 +30,9 @@ const TenantTerms = (props) => {
     useEffect(() => {
         window.scrollTo(0, 0)
         document.title = 'Tenant Terms | RoomLelo'
-        props.bookClear()
     }, [])
+    const sty = style();
 
-    const sty = style()
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Toolbar />
@@ -339,14 +336,5 @@ const TenantTerms = (props) => {
 };
 TenantTerms.PropType = {
     sty: PropType.object.isRequired,
-    book: PropType.object.isRequired,
-    bookClear: PropType.func.isRequired
 }
-const mapState = (state) => ({
-
-    book: state.book,
-});
-const mapActionsToProps = {
-    bookClear
-};
-export default connect(mapState, mapActionsToProps)(TenantTerms)
+export default (TenantTerms)

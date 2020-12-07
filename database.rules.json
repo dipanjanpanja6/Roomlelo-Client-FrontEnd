@@ -1,0 +1,19 @@
+{
+  "rules": {
+    ".read": "false",
+    ".write": "false",
+    "sessions": {
+      ".read": "false",
+      ".write": "false"
+    },
+    "tempUser": {
+      ".indexOn": "state",
+      ".read": "true",
+      ".write": "true"
+    },
+    "some_public_data": {
+      ".read": "true",
+      ".write": "auth !== null"
+    }
+  }
+}

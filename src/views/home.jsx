@@ -1,26 +1,18 @@
 import "../css/plugin.css";
-
 import React, { useEffect } from "react";
-import Footer from '../components/footer'
-import Typing from 'react-typing-animation';
+import Footer from '../components/footer' 
 import Flicking from "@egjs/react-flicking";
 import { Fade, AutoPlay } from "@egjs/flicking-plugins";
-
 import {
   Grid, Typography,
   makeStyles,
   Toolbar,
   Avatar,
   useTheme,
-  useMediaQuery,
-  TextField,
-  InputAdornment,
-  IconButton,
-  ButtonBase,
-  CssBaseline,
+  useMediaQuery, 
+  IconButton, 
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-// import Testo from "../components/testo";
+import { useHistory } from "react-router-dom"; 
 import SearchToolBar from "../components/search/searchTool";
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -29,6 +21,7 @@ import PropTypes from "prop-types";
 import { setSearchText, searchInit, setSearchType } from '../redux/actions/searchAction'
 import SearchAutoComplete from "../components/search/searchAutoComplete";
 import AppDownload from '../components/appDownload'
+import { Firebase } from "../config/config";
 
 
 
@@ -436,201 +429,9 @@ function Home(props) {
     </div>
   </>
 
-  // var offer = <>
-  //   <Grid item sm={4}>
-  //     <Typography
-  //       variant="h4" color='textPrimary'
-  //       style={{
-  //         paddingTop: 15,
-  //         paddingBottom: 44,
-  //         fontWeight: "bold",
-  //         fontFamily: "Poppins, sans-serif",
-  //       }}
-  //     >
-  //       What we offer
-  //         </Typography>
-  //     <Typography
-  //       variant='subtitle1' color='textSecondary'
-  //       style={{
-  //         paddingTop: 15,
-  //         paddingBottom: 44,
-  //       }}
-  //     >
-  //       It is a rental marketplace that deals with various rental issues, property management and providing legal assistance related to rental disputes.          </Typography>
-
-  //   </Grid>
-  //   <Grid item container alignItems='center' sm={8}>
-
-  //     <Grid
-  //       container
-  //       item
-  //       md={6}
-  //       alignItems="center"
-  //       style={{ margin: "24px 0" }}
-  //     >
-
-  //       <Grid alignItems="center" style={{ display: "flex" }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/assisted visits.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Assisted visits</b> - Let us assist you to your exclusive home.
-  //             </Typography>
-  //       </Grid>
-
-  //     </Grid>
-
-  //     <Grid
-  //       container
-  //       item
-  //       md={6}
-  //       alignItems="center"
-  //       style={{ margin: "24px 0" }}
-  //     >
-  //       <Grid alignItems="center" style={{ display: "flex" }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/esy booking.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Easy booking -</b> sign up, fill your details, choose your desired home and pack up to relocate.
-  //             </Typography>
-  //       </Grid>
-  //     </Grid>
-
-  //     <Grid
-  //       container
-  //       item
-  //       md={6}
-  //       alignItems="center"
-  //       style={{ margin: "24px 0" }}
-  //     >
-  //       <Grid alignItems="center" style={{ display: "flex" }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/Legal_Assistance 1.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Legal assistance</b> - Ensure all agreements have been properly executed.
-  //             </Typography>
-  //       </Grid>
-  //     </Grid>
-
-  //     <Grid
-  //       container
-  //       item
-  //       md={6}
-  //       alignItems="center"
-  //       style={{ margin: "24px 0" }}
-  //     >
-  //       <Grid alignItems="center" style={{ display: "flex" }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/quick check.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Quality check</b> - We carefully review the quality of all the factors involved with your happy stay.
-  //       </Typography>
-  //       </Grid>
-  //     </Grid>
-
-  //     <Grid
-  //       container
-  //       item
-  //       md={6}
-  //       alignItems="center"
-  //       style={{ margin: "24px 0" }}
-  //     >
-  //       <Grid alignItems="center" style={{ display: "flex" }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/quick maintanence.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Quick maintenance</b> - No embarrassing maintenance delays and inconvenience.
-  //       </Typography>
-  //       </Grid>
-  //     </Grid>
-  //     <Grid
-  //       container
-  //       item
-  //       md={6}
-  //       alignItems="center"
-  //       style={{ margin: "24px 0" }}
-  //     >
-  //       <Grid alignItems="center" style={{ display: "flex" }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/24x7.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>24*7 helpline</b> - Always available to shoot your trouble.
-  //       </Typography>
-  //       </Grid>
-  //     </Grid>
-
-  //   </Grid>
-
-  // </>
 
   const plugin = [new Fade(), new AutoPlay(2000, "NEXT")];
   const pluginBox = [new Fade(), new AutoPlay(2000, "NEXT")];
-
-  // var mobileOffer = <div className='plugins'>
-  //   <Typography
-  //     variant="h4" color='textPrimary'
-  //     style={{
-  //       paddingTop: 5,
-  //       paddingBottom: 44,
-  //       textAlign: 'center',
-  //       fontWeight: "bold",
-  //     }}
-  //   >
-  //     What we offer
-  //         </Typography>
-  //   <Flicking
-  //     className="flicking"
-  //     circular={true}
-  //     gap={10}
-  //     duration={500}
-  //     zIndex={1}
-  //     plugins={plugin}
-  //     collectStatistics={false}
-  //   >
-  //     <div className="panel">
-  //       <Grid alignItems="center" style={{ display: "flex", flexDirection: 'column' }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/assisted visits.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Assisted visits</b><br /> Let us assist you to your exclusive home.
-  //             </Typography>
-  //       </Grid>
-  //     </div>
-  //     <div className="panel">
-  //       <Grid alignItems="center" style={{ display: "flex", flexDirection: 'column' }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/esy booking.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Easy booking</b><br /> sign up, fill your details, choose your desired home and pack up to relocate.
-  //             </Typography>
-  //       </Grid>
-  //     </div>
-  //     <div className="panel">
-  //       <Grid alignItems="center" style={{ display: "flex", flexDirection: 'column' }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/Legal_Assistance 1.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Legal assistance</b><br /> Ensure all agreements have been properly executed.
-  //             </Typography>
-  //       </Grid>
-  //     </div>
-  //     <div className="panel">
-  //       <Grid alignItems="center" style={{ display: "flex", flexDirection: 'column' }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/quick check.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Quality check</b><br /> We carefully review the quality of all the factors involved with your happy stay.
-  //       </Typography>
-  //       </Grid>
-  //     </div>
-  //     <div className="panel">
-  //       <Grid alignItems="center" style={{ display: "flex", flexDirection: 'column' }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/quick maintanence.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>Quick maintenance</b><br /> No embarrassing maintenance delays and inconvenience.
-  //       </Typography>
-  //       </Grid>
-  //     </div>
-  //     <div className="panel">
-  //       <Grid alignItems="center" style={{ display: "flex", flexDirection: 'column' }}>
-  //         <Avatar className={sty.avatar} variant='rounded' src={require('../static/icons/24x7.svg')} />
-  //         <Typography variant="subtitle2" color='textPrimary' style={{ padding: "0 16px" }}>
-  //           <b>24*7 helpline</b><br /> Always available to shoot your trouble.
-  //       </Typography>
-  //       </Grid>
-  //     </div>
-
-  //   </Flicking>
-  // </div>
 
 
   const searchInit = () => {
@@ -690,16 +491,6 @@ function Home(props) {
 
   </Grid>
 
-  // const collectionsBox = images.map((image, i) => (
-  //   <Grid key={i} container onClick={() => collections(image.title)} item sm={4} justify="center" style={{ cursor: 'pointer', paddingTop: 30 }}>
-  //     <img alt={image.title} src={image.url} height="90%" width="90%" />
-  //     <Typography color='textSecondary' style={{ fontWeight: 'bold', paddingTop: '1%', }}>
-  //       {image.title}
-  //     </Typography>
-  //   </Grid >
-
-  // ))
-
 
   const bookNow = () => {
     history.push('/about')
@@ -714,71 +505,11 @@ function Home(props) {
 
         {mobile ? FirstViewMobile : FirstView(sty, bookNow)}
 
-        {/* <Grid
-          container
-          justify="center"
-          alignItems="center"
-          className={sty.offer}
-        >
-          <Grid container alignItems="center">
-            {mobile ? mobileOffer : offer}
-          </Grid>
-        </Grid> */}
-
-
-
-        {/* <Grid container justify="center" alignItems="center" style={{ paddingBottom: 30, paddingTop: 30 }}>
-          <Grid item xs={12} justify="center" container>
-            <Typography
-              variant="h4" color='textPrimary'
-              style={{
-                paddingTop: 15,
-                fontWeight: "bold",
-              }}
-            >
-              Our collections
-            </Typography>
-          </Grid>
-
-
-          <Grid container>
-
-            {mobile ?
-              <div className='plugins' >
-                <Flicking
-                  className="flicking"
-                  style={{ height: 'calc(70vw + 35px)' }}
-                  circular={true}
-                  gap={10}
-                  duration={500}
-                  zIndex={1}
-                  plugins={pluginBox}
-                  collectStatistics={false}
-                >
-                  {images.map((image, i) => (
-                    <button key={i} style={{ background: 'transparent', border: 'none' }} onClick={() => collections(image.title)} className="panel" >
-                      <Grid container sm={4} justify="center" style={{ cursor: 'pointer', paddingTop: 30, }}>
-                        <img alt={image.title} src={image.url} height="85%" width="85%" />
-                        <Typography color='textSecondary' style={{ fontWeight: 'bold', paddingTop: '1%', }}>
-                          {image.title}
-                        </Typography>
-                      </Grid>
-                    </button>
-                  ))}
-                </Flicking>
-              </div>
-              : collectionsBox}
-          </Grid>
-        </Grid>
- */}
-
         <Grid container justify="center" alignItems="center" className={sty.offer} style={{ paddingTop: 0, paddingBottom: mobile ? 65 : 0 }} >
           <Grid container alignItems="center">
             {mobile ? mobileDifferent : different}
           </Grid>
         </Grid>
-
-
         {/* <Growth /> */}
         {/* <Benefit /> */}
         {/* <Testo /> */}
@@ -789,25 +520,17 @@ function Home(props) {
   );
 }
 
-Home.propType = {
-
-  // search: PropTypes.object.isRequired,
-  setSearchText: PropTypes.func.isRequired,
-  // setSearchType: PropTypes.func.isRequired,
-
+Home.propType = { 
+  setSearchText: PropTypes.func.isRequired, 
   searchInit: PropTypes.func.isRequired,
 
 };
 
 const mapState = (state) => ({
-
   search: state.search
-
 });
 const mapActionToProps = {
-
   setSearchText,
   searchInit,
-
 };
 export default connect(mapState, mapActionToProps)(Home)

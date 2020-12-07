@@ -25,6 +25,7 @@ import PropType from 'prop-types'
 // import DashboardMain from './views/Dashbord/main'; 
 import { checkUser, logout } from './redux/actions/userActions'
 import TenantTerms from './views/Tenant Terms';
+const TermsOfUse = loadable(() => import('./views/Terms of use'));
 const Home = loadable(() => import('./views/home'))
 const RoomsPageList = loadable(() => import('./views/Rooms_Page'))
 const RoomPage = loadable(() => import('./views/RoomPage'))
@@ -60,6 +61,7 @@ const App = (props) => {
 					<Route exact path='/rooms' component={RoomsPageList} />
 
 
+					<Route exact path="/termsofuse" component={TermsOfUse} />
 					<Route exact path="/privacypolicy" component={PrivacyPolicy} />
 					<Route exact path="/about" component={AboutUs} />
 					<Route exact path="/tenantterms" component={TenantTerms} />

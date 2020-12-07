@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Grid, makeStyles, Typography, Toolbar, Divider } from '@material-ui/core'
-
 import PropType from 'prop-types'
 import Footer from "../components/footer";
 import { bookClear } from "../redux/actions/bookAction";
@@ -85,7 +84,7 @@ const TenantTerms = (props) => {
                         <Typography variant='h6' className={sty.subTitle} >
                             <b> Booking</b>
                         </Typography>
-                         <Typography variant='subtitle2'><b>
+                        <Typography variant='subtitle2'><b>
                             TOKEN CHARGES
                             </b>
                         </Typography>
@@ -131,11 +130,6 @@ TenantTerms.PropType = {
     book: PropType.object.isRequired,
     bookClear: PropType.func.isRequired
 }
-const mapState = (state) => ({
-
-    book: state.book,
-});
-const mapActionsToProps = {
-    bookClear
-};
+const mapState = (state) => ({ book: state.book });
+const mapActionsToProps = { bookClear };
 export default connect(mapState, mapActionsToProps)(TenantTerms)

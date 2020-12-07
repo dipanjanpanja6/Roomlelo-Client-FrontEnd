@@ -58,6 +58,7 @@ export default function Footer() {
                 </Typography>
                 <Link color='textSecondary' variant='body2' to='/about' component={RouterLink}>About us</Link>
                 <Link color='textSecondary' variant='body2' to='/privacypolicy' component={RouterLink}>Privacy Policy</Link>
+                <Link color='textSecondary' variant='body2' to='/termsofuse' component={RouterLink}>Terms of Use</Link>
                 <Link color='textSecondary' variant='body2' to='/tenantterms' component={RouterLink}>Tenant Terms</Link>
 
                 {/* <Typography variant='body2' color="textSecondary">
